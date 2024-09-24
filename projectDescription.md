@@ -3,7 +3,11 @@
 **Projektteam:** AgainstDotsAndBoxes  
 **Mitglieder:** Maria Pontonglang, Jannes Zünd
 
+## :bulb: Idee
 Wir entwickeln eine moderne Version des klassischen Spiels *Dots and Boxes*, welches unter anderem hier gespielt werden kann: [Dots and Boxes](https://dotsandboxes.org). Das Ziel unseres Projekts ist es, eine Android-App zu erstellen, die das Spiel auf intuitive und unterhaltsame Weise zugänglich macht.
+- Technische Durchführbarkeit: Es handelt sich um ein simples Brettspiel, das als android Appversion entwickelt wird. Daher benötigt es in der Basisversion keine komplexe Technologie und sollte ohne Probleme realisierbar sein. 
+- User Interaktion: Die Basisversion wird 2 Spielern am selben Mobilgerät gespielt, die User sind am selben physischen Ort.
+- Aufwandsschätzung: 40-50h (20-25h pro Person)
 
 ## 🤖 Technologie und Plattform  
 Unsere App wird mit **Kotlin** entwickelt, einer modernen Programmiersprache, die sich besonders gut für die Android-Entwicklung eignet. Die Wahl von Kotlin ermöglicht es uns, eine stabile und performante Anwendung zu entwickeln, die gleichzeitig flexibel und erweiterbar ist.
