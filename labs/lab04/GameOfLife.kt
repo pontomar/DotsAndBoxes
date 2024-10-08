@@ -9,7 +9,7 @@ fun main() {
     // Accessing the top-level variable inside the main function
     println("Initial Board:")
     prettyPrint2DArray(boardArray)
-    println("Actual Board State:")
+    println("Actual Board States:")
     prettyPrint2DArray(newBoardArray)
 
 }
