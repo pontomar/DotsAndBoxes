@@ -9,5 +9,6 @@
     - > 3 neighbors -> DEATH
     - two or three live neighbours -> LIFE
     - If dead cell has **exactly** 3 live neighbours -> LIFE
+    Test
 
 
