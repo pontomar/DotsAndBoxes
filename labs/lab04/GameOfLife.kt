@@ -1,6 +1,6 @@
 import kotlin.random.Random
 
-val boardArray = Array(10) { Array(10) { 0 } }
+val initialBoardArray = Array(10) { Array(10) { 0 } }
 val newBoardArray = Array(10) { Array(10) { 0 } }
 
 fun main() {
@@ -8,16 +8,17 @@ fun main() {
 
     // Accessing the top-level variable inside the main function
     println("Initial Board:")
-    prettyPrint2DArray(boardArray)
+    prettyPrint2DArray(initialBoardArray)
+    println("")
     println("Actual Board State:")
+    updateBoardState(initialBoardArray, newBoardArray)
     prettyPrint2DArray(newBoardArray)
-
 }
 
 private fun initializeBoardWithRandomOneOrZeros() {
-    for (i in boardArray.indices) { // Loop over the rows
-        for (j in boardArray[i].indices) {
-            boardArray[i][j] = assignRandomValue()
+    for (i in initialBoardArray.indices) { // Loop over the rows
+        for (j in initialBoardArray[i].indices) {
+            initialBoardArray[i][j] = assignRandomValue()
         }
     }
 }
@@ -26,23 +27,21 @@ fun assignRandomValue(): Int {
     return Random.nextInt(0, 2)
 }
 
+
 fun prettyPrint2DArray(array: Array<Array<Int>>) {
     array.forEach { row ->
         println(row.joinToString(" ") { it.toString() })
     }
 }
 
-private fun updateBoardState() {
-    for (i in boardArray.indices) { // Loop over the rows
-        for (j in boardArray[i].indices) {
-            var numOfNeighbours: Int = getNeighborCount(boardArray, i, j)
-
-            if (numOfNeighbours < 2) {
-                newBoardArray[i][j] = 0
-            } else if (numOfNeighbours > 3) {
-                newBoardArray[i][j] = 0
+private fun updateBoardState(previousBoard: Array<Array<Int>>, newBoard: Array<Array<Int>>) {
+    for (i in previousBoard.indices) {
+        for (j in previousBoard[i].indices) {
+            var numOfNeighbours: Int = getNeighborCount(previousBoard, i, j)
+            if (numOfNeighbours == 2 && previousBoard[i][j] == 1 || numOfNeighbours == 3) {
+                newBoard[i][j] = 1
             } else {
-                newBoardArray[i][j] = 1
+                newBoard[i][j] = 0
             }
         }
     }
@@ -65,3 +64,4 @@ fun getNeighborCount(boardArray: Array<Array<Int>>, currentFieldX: Int, currentF
 
     return count
 }
+
