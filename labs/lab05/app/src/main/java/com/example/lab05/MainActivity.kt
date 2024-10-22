@@ -45,9 +45,9 @@ class MainActivity : ComponentActivity() {
 fun StartPage(modifier: Modifier = Modifier, model: WeatherViewModel = viewModel()) {
     Box(modifier = modifier.fillMaxSize()) {
         Image(
-            painterResource(id = R.drawable.mountain),
+            painterResource(id = R.drawable.mountain_alp_culmatsch),
             contentDescription = "Mountain with a bit of snow",
-            contentScale = ContentScale.FillBounds,
+            contentScale = ContentScale.Crop,
             modifier = modifier.matchParentSize()
         )
         Column(
