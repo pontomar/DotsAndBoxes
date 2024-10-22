@@ -1,9 +1,11 @@
 package com.example.lab05
 
-import android.annotation.SuppressLint
 import android.app.Application
 import android.util.Log
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import com.android.volley.Request
 import com.android.volley.Response
@@ -23,10 +25,13 @@ class WeatherViewModel(application: Application) :
                 "&current_weather=true" +
                 "&timezone=Europe%2FBerlin"
 
-    var entries = mutableStateListOf<WeatherboardEntry>()
+    var temperature: MutableState<Float> = mutableFloatStateOf(-99.0F)
+    var code: MutableState<Int> = mutableIntStateOf(-99)
+    var codeTitle: MutableState<String> = mutableStateOf("")
 
     init {
         loadWeatherData()
+        codeTitle.value = weatherCodeTitle(code.value)
     }
 
     private fun loadWeatherData() {
@@ -37,15 +42,40 @@ class WeatherViewModel(application: Application) :
         val request = StringRequest(
             Request.Method.GET, ENDPOINT,
             { response ->
-                Log.i("Volley", response)
-                val s = Klaxon().parse<Weatherboard>(response)
-                entries.addAll(s?.weatherboad ?: mutableListOf<WeatherboardEntry>())
+                try {
+                    val parsedData = Klaxon().parse<Weather>(response)
+
+                    temperature.value = parsedData?.currentWeather?.temperature ?: -99.0F
+                    code.value = parsedData?.currentWeather?.weathercode ?: -99
+                    Log.i("Volley", parsedData.toString())
+
+                } catch (e: Exception) {
+                    Log.e("Volley", "Error parsing data: ${e.message}")
+                }
             },
             Response.ErrorListener {
                 Log.e("Volley", "Error loading data: $it")
             }
         )
-
         requestQueue.add(request)
     }
+
+    fun weatherCodeTitle(weatherCode: Int?): String {
+        return when (weatherCode) {
+            0 -> "Clear sky"
+            1 -> "Mainly clear"
+            2, 3 -> "Partly Cloudy"
+            in 40..49 -> "Fog or Ice Fog"
+            in 50..59 -> "Drizzle"
+            in 60..69 -> "Rain"
+            in 70..79 -> "Snow Fall"
+            in 80..84 -> "Rain Showers"
+            85, 86 -> "Snow Showers"
+            87, 88 -> "Shower(s) of Snow Pellets"
+            89, 90 -> "Hail"
+            in 91..99 -> "Thunderstorm"
+            else -> "unknown $weatherCode"
+        }
+    }
+
 }

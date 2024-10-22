@@ -1,5 +1,14 @@
 package com.example.lab05
 
-class Weatherboard(val weatherboad: MutableList<WeatherboardEntry>) {}
+import com.beust.klaxon.Json
 
-class WeatherboardEntry(val temperature: Float, val weathercode: Int) {}
+data class Weather(
+    @Json(name = "current_weather") val currentWeather: CurrentWeather,
+)
+
+
+
+data class CurrentWeather(
+    val temperature: Float,
+    val weathercode: Int
+)

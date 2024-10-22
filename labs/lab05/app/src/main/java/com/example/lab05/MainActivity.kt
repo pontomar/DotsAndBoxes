@@ -54,12 +54,9 @@ fun StartPage(modifier: Modifier = Modifier, model: WeatherViewModel = viewModel
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier.matchParentSize().padding(24.dp)
         ) {
-            TextElements("${model.entries.get(0).weathercode}", 16, FontWeight.Bold)
+            TextElements(model.weatherCodeTitle(model.code.value), 16, FontWeight.Bold)
             TextElements("Sedrun", 16, fontStyle = FontStyle.Italic)
-            TextElements("${model.entries.get(0).temperature}", 96)
-//            Text("Sunny", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = androidx.compose.ui.graphics.Color.White)
-//            Text("Sedrun", fontSize = 16.sp, fontStyle = FontStyle.Italic, color = androidx.compose.ui.graphics.Color.White)
-//            Text("12.1°C", fontSize = 96.sp, color = androidx.compose.ui.graphics.Color.White)
+            TextElements("${model.temperature.value}", 96)
         }
     }
 }
