@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.lab05.ui.theme.Lab05Theme
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +42,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun StartPage(modifier: Modifier = Modifier) {
+fun StartPage(modifier: Modifier = Modifier, model: WeatherViewModel = viewModel()) {
     Box(modifier = modifier.fillMaxSize()) {
         Image(
             painterResource(id = R.drawable.mountain),
@@ -53,9 +54,9 @@ fun StartPage(modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier.matchParentSize().padding(24.dp)
         ) {
-            TextElements("Sunny", 16, FontWeight.Bold)
+            TextElements("${model.entries.get(0).weathercode}", 16, FontWeight.Bold)
             TextElements("Sedrun", 16, fontStyle = FontStyle.Italic)
-            TextElements("12.1°C", 96)
+            TextElements("${model.entries.get(0).temperature}", 96)
 //            Text("Sunny", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = androidx.compose.ui.graphics.Color.White)
 //            Text("Sedrun", fontSize = 16.sp, fontStyle = FontStyle.Italic, color = androidx.compose.ui.graphics.Color.White)
 //            Text("12.1°C", fontSize = 96.sp, color = androidx.compose.ui.graphics.Color.White)

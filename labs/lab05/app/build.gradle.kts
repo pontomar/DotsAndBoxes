@@ -59,5 +59,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation (libs.volley)
     implementation (libs.klaxon)
-
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 }
