@@ -56,7 +56,7 @@ fun StartPage(modifier: Modifier = Modifier, model: WeatherViewModel = viewModel
         ) {
             TextElements(model.weatherCodeTitle(model.code.value), 16, FontWeight.Bold)
             TextElements("Sedrun", 16, fontStyle = FontStyle.Italic)
-            TextElements("${model.temperature.value}", 96)
+            TextElements("${model.temperature.value}ºC", 96)
         }
     }
 }
