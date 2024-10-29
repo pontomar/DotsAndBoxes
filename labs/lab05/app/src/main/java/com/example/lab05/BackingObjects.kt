@@ -1,12 +1,9 @@
 package com.example.lab05
 
 import android.annotation.SuppressLint
-import androidx.compose.ui.text.TextStyle
 import com.beust.klaxon.Json
-import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 data class Weather(
     @Json(name = "current_weather") val currentWeather: CurrentWeather,
@@ -19,25 +16,16 @@ data class CurrentWeather(
 )
 
 data class Daily(
-    val time: MutableList<Time>,
-    @Json(name = "temperature_2m_max") val temperatureMax: MutableList<TemperatureMax>,
-    @Json(name = "temperature_2m_min") val temperatureMin: MutableList<TemperatureMin>,
-    val weathercode: MutableList<Weathercode>
+    val time: MutableList<String>,
+    @Json(name = "temperature_2m_max") val temperatureMax: MutableList<Float>,
+    @Json(name = "temperature_2m_min") val temperatureMin: MutableList<Float>,
+    val weathercode: MutableList<Int>
 )
 
-data class Time(val time: String) {
-    val weekDay: DayOfWeek
-        @SuppressLint("NewApi")
-        get() {
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            val date = LocalDate.parse(time, formatter)
-            val weekDay = date.dayOfWeek
-            return weekDay
-        }
-}
+data class Time(val time: String)
 
-data class TemperatureMax(val Temp: Float)
+data class TemperatureMax(val temp: Float)
 
-data class TemperatureMin(val Temp: Float)
+data class TemperatureMin(val temp: Float)
 
-data class Weathercode(val Code: Int)
+data class Weathercode(val code: Int)
