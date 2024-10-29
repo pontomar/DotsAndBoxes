@@ -5,8 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -18,6 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.lab05.ui.theme.Lab05Theme
@@ -52,16 +55,47 @@ fun StartPage(modifier: Modifier = Modifier, model: WeatherViewModel = viewModel
         )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = modifier.matchParentSize().padding(24.dp)
+            modifier = modifier
+                .matchParentSize()
+                .padding(24.dp)
         ) {
             TextElements(model.weatherCodeTitle(model.code.value), 16, FontWeight.Bold)
             TextElements("Sedrun", 16, fontStyle = FontStyle.Italic)
             TextElements("${model.temperature.value}ºC", 96)
+
+            // spacer =
+            Row {
+                Text(
+                    model.dailyForecast?.time?.get(0)?.weekDay.toString(), fontSize = 24.sp,
+                    modifier = Modifier.weight(1f)
+                )/*
+                Text(
+                    entry.train, fontSize = 24.sp,
+                    modifier = Modifier.weight(1f),
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    entry.stop.platform, fontSize = 24.sp,
+                    modifier = Modifier.weight(1f),
+                    textAlign = TextAlign.Right
+                )*/
+            }
         }
     }
 }
 
 @Composable
-fun TextElements(text: String, fontSize : Int, fontWeight: FontWeight = FontWeight.Normal, fontStyle: FontStyle = FontStyle.Normal){
-    Text(text = text, fontSize = fontSize.sp, fontWeight = fontWeight, color = androidx.compose.ui.graphics.Color.White, fontStyle = fontStyle)
+fun TextElements(
+    text: String,
+    fontSize: Int,
+    fontWeight: FontWeight = FontWeight.Normal,
+    fontStyle: FontStyle = FontStyle.Normal
+) {
+    Text(
+        text = text,
+        fontSize = fontSize.sp,
+        fontWeight = fontWeight,
+        color = androidx.compose.ui.graphics.Color.White,
+        fontStyle = fontStyle
+    )
 }
