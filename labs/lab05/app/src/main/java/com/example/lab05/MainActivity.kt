@@ -65,16 +65,18 @@ fun StartPage(modifier: Modifier = Modifier, model: WeatherViewModel = viewModel
                 .matchParentSize()
                 .padding(24.dp)
         ) {
-            TextElements(model.weatherCodeTitle(model.code.value), 16, FontWeight.Bold)
-            TextElements("Sedrun", 16, fontStyle = FontStyle.Italic)
-            TextElements("${model.temperature.value}ºC", 96)
-
             if (daily != null &&
                 daily.time.isNotEmpty() &&
                 daily.weathercode.isNotEmpty() &&
                 daily.temperatureMin.isNotEmpty() &&
-                daily.temperatureMax.isNotEmpty()
+                daily.temperatureMax.isNotEmpty() &&
+                model.code.value != -99 &&
+                model.temperature.value != -99.0F
             ) {
+                TextElements(model.weatherCodeTitle(model.code.value), 16, FontWeight.Bold)
+                TextElements("Sedrun", 16, fontStyle = FontStyle.Italic)
+                TextElements("${model.temperature.value}ºC", 96)
+
                 val itemCount = minOf(5, daily.time.size)
                 for (i in 0 until itemCount) {
                     Row(modifier = Modifier.fillMaxWidth()) {
@@ -85,7 +87,6 @@ fun StartPage(modifier: Modifier = Modifier, model: WeatherViewModel = viewModel
                             fontSize = 12,
                             modifier = Modifier.weight(1f),
                             fontWeight = FontWeight.Bold
-
                         )
 
                         // Weather Code Title
@@ -112,7 +113,6 @@ fun StartPage(modifier: Modifier = Modifier, model: WeatherViewModel = viewModel
                                 painterResource(id = R.drawable.baseline_arrow_downward_24)
                             },
                             contentDescription = "Arrow"
-
                         )
 
                         // Maximum Temperature
@@ -131,14 +131,13 @@ fun StartPage(modifier: Modifier = Modifier, model: WeatherViewModel = viewModel
                             },
                             contentDescription = "Arrow",
                             contentScale = ContentScale.Fit,
-
-                            )
+                        )
                     }
                 }
             } else {
                 // Show a loading indicator or placeholder
                 Text(
-                    text = "Loading data...",
+                    text = "Loading data for Sedrun...",
                     fontSize = 24.sp,
                     color = androidx.compose.ui.graphics.Color.White,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
