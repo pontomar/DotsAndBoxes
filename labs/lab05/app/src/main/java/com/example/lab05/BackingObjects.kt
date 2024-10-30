@@ -1,9 +1,6 @@
 package com.example.lab05
 
-import android.annotation.SuppressLint
 import com.beust.klaxon.Json
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 data class Weather(
     @Json(name = "current_weather") val currentWeather: CurrentWeather,

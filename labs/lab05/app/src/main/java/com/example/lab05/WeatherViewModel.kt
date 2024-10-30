@@ -1,6 +1,5 @@
 package com.example.lab05
 
-import android.annotation.SuppressLint
 import android.app.Application
 import android.os.Build
 import android.util.Log
@@ -8,7 +7,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import com.android.volley.Request
