@@ -8,17 +8,32 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
@@ -52,9 +67,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun StartPage(modifier: Modifier = Modifier, model: WeatherViewModel = viewModel()) {
     val daily = model.dailyForecast
+
     Box(modifier = modifier.fillMaxSize()) {
         Image(
-            painterResource(id = R.drawable.mountain_alp_culmatsch),
+            painterResource(id = model.actualCity.picture),
             contentDescription = "Mountain with a bit of snow",
             contentScale = ContentScale.Crop,
             modifier = modifier.matchParentSize()
@@ -73,8 +89,47 @@ fun StartPage(modifier: Modifier = Modifier, model: WeatherViewModel = viewModel
                 model.code.value != -99 &&
                 model.temperature.value != -99.0F
             ) {
+                Box() {
+                    Row() {
+                        Text(
+                            model.actualCity.cityName,
+                            fontSize = 24.sp,
+                            modifier = Modifier.clickable {
+                                model.showDropdown.value = true
+                            }
+                        )
+
+                        Icon(
+                            painter = painterResource(
+                                id = R.drawable.baseline_arrow_downward_24
+                            ),
+                            contentDescription = "Arrow down"
+                        )
+                    }
+
+                    DropdownMenu(
+                        expanded = model.showDropdown.value,
+                        onDismissRequest = {
+                            model.showDropdown.value = false
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        model.cities.forEach {
+                            DropdownMenuItem(
+                                {
+                                    Text(it.cityName, fontSize = 24.sp)
+                                }, onClick = {
+                                    model.actualCity = it
+                                    model.showDropdown.value = false
+                                    model.loadWeatherData()
+                                })
+                        }
+                    }
+                }
+
                 TextElements(model.weatherCodeTitle(model.code.value), 16, FontWeight.Bold)
-                TextElements("Sedrun", 16, fontStyle = FontStyle.Italic)
+//                TextElements(model.actualCity.cityName, 16, fontStyle = FontStyle.Italic)
                 TextElements("${model.temperature.value}ºC", 96)
 
                 val itemCount = minOf(5, daily.time.size)
@@ -119,6 +174,7 @@ fun StartPage(modifier: Modifier = Modifier, model: WeatherViewModel = viewModel
                         val tempMax = daily.temperatureMax[i]
                         DailyText(
                             text = "${tempMax}°C",
+//                            text = "${tempMax}°C ↓",
                             fontSize = 12,
                             textAlign = TextAlign.Right,
                             modifier = Modifier.weight(1f)

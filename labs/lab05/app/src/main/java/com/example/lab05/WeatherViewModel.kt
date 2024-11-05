@@ -21,42 +21,71 @@ import java.time.format.DateTimeFormatter
 class WeatherViewModel(application: Application) :
     AndroidViewModel(application) {
 
-    private val ENDPOINT: String =
-        "https://api.open-meteo.com/v1/forecast?" +
-                "latitude=46.67" +
-                "&longitude=8.77" +
-                "&daily=temperature_2m_max,temperature_2m_min" +
-                ",weathercode" +
-                "&current_weather=true" +
-                "&timezone=Europe%2FBerlin"
+    var actualCity: City = City(
+        "Sedrun",
+        46.67F,
+        8.77F,
+        R.drawable.mountain_alp_culmatsch
+    )
 
     var temperature: MutableState<Float> = mutableFloatStateOf(-99.0F)
     var code: MutableState<Int> = mutableIntStateOf(-99)
     var codeTitle: MutableState<String> = mutableStateOf("")
+    var cities: MutableList<City> = mutableListOf()
     var dailyForecast: Daily? = Daily(
         time = mutableListOf(),
         temperatureMax = mutableListOf(),
         temperatureMin = mutableListOf(),
         weathercode = mutableListOf()
     )
+    var showDropdown = mutableStateOf<Boolean>(false)
+
 
     init {
         loadWeatherData()
         codeTitle.value = weatherCodeTitle(code.value)
+        cities.add(City("Sydney",
+            -33.862587F,
+            151.15915F,
+            R.drawable.sydney)
+        )
+        cities.add(City("Los Angeles",
+            34.02004F,
+            -118.74137F,
+            R.drawable.los_angeles)
+        )
+        cities.add(City("Sedrun",
+            46.67F,
+            8.77F,
+            R.drawable.mountain_alp_culmatsch)
+        )
     }
 
-    private fun loadWeatherData() {
+    fun loadWeatherData() {
+        val endpoint = "https://api.open-meteo.com/v1/forecast?" +
+                "latitude=${actualCity.latitude}" +
+                "&longitude=${actualCity.longitude}" +
+                "&daily=temperature_2m_max,temperature_2m_min" +
+                ",weathercode" +
+                "&current_weather=true" +
+                "&timezone=Europe%2FBerlin"
 
         val context = getApplication<Application>().applicationContext
 
         val requestQueue = Volley.newRequestQueue(context)
         val request = StringRequest(
-            Request.Method.GET, ENDPOINT,
+            Request.Method.GET, endpoint,
             { response ->
                 try {
                     val parsedData = Klaxon().parse<Weather>(response)
                     temperature.value = parsedData?.currentWeather?.temperature ?: -99.0F
                     code.value = parsedData?.currentWeather?.weathercode ?: -99
+
+                    dailyForecast?.time?.clear()
+                    dailyForecast?.temperatureMax?.clear()
+                    dailyForecast?.temperatureMin?.clear()
+                    dailyForecast?.weathercode?.clear()
+
                     dailyForecast?.time?.addAll(
                         parsedData?.daily?.time ?: mutableListOf()
                     )
@@ -117,7 +146,6 @@ class WeatherViewModel(application: Application) :
     @RequiresApi(Build.VERSION_CODES.O)
     fun getWeekday(time: String?): String {
         if (time == null) {
-            // Return a default value or handle the null case appropriately
             return "Loading ... "
         }
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
