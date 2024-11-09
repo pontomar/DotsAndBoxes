@@ -1,20 +1,20 @@
 package com.example.dotsandboxes
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
 @Composable
@@ -27,7 +27,6 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
         ) {
             Column(
                 modifier = modifier
@@ -47,8 +46,7 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController) {
                     .fillMaxHeight(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Game Area", color = Color.White)
-                Spacer(modifier = Modifier.height(16.dp))
+                DotsAndBoxesScaffold(modifier)
             }
             Column(
                 modifier = modifier
@@ -63,5 +61,65 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController) {
                 Text("2", color = Color.White)
             }
         }
+    }
+}
+
+
+@Composable
+fun DotsAndBoxesGameBoard(columns: Int, rows: Int, modifier: Modifier) {
+    val dotRadius = 8f
+    val spacing = 100f
+
+    Canvas(
+        modifier = modifier
+            .fillMaxSize()
+            .fillMaxHeight()
+            .background(color = Color.Black)
+    ) {
+        // Draw dots
+        for (i in 0 until columns) {
+            for (j in 0 until rows) {
+                val x = i * spacing + spacing
+                val y = j * spacing + spacing
+                drawCircle(
+                    color = Color.White,
+                    radius = dotRadius,
+                    center = Offset(x, y)
+                )
+            }
+        }
+    }
+
+//    // Placeholder for lines, can detect taps here for interaction
+//    Box(
+//        modifier = modifier
+//            .fillMaxSize()
+//            .pointerInput(Unit) {
+//                detectTapGestures { offset ->
+//                    // Handle line drawing based on tap position
+//                }
+//            }
+//    )
+}
+
+@Composable
+fun GameScreen(modifier: Modifier) {
+    Surface(
+        modifier = modifier
+            .fillMaxSize()
+            .fillMaxHeight()
+    ) {
+        DotsAndBoxesGameBoard(columns = 6, rows = 6, modifier) // Example with 5x5 dots grid
+    }
+}
+
+@Composable
+fun DotsAndBoxesScaffold(modifier: Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .fillMaxHeight()
+    ) {
+        GameScreen(modifier)
     }
 }
