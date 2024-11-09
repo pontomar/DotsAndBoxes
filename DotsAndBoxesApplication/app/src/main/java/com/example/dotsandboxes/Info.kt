@@ -1,6 +1,7 @@
 package com.example.dotsandboxes
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,12 +22,22 @@ fun InfoPage(modifier: Modifier = Modifier, navController: NavController) {
         Column {
             Text("This is the InfoPage", color = Color.White)
             Row() {
-                StartPageButton(emojiUnicode = "\uD83C\uDFE0", text = "Home", onClick = {
-                    navController.navigate("StartPage")
-                })
-                StartPageButton(emojiUnicode = "⚙\uFE0F", text = "Info", onClick = {
-                    navController.navigate("InfoPage")
-                })
+                StartPageButton(
+                    emojiUnicode = "\uD83C\uDFE0",
+                    text = "Home",
+                    onClick = {
+                        navController.navigate("StartPage")
+                    },
+                    Arrangement.Bottom
+                )
+                StartPageButton(
+                    emojiUnicode = "⚙\uFE0F",
+                    text = "Info",
+                    onClick = {
+                        navController.navigate("InfoPage")
+                    },
+                    Arrangement.Bottom
+                )
             }
         }
     }
