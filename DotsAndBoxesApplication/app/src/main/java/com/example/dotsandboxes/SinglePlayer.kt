@@ -34,7 +34,7 @@ import androidx.navigation.NavController
 import kotlin.math.max
 
 @Composable
-fun SinglePlayerPage(modifier: Modifier, navController: NavController) {
+fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: PlayerViewModel) {
     Box(
         modifier
             .fillMaxSize()
