@@ -242,23 +242,4 @@ fun GameButton(
     }
 }
 
-@Composable
-fun StartPageButton(
-    emojiUnicode: String,
-    text: String,
-    onClick: () -> Unit,
-    verticalArrangement: Arrangement.Vertical
-) {
-    TextButton(
-        onClick = onClick
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = verticalArrangement
-        ) {
-            Text(emojiUnicode, fontSize = 40.sp)
-            Text(text, fontSize = 20.sp)
-        }
-    }
-}
 

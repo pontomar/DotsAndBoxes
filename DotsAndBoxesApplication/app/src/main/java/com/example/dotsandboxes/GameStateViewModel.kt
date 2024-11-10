@@ -246,5 +246,4 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
             }
         }
     }
-
 }
