@@ -63,7 +63,6 @@ fun DotsAndBoxesGameBoard(
 ) {
     val dotRadius = 8f
     val density: Density = LocalDensity.current
-    val showWinnerMessage = remember { mutableStateOf(false) }
 
     Box(
         modifier = modifier
@@ -137,7 +136,7 @@ fun DotsAndBoxesGameBoard(
 
                     Button(
                         onClick = {
-                            showWinnerMessage.value = model.buttonClicked(i, j, true)
+                            model.hasPlayerWon.value = model.buttonClicked(i, j, true)
                         },
                         modifier = Modifier
                             .offset(x = xDp - buttonWidthDp / 2, y = yDp - buttonHeightDp / 2)
@@ -169,7 +168,7 @@ fun DotsAndBoxesGameBoard(
 
                     Button(
                         onClick = {
-                            showWinnerMessage.value = model.buttonClicked(i, j, false)
+                            model.hasPlayerWon.value = model.buttonClicked(i, j, false)
                         },
                         modifier = Modifier
                             .offset(x = xDp - buttonWidthDp / 2, y = yDp - buttonHeightDp / 2)
@@ -181,15 +180,15 @@ fun DotsAndBoxesGameBoard(
                 }
             }
         }
-        if (showWinnerMessage.value) {
+        if (model.hasPlayerWon.value) {
             AlertDialogExample(
                 onDismissRequest = {
-                    showWinnerMessage.value = false
+                    model.hasPlayerWon.value = false
                     navController.navigate("StartPage")
                     model.resetGame()
                 },
                 onConfirmation = {
-                    showWinnerMessage.value = false
+                    model.hasPlayerWon.value = false
                     model.resetGame()
                 },
                 dialogTitle = "New Game?",

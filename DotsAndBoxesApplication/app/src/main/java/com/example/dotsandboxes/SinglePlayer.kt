@@ -84,7 +84,7 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                         verticalArrangement = Arrangement.Top
                     ) {
                         Text(
-                            "Player 1",
+                            model.listOfPlayers[0].name,
                             color = model.listOfPlayers[0].playerColor.value,
                             fontSize = 20.sp
                         )
@@ -142,7 +142,7 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                         verticalArrangement = Arrangement.Top
                     ) {
                         Text(
-                            "Player 2",
+                            model.listOfPlayers[1].name,
                             color = model.listOfPlayers[1].playerColor.value,
                             fontSize = 20.sp
                         )
