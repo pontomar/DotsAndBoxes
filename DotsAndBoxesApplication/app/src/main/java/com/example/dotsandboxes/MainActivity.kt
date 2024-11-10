@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
                         composable("StartPage") {
                             StartPage(
                                 modifier = Modifier.padding(innerPadding),
-                                navController = navController
+                                navController = navController,
                             )
                         }
                         composable("InfoPage") {
@@ -50,12 +50,15 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable("MultiPlayerPage") {
+                            model.createPlayerForMultiPlayer()
                             MultiPlayerPage(
                                 modifier = Modifier,
-                                navController = navController
+                                navController = navController,
+                                model = model
                             )
                         }
                         composable("SinglePlayerPage") {
+                            model.createPlayerForSinglePlayer()
                             SinglePlayerPage(
                                 modifier = Modifier,
                                 navController = navController,

@@ -73,7 +73,7 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Pl
                     .padding(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                DotsAndBoxesScaffold(modifier)
+                DotsAndBoxesScaffold(modifier, model)
             }
             // Player 2
             Column(
@@ -100,23 +100,23 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Pl
 }
 
 @Composable
-fun DotsAndBoxesScaffold(modifier: Modifier = Modifier) {
+fun DotsAndBoxesScaffold(modifier: Modifier = Modifier, model: PlayerViewModel) {
     Column() {
-        GameScreen(modifier = modifier)
+        GameScreen(modifier = modifier, model = model)
     }
 }
 
 @Composable
-fun GameScreen(modifier: Modifier = Modifier) {
+fun GameScreen(modifier: Modifier = Modifier, model: PlayerViewModel) {
     Box(
         contentAlignment = Alignment.Center
     ) {
-        DotsAndBoxesGameBoard(columns = 5, rows = 5, modifier = modifier)
+        DotsAndBoxesGameBoard(columns = 5, rows = 5, modifier = modifier, model = model)
     }
 }
 
 @Composable
-fun DotsAndBoxesGameBoard(columns: Int, rows: Int, modifier: Modifier) {
+fun DotsAndBoxesGameBoard(columns: Int, rows: Int, modifier: Modifier, model: PlayerViewModel) {
     val dotRadius = 8f
     val positionOfPoints: MutableList<MutableList<Pair<MutableFloatState, MutableFloatState>>> =
         remember {
@@ -195,7 +195,8 @@ fun DotsAndBoxesGameBoard(columns: Int, rows: Int, modifier: Modifier) {
 
                     Button(
                         onClick = {
-                            horizontalButtonColors[i][j].value = Color.Green
+                            horizontalButtonColors[i][j].value = model.currentPlayer.playerColor
+                            model.nextPlayer()
                         },
                         modifier = Modifier
                             .offset(x = xDp - buttonWidthDp / 2, y = yDp - buttonHeightDp / 2)
@@ -227,7 +228,8 @@ fun DotsAndBoxesGameBoard(columns: Int, rows: Int, modifier: Modifier) {
 
                     Button(
                         onClick = {
-                            verticalButtonColors[i][j].value = Color.Green
+                            verticalButtonColors[i][j].value = model.currentPlayer.playerColor
+                            model.nextPlayer()
                         },
                         modifier = Modifier
                             .offset(x = xDp - buttonWidthDp / 2, y = yDp - buttonHeightDp / 2)
