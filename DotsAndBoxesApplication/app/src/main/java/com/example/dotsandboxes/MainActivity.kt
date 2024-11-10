@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
             DotsAndBoxesTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     val navController = rememberNavController()
-                    val model: PlayerViewModel = viewModel()
+                    val model: GameStateViewModel = viewModel()
                     NavHost(navController = navController, startDestination = "StartPage") {
                         composable("StartPage") {
                             StartPage(

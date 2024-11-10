@@ -34,7 +34,7 @@ import androidx.navigation.NavController
 import kotlin.math.max
 
 @Composable
-fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: PlayerViewModel) {
+fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: GameStateViewModel) {
     Box(
         modifier
             .fillMaxSize()
@@ -94,34 +94,35 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Pl
                 Text("Player 2", color = Color.White, fontSize = 20.sp)
                 Spacer(modifier.heightIn(15.dp))
                 Text("2", color = Color.White, fontSize = 20.sp)
+
             }
         }
     }
 }
 
 @Composable
-fun DotsAndBoxesScaffold(modifier: Modifier = Modifier, model: PlayerViewModel) {
+fun DotsAndBoxesScaffold(modifier: Modifier = Modifier, model: GameStateViewModel) {
     Column() {
         GameScreen(modifier = modifier, model = model)
     }
 }
 
 @Composable
-fun GameScreen(modifier: Modifier = Modifier, model: PlayerViewModel) {
+fun GameScreen(modifier: Modifier = Modifier, model: GameStateViewModel) {
     Box(
         contentAlignment = Alignment.Center
     ) {
-        DotsAndBoxesGameBoard(columns = 5, rows = 5, modifier = modifier, model = model)
+        DotsAndBoxesGameBoard(modifier = modifier, model = model)
     }
 }
 
 @Composable
-fun DotsAndBoxesGameBoard(columns: Int, rows: Int, modifier: Modifier, model: PlayerViewModel) {
+fun DotsAndBoxesGameBoard(modifier: Modifier, model: GameStateViewModel) {
     val dotRadius = 8f
     val positionOfPoints: MutableList<MutableList<Pair<MutableFloatState, MutableFloatState>>> =
         remember {
-            MutableList(columns) {
-                MutableList(rows) {
+            MutableList(model.columns) {
+                MutableList(model.rows) {
                     Pair(mutableFloatStateOf(0f), mutableFloatStateOf(0f))
                 }
             }
@@ -130,16 +131,16 @@ fun DotsAndBoxesGameBoard(columns: Int, rows: Int, modifier: Modifier, model: Pl
 
     // State variables for button colors
     val horizontalButtonColors = remember {
-        MutableList(columns - 1) {
-            MutableList(rows) {
-                mutableStateOf(Color.Yellow)
+        MutableList(model.columns - 1) {
+            MutableList(model.rows) {
+                mutableStateOf(Color.Transparent)
             }
         }
     }
     val verticalButtonColors = remember {
-        MutableList(columns) {
-            MutableList(rows - 1) {
-                mutableStateOf(Color.Yellow)
+        MutableList(model.columns) {
+            MutableList(model.rows - 1) {
+                mutableStateOf(Color.Transparent)
             }
         }
     }
@@ -155,13 +156,13 @@ fun DotsAndBoxesGameBoard(columns: Int, rows: Int, modifier: Modifier, model: Pl
                 .background(color = Color.Black)
         ) {
             val minDimension = minOf(size.width, size.height)
-            val spacing = minDimension / (max(columns, rows) + 1)
+            val spacing = minDimension / (max(model.columns, model.rows) + 1)
             val offsetX = (size.width - minDimension) / 2
             val offsetY = (size.height - minDimension) / 2
 
             // Draw dots
-            for (i in 0 until columns) {
-                for (j in 0 until rows) {
+            for (i in 0 until model.columns) {
+                for (j in 0 until model.rows) {
                     val x = offsetX + (i + 1) * spacing
                     val y = offsetY + (j + 1) * spacing
                     drawCircle(
@@ -176,8 +177,8 @@ fun DotsAndBoxesGameBoard(columns: Int, rows: Int, modifier: Modifier, model: Pl
         }
         Box {
             // Draw horizontal buttons
-            for (i in 0 until columns - 1) {
-                for (j in 0 until rows) {
+            for (i in 0 until model.columns - 1) {
+                for (j in 0 until model.rows) {
                     val x1 = positionOfPoints[i][j].first.floatValue
                     val y1 = positionOfPoints[i][j].second.floatValue
                     val x2 = positionOfPoints[i + 1][j].first.floatValue
@@ -195,6 +196,7 @@ fun DotsAndBoxesGameBoard(columns: Int, rows: Int, modifier: Modifier, model: Pl
 
                     Button(
                         onClick = {
+                            model.buttonClicked(i,j)
                             horizontalButtonColors[i][j].value = model.currentPlayer.playerColor
                             model.nextPlayer()
                         },
@@ -209,8 +211,8 @@ fun DotsAndBoxesGameBoard(columns: Int, rows: Int, modifier: Modifier, model: Pl
             }
 
             // Draw vertical buttons
-            for (i in 0 until columns) {
-                for (j in 0 until rows - 1) {
+            for (i in 0 until model.columns) {
+                for (j in 0 until model.rows - 1) {
                     val x1 = positionOfPoints[i][j].first.floatValue
                     val y1 = positionOfPoints[i][j].second.floatValue
                     val y2 = positionOfPoints[i][j + 1].second.floatValue
@@ -228,6 +230,7 @@ fun DotsAndBoxesGameBoard(columns: Int, rows: Int, modifier: Modifier, model: Pl
 
                     Button(
                         onClick = {
+                            model.buttonClicked(i,j)
                             verticalButtonColors[i][j].value = model.currentPlayer.playerColor
                             model.nextPlayer()
                         },

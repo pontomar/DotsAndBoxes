@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 
 @Composable
-fun MultiPlayerPage(modifier: Modifier = Modifier, navController: NavController, model: PlayerViewModel) {
+fun MultiPlayerPage(modifier: Modifier = Modifier, navController: NavController, model: GameStateViewModel) {
     Box(
         modifier = modifier
             .fillMaxSize()
