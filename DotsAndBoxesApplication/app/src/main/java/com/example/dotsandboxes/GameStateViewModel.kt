@@ -76,6 +76,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
         return hasPlayerWon
     }
 
+    //Todo This function needs some work. you have to look that it is also possible that a player can in one move gain 2 points
     fun checkForCompletedBoxes(xAxis: Int, yAxis: Int) {
         val maxX = gameButtonGrid.size - 1
         val maxY = gameButtonGrid[0].size - 1
