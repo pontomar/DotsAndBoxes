@@ -82,14 +82,15 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                     text = "Home",
                     onClick = {
                         navController.navigate("StartPage")
+                        model.resetGame()
                     },
                     Arrangement.Top
                 )
-                Text("Player 1", color = model.listOfPlayers[0].playerColor, fontSize = 20.sp)
+                Text("Player 1", color = model.listOfPlayers[0].playerColor.value, fontSize = 20.sp)
                 Spacer(modifier.heightIn(15.dp))
                 Text(
                     model.listOfPlayers[0].numberOfFieldsWon.value.toString(),
-                    color = model.listOfPlayers[0].playerColor,
+                    color = model.listOfPlayers[0].playerColor.value,
                     fontSize = 20.sp
                 )
             }
@@ -116,14 +117,15 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                     text = "Info",
                     onClick = {
                         navController.navigate("InfoPage")
+                        model.resetGame()
                     },
                     Arrangement.Top
                 )
-                Text("Player 2", color = model.listOfPlayers[1].playerColor, fontSize = 20.sp)
+                Text("Player 2", color = model.listOfPlayers[1].playerColor.value, fontSize = 20.sp)
                 Spacer(modifier.heightIn(15.dp))
                 Text(
                     model.listOfPlayers[1].numberOfFieldsWon.value.toString(),
-                    color = model.listOfPlayers[1].playerColor,
+                    color = model.listOfPlayers[1].playerColor.value,
                     fontSize = 20.sp
                 )
 
@@ -196,7 +198,7 @@ fun DotsAndBoxesGameBoard(modifier: Modifier, model: GameStateViewModel, navCont
 
                         // Draw rectangle for the completed box
                         drawRect(
-                            color = playerColor,
+                            color = playerColor.value,
                             topLeft = Offset(x1, y1),
                             size = Size(size, size)
                         )
@@ -330,18 +332,4 @@ fun AlertDialogExample(
         }
     )
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

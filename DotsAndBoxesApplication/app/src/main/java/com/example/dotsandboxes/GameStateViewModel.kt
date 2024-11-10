@@ -51,12 +51,12 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
     fun createPlayerForSinglePlayer() {
         val player1 = Player(
             name = "Player1",
-            playerColor = Color.Green,
+            playerColor = mutableStateOf(Color.Green),
             numberOfFieldsWon = mutableIntStateOf(0)
         )
         val player2 = Player(
             name = "Player2",
-            playerColor = Color.Red,
+            playerColor = mutableStateOf(Color.Red),
             numberOfFieldsWon = mutableIntStateOf(0)
         )
 
@@ -70,12 +70,12 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
     fun createPlayerForMultiPlayer() {
         val player1 = Player(
             name = "Player1",
-            playerColor = Color.Green,
+            playerColor = mutableStateOf(Color.Green),
             numberOfFieldsWon = mutableIntStateOf(0)
         )
         val player2 = Player(
             name = "Player2",
-            playerColor = Color.Red,
+            playerColor = mutableStateOf(Color.Red),
             numberOfFieldsWon = mutableIntStateOf(0)
         )
 
@@ -89,7 +89,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
         if (isHorizontal) {
             if (!horizontalLines[xAxis][yAxis]) {
                 horizontalLines[xAxis][yAxis] = true
-                horizontalButtonColors[xAxis][yAxis].value = currentPlayer.playerColor
+                horizontalButtonColors[xAxis][yAxis].value = currentPlayer.playerColor.value
 
                 val boxesCompleted = checkForCompletedBoxes(xAxis, yAxis, isHorizontal)
                 currentPlayer.numberOfFieldsWon.value += boxesCompleted
@@ -106,7 +106,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
         } else {
             if (!verticalLines[xAxis][yAxis]) {
                 verticalLines[xAxis][yAxis] = true
-                verticalButtonColors[xAxis][yAxis].value = currentPlayer.playerColor
+                verticalButtonColors[xAxis][yAxis].value = currentPlayer.playerColor.value
 
                 val boxesCompleted = checkForCompletedBoxes(xAxis, yAxis, isHorizontal)
                 currentPlayer.numberOfFieldsWon.value += boxesCompleted
