@@ -28,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -85,7 +86,7 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                 )
                 Text("Player 1", color = model.listOfPlayers[0].playerColor, fontSize = 20.sp)
                 Spacer(modifier.heightIn(15.dp))
-                Text("1", color = model.listOfPlayers[0].playerColor, fontSize = 20.sp)
+                Text(model.listOfPlayers[0].numberOfFieldsWon.toString(), color = model.listOfPlayers[0].playerColor, fontSize = 20.sp)
             }
             // Game Column
             Column(
@@ -115,7 +116,7 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                 )
                 Text("Player 2", color = model.listOfPlayers[1].playerColor, fontSize = 20.sp)
                 Spacer(modifier.heightIn(15.dp))
-                Text("2", color = model.listOfPlayers[1].playerColor, fontSize = 20.sp)
+                Text(model.listOfPlayers[1].numberOfFieldsWon.toString(), color = model.listOfPlayers[1].playerColor, fontSize = 20.sp)
 
             }
         }
@@ -172,6 +173,27 @@ fun DotsAndBoxesGameBoard(modifier: Modifier, model: GameStateViewModel) {
                     model.positionOfPoints[i][j].second.floatValue = y
                 }
             }
+
+            // Draw filled boxes for completed squares
+            for (i in 0 until model.columns - 1) {
+                for (j in 0 until model.rows - 1) {
+                    val ownerIndex = model.boxesOwned[i][j]
+                    if (ownerIndex != -1) {
+                        val playerColor = model.listOfPlayers[ownerIndex].playerColor
+                        val x1 = model.positionOfPoints[i][j].first.floatValue
+                        val y1 = model.positionOfPoints[i][j].second.floatValue
+                        val size = spacing
+
+                        // Draw rectangle for the completed box
+                        drawRect(
+                            color = playerColor,
+                            topLeft = Offset(x1, y1),
+                            size = Size(size, size)
+                        )
+                    }
+                }
+            }
+
         }
         Box {
             // Draw horizontal buttons
@@ -194,9 +216,7 @@ fun DotsAndBoxesGameBoard(modifier: Modifier, model: GameStateViewModel) {
 
                     Button(
                         onClick = {
-                            model.buttonClicked(i,j)
-                            model.horizontalButtonColors[i][j].value = model.currentPlayer.playerColor
-                            model.nextPlayer()
+                            model.buttonClicked(i,j, true)
                         },
                         modifier = Modifier
                             .offset(x = xDp - buttonWidthDp / 2, y = yDp - buttonHeightDp / 2)
@@ -228,9 +248,7 @@ fun DotsAndBoxesGameBoard(modifier: Modifier, model: GameStateViewModel) {
 
                     Button(
                         onClick = {
-                            model.buttonClicked(i,j)
-                            model.verticalButtonColors[i][j].value = model.currentPlayer.playerColor
-                            model.nextPlayer()
+                            model.buttonClicked(i,j, false)
                         },
                         modifier = Modifier
                             .offset(x = xDp - buttonWidthDp / 2, y = yDp - buttonHeightDp / 2)

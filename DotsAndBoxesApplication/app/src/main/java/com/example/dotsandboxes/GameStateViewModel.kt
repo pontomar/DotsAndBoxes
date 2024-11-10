@@ -33,6 +33,18 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
         }
 
 
+    // Store the state of the horizontal and vertical lines
+    val horizontalLines = MutableList(columns) { MutableList(rows + 1) { false } }
+    val verticalLines = MutableList(columns + 1) { MutableList(rows) { false } }
+
+    // Store the ownership of boxes
+    val boxesOwned = MutableList(columns - 1) {
+        MutableList(rows - 1) {
+            -1
+        }
+    }
+
+
     // State variables for button colors
     val horizontalButtonColors =
         MutableList(columns - 1) {
@@ -94,35 +106,104 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun buttonClicked(xAxis: Int, yAxis: Int): Boolean {
-        gameButtonGrid[xAxis][yAxis] = listOfPlayers.indexOf(currentPlayer)
-        checkForCompletedBoxes(xAxis, yAxis)
-        val hasPlayerWon = hasPlayerWon()
-        return hasPlayerWon
-    }
+    fun buttonClicked(xAxis: Int, yAxis: Int, isHorizontal: Boolean): Boolean {
+        if (isHorizontal) {
+            if (!horizontalLines[xAxis][yAxis]) {
+                horizontalLines[xAxis][yAxis] = true
+                horizontalButtonColors[xAxis][yAxis].value = currentPlayer.playerColor
 
-    //Todo This function needs some work. you have to look that it is also possible that a player can in one move gain 2 points
-    fun checkForCompletedBoxes(xAxis: Int, yAxis: Int) {
-        val maxX = gameButtonGrid.size - 1
-        val maxY = gameButtonGrid[0].size - 1
+                val boxesCompleted = checkForCompletedBoxes(xAxis, yAxis, isHorizontal)
+                currentPlayer.numberOfFieldsWon += boxesCompleted
 
-        val topEdge =
-            if (xAxis - 1 >= 0) gameButtonGrid[xAxis - 1][yAxis] else gameButtonGrid[0][yAxis]
-        val bottomEdge =
-            if (xAxis + 1 <= maxX) gameButtonGrid[xAxis + 1][yAxis] else gameButtonGrid[maxX][yAxis]
-        val leftEdge =
-            if (yAxis - 1 >= 0) gameButtonGrid[xAxis][yAxis - 1] else gameButtonGrid[xAxis][0]
-        val rightEdge =
-            if (yAxis + 1 <= maxY) gameButtonGrid[xAxis][yAxis + 1] else gameButtonGrid[xAxis][maxY]
+                if (boxesCompleted == 0) {
+                    nextPlayer()
+                }
 
-        if (topEdge > 0 && bottomEdge > 0 && leftEdge > 0 && rightEdge > 0) {
-            if (gameButtonGrid[xAxis][yAxis] == 0) {
-                Log.i("PointWon", "${currentPlayer.name}: ${currentPlayer.numberOfFieldsWon}")
-                gameButtonGrid[xAxis][yAxis] = listOfPlayers.indexOf(currentPlayer)
-                currentPlayer.numberOfFieldsWon += 1
-                Log.i("PointWon", "${currentPlayer.name}: ${currentPlayer.numberOfFieldsWon}")
+                return hasPlayerWon()
+            } else {
+                // Line already drawn
+                return false
+            }
+        } else {
+            if (!verticalLines[xAxis][yAxis]) {
+                verticalLines[xAxis][yAxis] = true
+                verticalButtonColors[xAxis][yAxis].value = currentPlayer.playerColor
+
+                val boxesCompleted = checkForCompletedBoxes(xAxis, yAxis, isHorizontal)
+                currentPlayer.numberOfFieldsWon += boxesCompleted
+
+                if (boxesCompleted == 0) {
+                    nextPlayer()
+                }
+
+                return hasPlayerWon()
+            } else {
+                // Line already drawn
+                return false
             }
         }
+    }
+
+    fun checkForCompletedBoxes(xAxis: Int, yAxis: Int, isHorizontal: Boolean): Int {
+        var boxesCompleted = 0
+
+        if (isHorizontal) {
+            // Check box above
+            if (yAxis > 0 && xAxis < columns - 1) {
+                if (horizontalLines[xAxis][yAxis - 1] &&
+                    verticalLines[xAxis][yAxis - 1] &&
+                    verticalLines[xAxis + 1][yAxis - 1] &&
+                    horizontalLines[xAxis][yAxis]
+                ) {
+                    if (boxesOwned[xAxis][yAxis - 1] == -1) {
+                        boxesOwned[xAxis][yAxis - 1] = listOfPlayers.indexOf(currentPlayer)
+                        boxesCompleted++
+                    }
+                }
+            }
+            // Check box below
+            if (yAxis < rows && xAxis < columns - 1) {
+                if (horizontalLines[xAxis][yAxis + 1] &&
+                    verticalLines[xAxis][yAxis] &&
+                    verticalLines[xAxis + 1][yAxis] &&
+                    horizontalLines[xAxis][yAxis]
+                ) {
+                    if (boxesOwned[xAxis][yAxis] == -1) {
+                        boxesOwned[xAxis][yAxis] = listOfPlayers.indexOf(currentPlayer)
+                        boxesCompleted++
+                    }
+                }
+            }
+        } else {
+            // Check box to the left
+            if (xAxis > 0 && yAxis < rows - 1) {
+                if (verticalLines[xAxis - 1][yAxis] &&
+                    horizontalLines[xAxis - 1][yAxis] &&
+                    horizontalLines[xAxis - 1][yAxis + 1] &&
+                    verticalLines[xAxis][yAxis]
+                ) {
+                    if (boxesOwned[xAxis - 1][yAxis] == -1) {
+                        boxesOwned[xAxis - 1][yAxis] = listOfPlayers.indexOf(currentPlayer)
+                        boxesCompleted++
+                    }
+                }
+            }
+            // Check box to the right
+            if (xAxis < columns && yAxis < rows - 1) {
+                if (verticalLines[xAxis + 1][yAxis] &&
+                    horizontalLines[xAxis][yAxis] &&
+                    horizontalLines[xAxis][yAxis + 1] &&
+                    verticalLines[xAxis][yAxis]
+                ) {
+                    if (boxesOwned[xAxis][yAxis] == -1) {
+                        boxesOwned[xAxis][yAxis] = listOfPlayers.indexOf(currentPlayer)
+                        boxesCompleted++
+                    }
+                }
+            }
+        }
+
+        return boxesCompleted
     }
 
 
