@@ -1,5 +1,6 @@
 package com.example.dotsandboxes
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import androidx.compose.foundation.Canvas
@@ -12,16 +13,23 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableFloatState
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,17 +40,19 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import kotlin.math.max
+import com.example.dotsandboxes.MinimalDialog as MinimalDialog
 
 @Composable
 fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: GameStateViewModel) {
 
     val activity = LocalContext.current as? Activity
-
     DisposableEffect(Unit) {
         val originalOrientation = activity?.requestedOrientation
 
@@ -143,6 +153,7 @@ fun GameScreen(modifier: Modifier = Modifier, model: GameStateViewModel) {
 fun DotsAndBoxesGameBoard(modifier: Modifier, model: GameStateViewModel) {
     val dotRadius = 8f
     val density: Density = LocalDensity.current
+    val showWinnerMessage = remember { mutableStateOf(false) }
 
     Box(
         modifier = modifier
@@ -216,7 +227,7 @@ fun DotsAndBoxesGameBoard(modifier: Modifier, model: GameStateViewModel) {
 
                     Button(
                         onClick = {
-                            model.buttonClicked(i,j, true)
+                            showWinnerMessage.value = model.buttonClicked(i,j, true)
                         },
                         modifier = Modifier
                             .offset(x = xDp - buttonWidthDp / 2, y = yDp - buttonHeightDp / 2)
@@ -248,7 +259,7 @@ fun DotsAndBoxesGameBoard(modifier: Modifier, model: GameStateViewModel) {
 
                     Button(
                         onClick = {
-                            model.buttonClicked(i,j, false)
+                            showWinnerMessage.value = model.buttonClicked(i,j, false)
                         },
                         modifier = Modifier
                             .offset(x = xDp - buttonWidthDp / 2, y = yDp - buttonHeightDp / 2)
@@ -260,10 +271,33 @@ fun DotsAndBoxesGameBoard(modifier: Modifier, model: GameStateViewModel) {
                 }
             }
         }
+        if (showWinnerMessage.value) {
+            MinimalDialog()
+        }
     }
 }
 
 
+@Composable
+fun MinimalDialog() {
+    Dialog(onDismissRequest = {  }) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .padding(16.dp),
+            shape = RoundedCornerShape(16.dp),
+        ) {
+            Text(
+                text = "This is a minimal dialog",
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(Alignment.Center),
+                textAlign = TextAlign.Center,
+            )
+        }
+    }
+}
 
 
 

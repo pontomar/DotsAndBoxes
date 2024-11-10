@@ -1,30 +1,19 @@
 package com.example.dotsandboxes
 
 import android.app.Application
-import android.util.Log
 import androidx.compose.runtime.MutableFloatState
-import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Density
 import androidx.lifecycle.AndroidViewModel
 
 class GameStateViewModel(application: Application) : AndroidViewModel(application) {
     var listOfPlayers: MutableList<Player> = mutableListOf()
-    var currentPlayer: Player = Player()
+    private var currentPlayer: Player = Player()
     var rows: Int = 5
     var columns: Int = 5
-    val pointsToWinGame = (rows - 1 * columns - 1) / 2 + 1
-    var gameButtonGrid: MutableList<MutableList<Int>> =
-        MutableList(columns) {
-            MutableList(rows) {
-                0
-            }
-        }
+    private val pointsToWinGame = (rows - 1) * (columns - 1) / 2 + 1
+
     val positionOfPoints: MutableList<MutableList<Pair<MutableFloatState, MutableFloatState>>> =
         MutableList(columns) {
             MutableList(rows) {
@@ -32,10 +21,9 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
             }
         }
 
-
     // Store the state of the horizontal and vertical lines
-    val horizontalLines = MutableList(columns) { MutableList(rows + 1) { false } }
-    val verticalLines = MutableList(columns + 1) { MutableList(rows) { false } }
+    private val horizontalLines = MutableList(columns) { MutableList(rows + 1) { false } }
+    private val verticalLines = MutableList(columns + 1) { MutableList(rows) { false } }
 
     // Store the ownership of boxes
     val boxesOwned = MutableList(columns - 1) {
@@ -43,7 +31,6 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
             -1
         }
     }
-
 
     // State variables for button colors
     val horizontalButtonColors =
@@ -59,7 +46,6 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
                 mutableStateOf(Color.Transparent)
             }
         }
-
 
     fun createPlayerForSinglePlayer() {
         val player1 = Player(
@@ -96,14 +82,6 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
         listOfPlayers.add(player2)
 
         currentPlayer = listOfPlayers[0]
-    }
-
-    fun nextPlayer() {
-        if (currentPlayer == listOfPlayers[0]) {
-            currentPlayer = listOfPlayers[1]
-        } else {
-            currentPlayer = listOfPlayers[0]
-        }
     }
 
     fun buttonClicked(xAxis: Int, yAxis: Int, isHorizontal: Boolean): Boolean {
@@ -144,7 +122,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun checkForCompletedBoxes(xAxis: Int, yAxis: Int, isHorizontal: Boolean): Int {
+    private fun checkForCompletedBoxes(xAxis: Int, yAxis: Int, isHorizontal: Boolean): Int {
         var boxesCompleted = 0
 
         if (isHorizontal) {
@@ -206,13 +184,16 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
         return boxesCompleted
     }
 
-
-    fun hasPlayerWon(): Boolean {
-        if (currentPlayer.numberOfFieldsWon >= pointsToWinGame) {
-            return true
-        } else {
-            return false
-        }
+    private fun hasPlayerWon(): Boolean {
+        return currentPlayer.numberOfFieldsWon >= pointsToWinGame
     }
 
+
+    private fun nextPlayer() {
+        currentPlayer = if (currentPlayer == listOfPlayers[0]) {
+            listOfPlayers[1]
+        } else {
+            listOfPlayers[0]
+        }
+    }
 }
