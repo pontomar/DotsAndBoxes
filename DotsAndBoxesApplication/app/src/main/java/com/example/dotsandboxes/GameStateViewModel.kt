@@ -10,7 +10,7 @@ import androidx.lifecycle.AndroidViewModel
 
 class GameStateViewModel(application: Application) : AndroidViewModel(application) {
     var listOfPlayers: MutableList<Player> = mutableListOf()
-    private var currentPlayer: Player = Player()
+    var currentPlayer: Player = Player()
     var rows: Int = 5
     var columns: Int = 5
     private val pointsToWinGame = (rows - 1) * (columns - 1) / 2 + 1
@@ -197,4 +197,54 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
             listOfPlayers[0]
         }
     }
+
+    fun resetGame() {
+        // Reset the number of fields won for each player
+        for (player in listOfPlayers) {
+            player.numberOfFieldsWon.value = 0
+        }
+
+        // Reset current player to the first player
+        if (listOfPlayers.isNotEmpty()) {
+            currentPlayer = listOfPlayers[0]
+        } else {
+            currentPlayer = Player()
+        }
+
+        // Reset the state of horizontal lines
+        for (i in horizontalLines.indices) {
+            for (j in horizontalLines[i].indices) {
+                horizontalLines[i][j] = false
+            }
+        }
+
+        // Reset the state of vertical lines
+        for (i in verticalLines.indices) {
+            for (j in verticalLines[i].indices) {
+                verticalLines[i][j] = false
+            }
+        }
+
+        // Reset ownership of boxes
+        for (i in boxesOwned.indices) {
+            for (j in boxesOwned[i].indices) {
+                boxesOwned[i][j] = -1
+            }
+        }
+
+        // Reset horizontal button colors
+        for (i in horizontalButtonColors.indices) {
+            for (j in horizontalButtonColors[i].indices) {
+                horizontalButtonColors[i][j].value = Color.Transparent
+            }
+        }
+
+        // Reset vertical button colors
+        for (i in verticalButtonColors.indices) {
+            for (j in verticalButtonColors[i].indices) {
+                verticalButtonColors[i][j].value = Color.Transparent
+            }
+        }
+    }
+
 }

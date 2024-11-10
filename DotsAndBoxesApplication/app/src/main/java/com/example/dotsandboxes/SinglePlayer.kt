@@ -12,18 +12,18 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.mutableStateOf
@@ -33,15 +33,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
-import com.example.dotsandboxes.MinimalDialog
 import kotlin.math.max
 
 @Composable
@@ -103,7 +101,7 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                     .padding(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                DotsAndBoxesScaffold(modifier, model)
+                DotsAndBoxesScaffold(modifier, model, navController)
             }
             // Player 2
             Column(
@@ -135,23 +133,23 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
 }
 
 @Composable
-fun DotsAndBoxesScaffold(modifier: Modifier = Modifier, model: GameStateViewModel) {
+fun DotsAndBoxesScaffold(modifier: Modifier = Modifier, model: GameStateViewModel, navController: NavController) {
     Column() {
-        GameScreen(modifier = modifier, model = model)
+        GameScreen(modifier = modifier, model = model, navController = navController)
     }
 }
 
 @Composable
-fun GameScreen(modifier: Modifier = Modifier, model: GameStateViewModel) {
+fun GameScreen(modifier: Modifier = Modifier, model: GameStateViewModel, navController: NavController) {
     Box(
         contentAlignment = Alignment.Center
     ) {
-        DotsAndBoxesGameBoard(modifier = modifier, model = model)
+        DotsAndBoxesGameBoard(modifier = modifier, model = model, navController = navController)
     }
 }
 
 @Composable
-fun DotsAndBoxesGameBoard(modifier: Modifier, model: GameStateViewModel) {
+fun DotsAndBoxesGameBoard(modifier: Modifier, model: GameStateViewModel, navController: NavController) {
     val dotRadius = 8f
     val density: Density = LocalDensity.current
     val showWinnerMessage = remember { mutableStateOf(false) }
@@ -273,30 +271,64 @@ fun DotsAndBoxesGameBoard(modifier: Modifier, model: GameStateViewModel) {
             }
         }
         if (showWinnerMessage.value) {
-            MinimalDialog()
+            AlertDialogExample(
+                onDismissRequest = {
+                    showWinnerMessage.value = false
+                    navController.navigate("StartPage")
+                    model.resetGame()
+                },
+                onConfirmation = {
+                    showWinnerMessage.value = false
+                    model.resetGame()
+                },
+                dialogTitle = "New Game?",
+                dialogText = model.currentPlayer.name + " has won the game",
+                icon = Icons.Default.Info
+            )
         }
     }
 }
 
 @Composable
-fun MinimalDialog() {
-    Dialog(onDismissRequest = { }) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .padding(16.dp),
-            shape = RoundedCornerShape(16.dp),
-        ) {
-            Text(
-                text = "This is a minimal dialog",
-                modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize(Alignment.Center),
-                textAlign = TextAlign.Center,
-            )
+fun AlertDialogExample(
+    onDismissRequest: () -> Unit,
+    onConfirmation: () -> Unit,
+    dialogTitle: String,
+    dialogText: String,
+    icon: ImageVector,
+) {
+    AlertDialog(
+        icon = {
+            Icon(icon, contentDescription = "Example Icon")
+        },
+        title = {
+            Text(text = dialogTitle)
+        },
+        text = {
+            Text(text = dialogText)
+        },
+        onDismissRequest = {
+            onDismissRequest()
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onConfirmation()
+                }
+            ) {
+                Text("Confirm")
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = {
+                    onDismissRequest()
+                }
+            ) {
+                Text("Dismiss")
+            }
         }
-    }
+    )
 }
 
 
