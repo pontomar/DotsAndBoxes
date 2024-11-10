@@ -3,6 +3,7 @@ package com.example.dotsandboxes
 import android.app.Application
 import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.AndroidViewModel
@@ -51,12 +52,12 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
         val player1 = Player(
             name = "Player1",
             playerColor = Color.Green,
-            numberOfFieldsWon = 0
+            numberOfFieldsWon = mutableIntStateOf(0)
         )
         val player2 = Player(
             name = "Player2",
             playerColor = Color.Red,
-            numberOfFieldsWon = 0
+            numberOfFieldsWon = mutableIntStateOf(0)
         )
 
         listOfPlayers.add(player1)
@@ -70,12 +71,12 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
         val player1 = Player(
             name = "Player1",
             playerColor = Color.Green,
-            numberOfFieldsWon = 0
+            numberOfFieldsWon = mutableIntStateOf(0)
         )
         val player2 = Player(
             name = "Player2",
             playerColor = Color.Red,
-            numberOfFieldsWon = 0
+            numberOfFieldsWon = mutableIntStateOf(0)
         )
 
         listOfPlayers.add(player1)
@@ -91,7 +92,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
                 horizontalButtonColors[xAxis][yAxis].value = currentPlayer.playerColor
 
                 val boxesCompleted = checkForCompletedBoxes(xAxis, yAxis, isHorizontal)
-                currentPlayer.numberOfFieldsWon += boxesCompleted
+                currentPlayer.numberOfFieldsWon.value += boxesCompleted
 
                 if (boxesCompleted == 0) {
                     nextPlayer()
@@ -108,7 +109,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
                 verticalButtonColors[xAxis][yAxis].value = currentPlayer.playerColor
 
                 val boxesCompleted = checkForCompletedBoxes(xAxis, yAxis, isHorizontal)
-                currentPlayer.numberOfFieldsWon += boxesCompleted
+                currentPlayer.numberOfFieldsWon.value += boxesCompleted
 
                 if (boxesCompleted == 0) {
                     nextPlayer()
@@ -185,7 +186,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     private fun hasPlayerWon(): Boolean {
-        return currentPlayer.numberOfFieldsWon >= pointsToWinGame
+        return currentPlayer.numberOfFieldsWon.value >= pointsToWinGame
     }
 
 

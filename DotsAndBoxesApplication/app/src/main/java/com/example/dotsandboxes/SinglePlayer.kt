@@ -1,6 +1,5 @@
 package com.example.dotsandboxes
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import androidx.compose.foundation.Canvas
@@ -27,10 +26,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.MutableFloatState
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -46,8 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
+import com.example.dotsandboxes.MinimalDialog
 import kotlin.math.max
-import com.example.dotsandboxes.MinimalDialog as MinimalDialog
 
 @Composable
 fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: GameStateViewModel) {
@@ -65,8 +60,6 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                 ?: ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
         }
     }
-
-
 
     Box(
         modifier
@@ -96,7 +89,7 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                 )
                 Text("Player 1", color = model.listOfPlayers[0].playerColor, fontSize = 20.sp)
                 Spacer(modifier.heightIn(15.dp))
-                Text(model.listOfPlayers[0].numberOfFieldsWon.toString(), color = model.listOfPlayers[0].playerColor, fontSize = 20.sp)
+                Text(model.listOfPlayers[0].numberOfFieldsWon.value.toString(), color = model.listOfPlayers[0].playerColor, fontSize = 20.sp)
             }
             // Game Column
             Column(
@@ -126,7 +119,7 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                 )
                 Text("Player 2", color = model.listOfPlayers[1].playerColor, fontSize = 20.sp)
                 Spacer(modifier.heightIn(15.dp))
-                Text(model.listOfPlayers[1].numberOfFieldsWon.toString(), color = model.listOfPlayers[1].playerColor, fontSize = 20.sp)
+                Text(model.listOfPlayers[1].numberOfFieldsWon.value.toString(), color = model.listOfPlayers[1].playerColor, fontSize = 20.sp)
 
             }
         }
