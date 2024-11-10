@@ -1,5 +1,7 @@
 package com.example.dotsandboxes
 
+import android.app.Activity
+import android.content.pm.ActivityInfo
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +20,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -26,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
@@ -35,6 +39,24 @@ import kotlin.math.max
 
 @Composable
 fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: GameStateViewModel) {
+
+    val activity = LocalContext.current as? Activity
+
+    DisposableEffect(Unit) {
+        val originalOrientation = activity?.requestedOrientation
+
+        // Set the screen orientation to landscape
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+
+        // When the composable leaves the composition, restore the original orientation
+        onDispose {
+            activity?.requestedOrientation = originalOrientation
+                ?: ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        }
+    }
+
+
+
     Box(
         modifier
             .fillMaxSize()
@@ -61,9 +83,9 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                     },
                     Arrangement.Top
                 )
-                Text("Player 1", color = Color.White, fontSize = 20.sp)
+                Text("Player 1", color = model.listOfPlayers[0].playerColor, fontSize = 20.sp)
                 Spacer(modifier.heightIn(15.dp))
-                Text("1", color = Color.White, fontSize = 20.sp)
+                Text("1", color = model.listOfPlayers[0].playerColor, fontSize = 20.sp)
             }
             // Game Column
             Column(
@@ -91,9 +113,9 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                     },
                     Arrangement.Top
                 )
-                Text("Player 2", color = Color.White, fontSize = 20.sp)
+                Text("Player 2", color = model.listOfPlayers[1].playerColor, fontSize = 20.sp)
                 Spacer(modifier.heightIn(15.dp))
-                Text("2", color = Color.White, fontSize = 20.sp)
+                Text("2", color = model.listOfPlayers[1].playerColor, fontSize = 20.sp)
 
             }
         }
