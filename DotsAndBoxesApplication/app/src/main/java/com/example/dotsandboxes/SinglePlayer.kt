@@ -77,22 +77,44 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                 verticalArrangement = Arrangement.Center
 
             ) {
-                StartPageButton(
-                    emojiUnicode = "\uD83C\uDFE0",
-                    text = "Home",
-                    onClick = {
-                        navController.navigate("StartPage")
-                        model.resetGame()
-                    },
-                    Arrangement.Top
-                )
-                Text("Player 1", color = model.listOfPlayers[0].playerColor.value, fontSize = 20.sp)
-                Spacer(modifier.heightIn(15.dp))
-                Text(
-                    model.listOfPlayers[0].numberOfFieldsWon.value.toString(),
-                    color = model.listOfPlayers[0].playerColor.value,
-                    fontSize = 20.sp
-                )
+                Row(
+                    modifier
+                        .fillMaxHeight()
+                        .weight(1.5f)
+                        .padding(top = 50.dp),
+                    verticalAlignment = Alignment.Top
+
+                ) {
+                    StartPageButton(
+                        emojiUnicode = "\uD83C\uDFE0",
+                        text = "Home",
+                        onClick = {
+                            navController.navigate("StartPage")
+                            model.resetGame()
+                        },
+                        Arrangement.Top
+                    )
+                }
+                Row(
+                    modifier.weight(1f)
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Top
+                    ) {
+                        Text(
+                            "Player 1",
+                            color = model.listOfPlayers[0].playerColor.value,
+                            fontSize = 20.sp
+                        )
+                        Spacer(modifier.heightIn(15.dp))
+                        Text(
+                            model.listOfPlayers[0].numberOfFieldsWon.value.toString(),
+                            color = model.listOfPlayers[0].playerColor.value,
+                            fontSize = 20.sp
+                        )
+                    }
+                }
             }
             // Game Column
             Column(
@@ -104,45 +126,75 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
             ) {
                 DotsAndBoxesScaffold(modifier, model, navController)
             }
-            // Player 2
+
             Column(
                 modifier = modifier
                     .weight(1f)
                     .fillMaxHeight(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
-            ) {
-                StartPageButton(
-                    emojiUnicode = "⚙\uFE0F",
-                    text = "Info",
-                    onClick = {
-                        navController.navigate("InfoPage")
-                        model.resetGame()
-                    },
-                    Arrangement.Top
-                )
-                Text("Player 2", color = model.listOfPlayers[1].playerColor.value, fontSize = 20.sp)
-                Spacer(modifier.heightIn(15.dp))
-                Text(
-                    model.listOfPlayers[1].numberOfFieldsWon.value.toString(),
-                    color = model.listOfPlayers[1].playerColor.value,
-                    fontSize = 20.sp
-                )
 
+            ) {
+                Row(
+                    modifier
+                        .fillMaxHeight()
+                        .weight(1.5f)
+                        .padding(top = 50.dp),
+                    verticalAlignment = Alignment.Top
+
+                ) {
+                    StartPageButton(
+                        emojiUnicode = "⚙\uFE0F",
+                        text = "Info",
+                        onClick = {
+                            navController.navigate("InfoPage")
+                            model.resetGame()
+                        },
+                        Arrangement.Top
+                    )
+                }
+                Row(
+                    modifier.weight(1f)
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Top
+                    ) {
+                        Text(
+                            "Player 2",
+                            color = model.listOfPlayers[1].playerColor.value,
+                            fontSize = 20.sp
+                        )
+                        Spacer(modifier.heightIn(15.dp))
+                        Text(
+                            model.listOfPlayers[1].numberOfFieldsWon.value.toString(),
+                            color = model.listOfPlayers[1].playerColor.value,
+                            fontSize = 20.sp
+                        )
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-fun DotsAndBoxesScaffold(modifier: Modifier = Modifier, model: GameStateViewModel, navController: NavController) {
+fun DotsAndBoxesScaffold(
+    modifier: Modifier = Modifier,
+    model: GameStateViewModel,
+    navController: NavController
+) {
     Column() {
         GameScreen(modifier = modifier, model = model, navController = navController)
     }
 }
 
 @Composable
-fun GameScreen(modifier: Modifier = Modifier, model: GameStateViewModel, navController: NavController) {
+fun GameScreen(
+    modifier: Modifier = Modifier,
+    model: GameStateViewModel,
+    navController: NavController
+) {
     Box(
         contentAlignment = Alignment.Center
     ) {
@@ -151,7 +203,11 @@ fun GameScreen(modifier: Modifier = Modifier, model: GameStateViewModel, navCont
 }
 
 @Composable
-fun DotsAndBoxesGameBoard(modifier: Modifier, model: GameStateViewModel, navController: NavController) {
+fun DotsAndBoxesGameBoard(
+    modifier: Modifier,
+    model: GameStateViewModel,
+    navController: NavController
+) {
     val dotRadius = 8f
     val density: Density = LocalDensity.current
     val showWinnerMessage = remember { mutableStateOf(false) }
