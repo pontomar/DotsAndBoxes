@@ -231,15 +231,4 @@ fun StartPage(modifier: Modifier = Modifier, navController: NavController) {
 }
 
 
-@Composable
-fun GameButton(
-    text: String,
-    modifier: Modifier,
-    onClick: () -> Unit
-) {
-    Button(onClick = onClick, modifier = modifier.fillMaxWidth()) {
-        Text(text, fontSize = 25.sp)
-    }
-}
-
 
