@@ -274,43 +274,40 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     private fun clickButtonForAi() {
-        // Collect all available lines (not drawn yet)
-        val availableMoves = mutableListOf<Triple<Int, Int, Boolean>>()
-        val currentPointsForAi = currentPlayer.numberOfFieldsWon.value
         val gameWon: MutableState<Boolean> = mutableStateOf(false)
-        // Collect available horizontal lines
-        for (x in 0 until columns - 1) {
-            for (y in 0 until rows) {
-                if (!horizontalLines[x][y]) {
-                    availableMoves.add(Triple(x, y, true))
+        val availableMoves = mutableListOf<Triple<Int, Int, Boolean>>()
+
+        do {
+            // Collect available horizontal lines
+            for (x in 0 until columns - 1) {
+                for (y in 0 until rows) {
+                    if (!horizontalLines[x][y]) {
+                        availableMoves.add(Triple(x, y, true))
+                    }
                 }
             }
-        }
-
-        // Collect available vertical lines
-        for (x in 0 until columns) {
-            for (y in 0 until rows - 1) {
-                if (!verticalLines[x][y]) {
-                    availableMoves.add(Triple(x, y, false))
+            // Collect available vertical lines
+            for (x in 0 until columns) {
+                for (y in 0 until rows - 1) {
+                    if (!verticalLines[x][y]) {
+                        availableMoves.add(Triple(x, y, false))
+                    }
                 }
             }
-        }
 
-        if (availableMoves.isNotEmpty()) {
-            val randomMove = availableMoves.random()
-            val xAxis = randomMove.first
-            val yAxis = randomMove.second
-            val isHorizontal = randomMove.third
+            if (availableMoves.isNotEmpty()) {
+                val randomMove = availableMoves.random()
+                val xAxis = randomMove.first
+                val yAxis = randomMove.second
+                val isHorizontal = randomMove.third
 
-            do {
                 gameWon.value = buttonClicked(xAxis, yAxis, isHorizontal)
-            } while (currentPlayer.numberOfFieldsWon.value > currentPointsForAi)
 
-
-            if (gameWon.value) {
-                hasPlayerWon.value = true
+                if (gameWon.value) {
+                    hasPlayerWon.value = true
+                }
             }
-        }
+        } while (currentPlayer.typeOfPlayer.value == TypeOfPlayer.AI)
 
     }
 }
