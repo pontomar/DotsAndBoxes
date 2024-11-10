@@ -89,7 +89,11 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                 )
                 Text("Player 1", color = model.listOfPlayers[0].playerColor, fontSize = 20.sp)
                 Spacer(modifier.heightIn(15.dp))
-                Text(model.listOfPlayers[0].numberOfFieldsWon.value.toString(), color = model.listOfPlayers[0].playerColor, fontSize = 20.sp)
+                Text(
+                    model.listOfPlayers[0].numberOfFieldsWon.value.toString(),
+                    color = model.listOfPlayers[0].playerColor,
+                    fontSize = 20.sp
+                )
             }
             // Game Column
             Column(
@@ -119,7 +123,11 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                 )
                 Text("Player 2", color = model.listOfPlayers[1].playerColor, fontSize = 20.sp)
                 Spacer(modifier.heightIn(15.dp))
-                Text(model.listOfPlayers[1].numberOfFieldsWon.value.toString(), color = model.listOfPlayers[1].playerColor, fontSize = 20.sp)
+                Text(
+                    model.listOfPlayers[1].numberOfFieldsWon.value.toString(),
+                    color = model.listOfPlayers[1].playerColor,
+                    fontSize = 20.sp
+                )
 
             }
         }
@@ -220,7 +228,7 @@ fun DotsAndBoxesGameBoard(modifier: Modifier, model: GameStateViewModel) {
 
                     Button(
                         onClick = {
-                            showWinnerMessage.value = model.buttonClicked(i,j, true)
+                            showWinnerMessage.value = model.buttonClicked(i, j, true)
                         },
                         modifier = Modifier
                             .offset(x = xDp - buttonWidthDp / 2, y = yDp - buttonHeightDp / 2)
@@ -252,7 +260,7 @@ fun DotsAndBoxesGameBoard(modifier: Modifier, model: GameStateViewModel) {
 
                     Button(
                         onClick = {
-                            showWinnerMessage.value = model.buttonClicked(i,j, false)
+                            showWinnerMessage.value = model.buttonClicked(i, j, false)
                         },
                         modifier = Modifier
                             .offset(x = xDp - buttonWidthDp / 2, y = yDp - buttonHeightDp / 2)
@@ -270,10 +278,9 @@ fun DotsAndBoxesGameBoard(modifier: Modifier, model: GameStateViewModel) {
     }
 }
 
-
 @Composable
 fun MinimalDialog() {
-    Dialog(onDismissRequest = {  }) {
+    Dialog(onDismissRequest = { }) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
