@@ -68,10 +68,10 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
             typeOfPlayer = mutableStateOf(TypeOfPlayer.HUMAN)
         )
         val player2 = Player(
-            name = "Player2",
+            name = "God Of AI",
             playerColor = mutableStateOf(Color.Red),
             numberOfFieldsWon = mutableIntStateOf(0),
-            typeOfPlayer = mutableStateOf(TypeOfPlayer.HUMAN)
+            typeOfPlayer = mutableStateOf(TypeOfPlayer.AI)
 
         )
 
@@ -90,10 +90,10 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
             typeOfPlayer = mutableStateOf(TypeOfPlayer.HUMAN)
         )
         val player2 = Player(
-            name = "God of AI",
+            name = "Player2",
             playerColor = mutableStateOf(Color.Red),
             numberOfFieldsWon = mutableIntStateOf(0),
-            typeOfPlayer = mutableStateOf(TypeOfPlayer.AI)
+            typeOfPlayer = mutableStateOf(TypeOfPlayer.HUMAN)
         )
 
         listOfPlayers.add(player1)
