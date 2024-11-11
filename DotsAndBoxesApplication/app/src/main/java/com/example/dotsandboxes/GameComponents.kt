@@ -179,7 +179,7 @@ fun DotsAndBoxesGameBoard(
             }
         }
         if (model.hasPlayerWon.value) {
-            AlertDialogExample(
+            PopUpInfoForUser(
                 onDismissRequest = {
                     model.hasPlayerWon.value = false
                     navController.navigate("StartPage")
@@ -194,11 +194,27 @@ fun DotsAndBoxesGameBoard(
                 icon = Icons.Default.Info
             )
         }
+        if (model.isDraw.value) {
+            PopUpInfoForUser(
+                onDismissRequest = {
+                    model.isDraw.value = false
+                    navController.navigate("StartPage")
+                    model.resetGame()
+                },
+                onConfirmation = {
+                    model.isDraw.value = false
+                    model.resetGame()
+                },
+                dialogTitle = "New Game?",
+                dialogText = "None of You won the Game. Its a draw!",
+                icon = Icons.Default.Info
+            )
+        }
     }
 }
 
 @Composable
-fun AlertDialogExample(
+fun PopUpInfoForUser(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String,

@@ -17,6 +17,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
     var columns: Int = 5
     private val pointsToWinGame = (rows - 1) * (columns - 1) / 2 + 1
     var hasPlayerWon: MutableState<Boolean> = mutableStateOf(false)
+    var isDraw: MutableState<Boolean> = mutableStateOf(false)
 
     val positionOfPoints: MutableList<MutableList<Pair<MutableFloatState, MutableFloatState>>> =
         MutableList(columns) {
@@ -113,7 +114,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
                 if (boxesCompleted == 0) {
                     nextPlayer()
                 }
-
+                isDraw()
                 return hasPlayerWon()
             } else {
                 // Line already drawn
@@ -130,7 +131,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
                 if (boxesCompleted == 0) {
                     nextPlayer()
                 }
-
+                isDraw()
                 return hasPlayerWon()
             } else {
                 // Line already drawn
@@ -203,6 +204,15 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
 
     private fun hasPlayerWon(): Boolean {
         return currentPlayer.numberOfFieldsWon.value >= pointsToWinGame
+    }
+
+    private fun isDraw(): Boolean{
+        val numOfBoxes = (columns-1) * (rows-1)
+        if (listOfPlayers[0].numberOfFieldsWon.value == numOfBoxes / 2 && listOfPlayers[1].numberOfFieldsWon.value == numOfBoxes / 2){
+            isDraw.value = true
+        }
+
+        return isDraw.value
     }
 
 
