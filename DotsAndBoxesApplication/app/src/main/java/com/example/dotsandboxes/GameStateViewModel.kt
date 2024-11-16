@@ -61,7 +61,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun createPlayerForSinglePlayer() {
         val player1 = Player(
-            name = "Player1",
+            name = "Player 1",
             playerColor = mutableStateOf(Color.Green),
             numberOfFieldsWon = mutableIntStateOf(0),
             typeOfPlayer = mutableStateOf(TypeOfPlayer.HUMAN)
@@ -207,21 +207,17 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
 
 
     private fun nextPlayer() {
-        if (singlePlayerModus) {
-            if (currentPlayer == listOfPlayers[0]) {
-                currentPlayer = listOfPlayers[1]
-                clickButtonForAi()
-            } else {
-                currentPlayer = listOfPlayers[0]
-            }
+        currentPlayer = if (currentPlayer == listOfPlayers[0]) {
+            listOfPlayers[1]
         } else {
-            currentPlayer = if (currentPlayer == listOfPlayers[0]) {
-                listOfPlayers[1]
-            } else {
-                listOfPlayers[0]
-            }
+            listOfPlayers[0]
+        }
+
+        if (singlePlayerModus && currentPlayer == listOfPlayers[1]) {
+            clickButtonForAi()
         }
     }
+
 
     fun resetGame() {
         // Reset the number of fields won for each player
@@ -236,26 +232,10 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
             currentPlayer = Player()
         }
 
-        // Reset the state of horizontal lines
-        for (i in horizontalLines.indices) {
-            for (j in horizontalLines[i].indices) {
-                horizontalLines[i][j] = false
-            }
-        }
+        resetElement(horizontalLines, false)
+        resetElement(verticalLines, false)
+        resetElement(boxesOwned, -1)
 
-        // Reset the state of vertical lines
-        for (i in verticalLines.indices) {
-            for (j in verticalLines[i].indices) {
-                verticalLines[i][j] = false
-            }
-        }
-
-        // Reset ownership of boxes
-        for (i in boxesOwned.indices) {
-            for (j in boxesOwned[i].indices) {
-                boxesOwned[i][j] = -1
-            }
-        }
 
         // Reset horizontal button colors
         for (i in horizontalButtonColors.indices) {
@@ -308,5 +288,13 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
             }
         } while (currentPlayer.typeOfPlayer.value == TypeOfPlayer.AI)
 
+    }
+
+    private fun <T> resetElement(element: MutableList<MutableList<T>>, item: T) {
+        for (i in element.indices) {
+            for (j in element[i].indices) {
+                element[i][j] = item
+            }
+        }
     }
 }
