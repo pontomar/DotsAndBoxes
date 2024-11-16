@@ -84,13 +84,13 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun createPlayerForMultiPlayer() {
         val player1 = Player(
-            name = "Player1",
+            name = "Player 1",
             playerColor = mutableStateOf(Color.Green),
             numberOfFieldsWon = mutableIntStateOf(0),
             typeOfPlayer = mutableStateOf(TypeOfPlayer.HUMAN)
         )
         val player2 = Player(
-            name = "Player2",
+            name = "Player 2",
             playerColor = mutableStateOf(Color.Red),
             numberOfFieldsWon = mutableIntStateOf(0),
             typeOfPlayer = mutableStateOf(TypeOfPlayer.HUMAN)
