@@ -10,19 +10,14 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
@@ -179,7 +174,7 @@ fun DotsAndBoxesGameBoard(
             }
         }
         if (model.hasPlayerWon.value) {
-            AlertDialogExample(
+            PopUpInfoForUser(
                 onDismissRequest = {
                     model.hasPlayerWon.value = false
                     navController.navigate("StartPage")
@@ -194,47 +189,21 @@ fun DotsAndBoxesGameBoard(
                 icon = Icons.Default.Info
             )
         }
-    }
-}
-
-@Composable
-fun AlertDialogExample(
-    onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit,
-    dialogTitle: String,
-    dialogText: String,
-    icon: ImageVector,
-) {
-    AlertDialog(
-        icon = {
-            Icon(icon, contentDescription = "Example Icon")
-        },
-        title = {
-            Text(text = dialogTitle)
-        },
-        text = {
-            Text(text = dialogText)
-        },
-        onDismissRequest = {
-            onDismissRequest()
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onConfirmation()
-                }
-            ) {
-                Text("Confirm")
-            }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = {
-                    onDismissRequest()
-                }
-            ) {
-                Text("Dismiss")
-            }
+        if (model.isDraw.value) {
+            PopUpInfoForUser(
+                onDismissRequest = {
+                    model.isDraw.value = false
+                    navController.navigate("StartPage")
+                    model.resetGame()
+                },
+                onConfirmation = {
+                    model.isDraw.value = false
+                    model.resetGame()
+                },
+                dialogTitle = "New Game?",
+                dialogText = "None of You won the Game. Its a draw!",
+                icon = Icons.Default.Info
+            )
         }
-    )
+    }
 }
