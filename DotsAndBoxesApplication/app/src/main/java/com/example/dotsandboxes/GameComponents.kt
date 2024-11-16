@@ -117,9 +117,8 @@ fun DotsAndBoxesGameBoard(
                     val x2 = model.positionOfPoints[i + 1][j].first.floatValue
                     val xMid = (x1 + x2) / 2
                     val yMid = y1
-                    val buttonWidth = 170f
-                    val buttonHeight = 20f
-
+                    val buttonWidth = (x2 - x1)
+                    val buttonHeight = buttonWidth / 6
                     val xDp = with(density) { xMid.toDp() }
                     val yDp = with(density) { yMid.toDp() }
                     val buttonWidthDp = with(density) { buttonWidth.toDp() }
@@ -149,8 +148,8 @@ fun DotsAndBoxesGameBoard(
                     val y2 = model.positionOfPoints[i][j + 1].second.floatValue
                     val xMid = x1
                     val yMid = (y1 + y2) / 2
-                    val buttonWidth = 20f
-                    val buttonHeight = 170f
+                    val buttonHeight = y2 - y1
+                    val buttonWidth = buttonHeight / 6
 
                     val xDp = with(density) { xMid.toDp() }
                     val yDp = with(density) { yMid.toDp() }
