@@ -230,6 +230,10 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
 
 
     fun resetGame() {
+
+        rows = 5
+        columns = 5
+
         // Reset the number of fields won for each player
         for (player in listOfPlayers) {
             player.numberOfFieldsWon.value = 0

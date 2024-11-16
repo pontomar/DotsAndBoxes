@@ -17,11 +17,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
+
 @Composable
-fun InfoPage(modifier: Modifier = Modifier, navController: NavController) {
+fun InfoPage(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    model: GameStateViewModel
+) {
     val activity = LocalContext.current as? Activity
+
     DisposableEffect(Unit) {
         val originalOrientation = activity?.requestedOrientation
 
@@ -47,57 +55,96 @@ fun InfoPage(modifier: Modifier = Modifier, navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row {
-                Spacer(modifier)
+                Text(
+                    "How to Play the Game",
+                    color = Color.White,
+                    fontSize = 22.sp
+                )
             }
+            Spacer(modifier = modifier)
             Row {
                 Text(
-                    "Hier könnte Ihre Werbung stehen",
-                    color = Color.White
+                    "Try to gather as many points \nas possible by capturing boxes.",
+                    color = Color.White,
+                    fontSize = 15.sp,
+                    textAlign = TextAlign.Center
                 )
             }
 
+            Spacer(modifier = modifier)
+
             Row {
-                Column(
-                    verticalArrangement = Arrangement.Bottom,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = modifier
-                        .weight(1f)
-                        .fillMaxHeight()
-                ) {
-                    StartPageButton(
-                        emojiUnicode = "\uD83C\uDFE0",
-                        text = "Home",
-                        onClick = {
-                            navController.navigate("StartPage")
-                        },
-                        Arrangement.Bottom
-                    )
-                }
-                Column(
-                    verticalArrangement = Arrangement.Bottom,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = modifier
-                        .weight(0.5f)
-                        .fillMaxHeight()
-                ) {
-                    Spacer(modifier = modifier)
-                }
-                Column(
-                    verticalArrangement = Arrangement.Bottom,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = modifier
-                        .weight(1f)
-                        .fillMaxHeight()
-                ) {
-                    StartPageButton(
-                        emojiUnicode = "⚙\uFE0F",
-                        text = "Info",
-                        onClick = {
-                            navController.navigate("InfoPage")
-                        },
-                        Arrangement.Bottom
-                    )
-                }
+                Text(
+                    "Capture a box by closing it. \nTry it out:",
+                    color = Color.White,
+                    fontSize = 15.sp,
+                    textAlign = TextAlign.Center
+                )
+            }
+
+            Row(
+                modifier = modifier,
+                verticalAlignment = Alignment.Top
+
+            ) {
+                model.rows = 3
+                model.columns = 3
+                model.createPlayerForSinglePlayer()
+                model.buttonClicked(1, 1, true)
+                model.currentPlayer = model.listOfPlayers[1]
+                model.buttonClicked(1, 0, true)
+                model.buttonClicked(1, 0, false)
+                DotsAndBoxesScaffold(modifier, model, navController)
+            }
+        }
+        Row {
+            Column(
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+            ) {
+                StartPageButton(
+                    emojiUnicode = "\uD83C\uDFE0",
+                    text = "Home",
+                    onClick = {
+
+                        navController.navigate("StartPage")
+                        model.resetGame()
+                    },
+                    Arrangement.Bottom
+                )
+            }
+
+            //TODO: Add logic, that once the user captures a box, it gets confirmed
+            // with something like "You got it. Now you're ready to play!"
+
+            Column(
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = modifier
+                    .weight(0.5f)
+                    .fillMaxHeight()
+            ) {
+                Spacer(modifier = modifier)
+            }
+            Column(
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+            ) {
+                StartPageButton(
+                    emojiUnicode = "⚙\uFE0F",
+                    text = "Info",
+                    onClick = {
+                        navController.navigate("InfoPage")
+                        model.resetGame()
+                    },
+                    Arrangement.Bottom
+                )
             }
         }
     }
