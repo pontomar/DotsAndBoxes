@@ -1,5 +1,4 @@
 package com.example.dotsandboxes
-
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -14,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -22,14 +22,23 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.dotsandboxes.GameButton
+import com.example.dotsandboxes.GameStateViewModel
+import com.example.dotsandboxes.InfoPage
+import com.example.dotsandboxes.MultiPlayerPage
+import com.example.dotsandboxes.SinglePlayerPage
+import com.example.dotsandboxes.StartPageButton
 import com.example.dotsandboxes.ui.theme.DotsAndBoxesTheme
 
 class MainActivity : ComponentActivity() {
@@ -101,136 +110,125 @@ fun StartPage(modifier: Modifier = Modifier, navController: NavController) {
     }
 
     Box(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
+            .then(responsivePadding())
     ) {
         Column(
-            modifier
-                .matchParentSize()
-                .fillMaxHeight(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+            modifier.matchParentSize(),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
+
+            ) {
             Row {
-                Spacer(modifier)
+                Spacer(modifier = modifier)
+                Spacer(modifier = modifier)
             }
-            Row() {
+            Row(
+                horizontalArrangement = Arrangement.Center
+            ) {
                 Text(
-                    text = "Dots And Boxes",
+                    text = "Dots\nAnd\nBoxes",
                     color = Color.White,
                     fontSize = 50.sp,
-                    fontWeight = FontWeight.Bold
+                    minLines = 3,
+                    letterSpacing = 1.1.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    lineHeight = 50.sp
+
                 )
+            }
+            Row {
+                Spacer(modifier = modifier)
             }
             Row() {
                 Column(
-                    verticalArrangement = Arrangement.Bottom,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = modifier
-                        .weight(1f)
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Spacer(modifier = modifier)
-                }
-                Column(
-                    verticalArrangement = Arrangement.Bottom,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = modifier
-                        .weight(2f)
-                ) {
+
                     GameButton(
                         text = "Single Player",
-                        modifier = modifier,
+                        modifier = modifier.padding(vertical = 2.dp),
                         onClick = {
                             navController.navigate("SinglePlayerPage")
                         })
-                }
-                Column(
-                    verticalArrangement = Arrangement.Bottom,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = modifier
-                        .weight(1f)
-                ) {
-                    Spacer(modifier = modifier)
-                }
 
-            }
-            Row() {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = modifier
-                        .weight(1f)
-                ) {
-                    Spacer(modifier = modifier)
-                }
-                Column(
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = modifier
-                        .weight(2f)
-                ) {
                     GameButton(
                         text = "Multiplayer",
                         modifier = modifier,
                         onClick = {
                             navController.navigate("MultiPlayerPage")
-                        })
-                }
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = modifier
-                        .weight(1f)
-                ) {
-                    Spacer(modifier = modifier)
+                        },
+                    )
+                    Spacer(modifier = Modifier.height(50.dp))
                 }
             }
-            Row() {
-                Column(
-                    verticalArrangement = Arrangement.Bottom,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = modifier
-                        .weight(1f)
-                        .fillMaxHeight()
-                ) {
-                    StartPageButton(
-                        emojiUnicode = "\uD83C\uDFE0",
-                        text = "Home",
-                        onClick = {
-                            navController.navigate("StartPage")
-                        },
-                        Arrangement.Bottom
-                    )
-                }
-                Column(
-                    verticalArrangement = Arrangement.Bottom,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = modifier
-                        .weight(0.5f)
-                        .fillMaxHeight()
-                ) {
-                    Spacer(modifier = modifier)
-                }
-                Column(
-                    verticalArrangement = Arrangement.Bottom,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = modifier
-                        .weight(1f)
-                        .fillMaxHeight()
-                ) {
-                    StartPageButton(
-                        emojiUnicode = "⚙\uFE0F",
-                        text = "Info",
-                        onClick = {
-                            navController.navigate("InfoPage")
-                        },
-                        Arrangement.Bottom
-                    )
-                }
+        }
+
+        Row() {
+            Spacer(modifier = Modifier.height(50.dp))
+            Column(
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+            ) {
+                StartPageButton(
+                    emojiUnicode = "\uD83C\uDFE0",
+                    text = "Home",
+                    onClick = {
+                        navController.navigate("StartPage")
+                    },
+                    Arrangement.Bottom
+                )
+            }
+            Column(
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = modifier
+                    .weight(0.5f)
+                    .fillMaxHeight()
+            ) {
+
+            }
+            Column(
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+            ) {
+                StartPageButton(
+                    emojiUnicode = "⚙\uFE0F",
+                    text = "Info",
+                    onClick = {
+                        navController.navigate("InfoPage")
+                    },
+                    Arrangement.Bottom
+                )
+
             }
         }
     }
 }
 
+@Composable
+fun responsivePadding(): Modifier {
+    val config = LocalConfiguration.current
+    val horizontalPaddingValues = when {
+        config.screenWidthDp < 600 -> 30.dp
+        config.screenWidthDp < 840 -> 40.dp
+        else -> 50.dp
+    }
 
-
+    val verticalPaddingValues = when {
+        config.screenWidthDp < 600 -> 10.dp
+        config.screenWidthDp < 840 -> 40.dp
+        else -> 50.dp
+    }
+    return Modifier.padding(horizontalPaddingValues, verticalPaddingValues)
+}
