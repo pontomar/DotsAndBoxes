@@ -33,12 +33,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.dotsandboxes.GameButton
-import com.example.dotsandboxes.GameStateViewModel
-import com.example.dotsandboxes.InfoPage
-import com.example.dotsandboxes.MultiPlayerPage
-import com.example.dotsandboxes.SinglePlayerPage
-import com.example.dotsandboxes.StartPageButton
 import com.example.dotsandboxes.ui.theme.DotsAndBoxesTheme
 
 class MainActivity : ComponentActivity() {
