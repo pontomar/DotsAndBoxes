@@ -1,8 +1,10 @@
-package com.example.dotsandboxes
+package com.example.dotsandboxes.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -17,6 +19,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.dotsandboxes.model.Player
+import com.github.skydoves.colorpicker.compose.ColorEnvelope
+import com.github.skydoves.colorpicker.compose.HsvColorPicker
+import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 
 @Composable
 fun StartPageButton(
@@ -94,6 +100,22 @@ fun PopUpInfoForUser(
             ) {
                 Text("Dismiss")
             }
+        }
+    )
+}
+
+@Composable
+fun ColorPicker(player: Player){
+    val controller = rememberColorPickerController()
+
+    HsvColorPicker(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(450.dp)
+            .padding(10.dp),
+        controller = controller,
+        onColorChanged = { colorEnvelope: ColorEnvelope ->
+            player.playerColor.value = colorEnvelope.color
         }
     )
 }

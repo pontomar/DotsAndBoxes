@@ -1,4 +1,4 @@
-package com.example.dotsandboxes
+package com.example.dotsandboxes.view
 
 import android.app.Activity
 import android.content.pm.ActivityInfo
@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.dotsandboxes.viewModel.GameStateViewModel
 
 
 @Composable
