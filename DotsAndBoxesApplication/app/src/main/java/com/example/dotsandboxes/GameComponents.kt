@@ -108,7 +108,7 @@ fun DotsAndBoxesGameBoard(
             }
 
         }
-        Box {
+        Box(modifier.matchParentSize()) {
             // Draw horizontal buttons
             for (i in 0 until model.columns - 1) {
                 for (j in 0 until model.rows) {
