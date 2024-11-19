@@ -89,7 +89,7 @@ fun InfoPage(
             ) {
                 model.rows = 3
                 model.columns = 3
-                model.createPlayerForSinglePlayer()
+                model.createPlayerForMultiPlayer()
                 model.buttonClicked(1, 1, true)
                 model.currentPlayer = model.listOfPlayers[1]
                 model.buttonClicked(1, 0, true)
