@@ -1,4 +1,4 @@
-package com.example.dotsandboxes
+package com.example.dotsandboxes.view
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -33,6 +33,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.dotsandboxes.viewModel.GameStateViewModel
 import com.example.dotsandboxes.ui.theme.DotsAndBoxesTheme
 
 class MainActivity : ComponentActivity() {

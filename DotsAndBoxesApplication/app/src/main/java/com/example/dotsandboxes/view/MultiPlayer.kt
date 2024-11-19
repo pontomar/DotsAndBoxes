@@ -1,8 +1,9 @@
-package com.example.dotsandboxes
+package com.example.dotsandboxes.view
 
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,9 +23,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.dotsandboxes.viewModel.GameStateViewModel
 
 @Composable
-fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: GameStateViewModel) {
+fun MultiPlayerPage(modifier: Modifier, navController: NavController, model: GameStateViewModel) {
 
     val activity = LocalContext.current as? Activity
     DisposableEffect(Unit) {
@@ -77,14 +79,18 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                     )
                 }
                 Row(
-                    modifier.weight(1f)
+                    modifier
+                        .weight(1.5f)
+                        .clickable {
+                            model.showPlayerInfo(model.listOfPlayers[0])
+                        }
                 ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Top
                     ) {
                         Text(
-                            model.listOfPlayers[0].name,
+                            model.listOfPlayers[0].name.value,
                             color = model.listOfPlayers[0].playerColor.value,
                             fontSize = 20.sp
                         )
@@ -94,6 +100,8 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                             color = model.listOfPlayers[0].playerColor.value,
                             fontSize = 20.sp
                         )
+                        Spacer(modifier.heightIn(15.dp))
+                        ColorPicker(model.listOfPlayers[0])
                     }
                 }
             }
@@ -135,14 +143,18 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                     )
                 }
                 Row(
-                    modifier.weight(1f)
+                    modifier
+                        .weight(1.5f)
+                        .clickable {
+                            model.showPlayerInfo(model.listOfPlayers[1])
+                        }
                 ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Top
+                        verticalArrangement = Arrangement.Top,
                     ) {
                         Text(
-                            model.listOfPlayers[1].name,
+                            model.listOfPlayers[1].name.value,
                             color = model.listOfPlayers[1].playerColor.value,
                             fontSize = 20.sp
                         )
@@ -152,12 +164,13 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                             color = model.listOfPlayers[1].playerColor.value,
                             fontSize = 20.sp
                         )
+                        Spacer(modifier.heightIn(15.dp))
+                        ColorPicker(model.listOfPlayers[1])
                     }
                 }
             }
         }
     }
 }
-
 
 

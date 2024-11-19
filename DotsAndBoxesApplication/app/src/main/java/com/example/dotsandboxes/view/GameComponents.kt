@@ -1,4 +1,4 @@
-package com.example.dotsandboxes
+package com.example.dotsandboxes.view
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -10,8 +10,11 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +25,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.dotsandboxes.viewModel.GameStateViewModel
 import kotlin.math.max
 
 @Composable
@@ -184,7 +188,7 @@ fun DotsAndBoxesGameBoard(
                     model.resetGame()
                 },
                 dialogTitle = "New Game?",
-                dialogText = model.currentPlayer.name + " has won the game",
+                dialogText = model.currentPlayer.name.value + " has won the game",
                 icon = Icons.Default.Info
             )
         }
@@ -203,6 +207,42 @@ fun DotsAndBoxesGameBoard(
                 dialogText = "None of You won the Game. Its a draw!",
                 icon = Icons.Default.Info
             )
+        }
+        if (model.showPlayerInfoPopUp.value) {
+
+            AlertDialog(
+                onDismissRequest = { model.showPlayerInfoPopUp.value = false },
+                title = {
+                    Text(text = "Edit Player Info")
+                },
+                text = {
+                    Column {
+                        // Input field for Player Name
+                        TextField(
+                            value = model.selectedPlayer.name.value,
+                            onValueChange = { newName ->
+                                model.selectedPlayer.name.value = newName
+                            },
+                            label = { Text("Player Name") }
+                        )
+                    }
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            model.showPlayerInfoPopUp.value = false
+                        }
+                    ) {
+                        Text("Save")
+                    }
+                },
+                dismissButton = {
+                    Button(onClick = { model.showPlayerInfoPopUp.value = false }) {
+                        Text("Cancel")
+                    }
+                }
+            )
+
         }
     }
 }

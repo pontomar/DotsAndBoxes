@@ -1,6 +1,8 @@
-package com.example.dotsandboxes
+package com.example.dotsandboxes.viewModel
 
+import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Context
 import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableFloatStateOf
@@ -8,8 +10,16 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.AndroidViewModel
+import com.example.dotsandboxes.model.Player
+import com.example.dotsandboxes.model.TypeOfPlayer
 
 class GameStateViewModel(application: Application) : AndroidViewModel(application) {
+
+    @SuppressLint("StaticFieldLeak")
+    private val context = getApplication<Application>().applicationContext
+    private val playersInformationSharedPreferences =
+        context.getSharedPreferences("prefsfile", Context.MODE_PRIVATE)
+
     var listOfPlayers: MutableList<Player> = mutableListOf()
     var currentPlayer: Player = Player()
     var singlePlayerModus: Boolean = false
@@ -62,13 +72,13 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun createPlayerForSinglePlayer() {
         val player1 = Player(
-            name = "Player 1",
+            name = mutableStateOf("Player 1"),
             playerColor = mutableStateOf(Color.Green),
             numberOfFieldsWon = mutableIntStateOf(0),
             typeOfPlayer = mutableStateOf(TypeOfPlayer.HUMAN)
         )
         val player2 = Player(
-            name = "God Of AI",
+            name = mutableStateOf("God Of AI"),
             playerColor = mutableStateOf(Color.Red),
             numberOfFieldsWon = mutableIntStateOf(0),
             typeOfPlayer = mutableStateOf(TypeOfPlayer.AI)
@@ -84,13 +94,13 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun createPlayerForMultiPlayer() {
         val player1 = Player(
-            name = "Player 1",
+            name = mutableStateOf("Player 1"),
             playerColor = mutableStateOf(Color.Green),
             numberOfFieldsWon = mutableIntStateOf(0),
             typeOfPlayer = mutableStateOf(TypeOfPlayer.HUMAN)
         )
         val player2 = Player(
-            name = "Player 2",
+            name = mutableStateOf("Player 2"),
             playerColor = mutableStateOf(Color.Red),
             numberOfFieldsWon = mutableIntStateOf(0),
             typeOfPlayer = mutableStateOf(TypeOfPlayer.HUMAN)
@@ -99,7 +109,39 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
         listOfPlayers.add(player1)
         listOfPlayers.add(player2)
 
+        savePlayersToPreferences(listOfPlayers[0], listOfPlayers[1])
+
         currentPlayer = listOfPlayers[0]
+    }
+
+    private fun savePlayersToPreferences(
+        player1: Player,
+        player2: Player,
+    ) {
+        val editor = playersInformationSharedPreferences.edit()
+
+        // Save Player 1 data
+        editor.putString("player1_name", player1.name.value)
+        editor.putString(
+            "player1_color",
+            player1.playerColor.value.toString()
+        ) // Convert Color to String
+
+        // Save Player 2 data
+        editor.putString("player2_name", player2.name.value)
+        editor.putString(
+            "player2_color",
+            player2.playerColor.value.toString()
+        ) // Convert Color to String
+
+        editor.apply() // Commit changes
+    }
+
+    var selectedPlayer: Player = Player()
+    var showPlayerInfoPopUp: MutableState<Boolean> = mutableStateOf(false)
+    fun showPlayerInfo(player: Player){
+        selectedPlayer = player
+        showPlayerInfoPopUp.value = true
     }
 
     fun buttonClicked(xAxis: Int, yAxis: Int, isHorizontal: Boolean): Boolean {
