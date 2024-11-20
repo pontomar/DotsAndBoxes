@@ -82,7 +82,7 @@ fun MultiPlayerPage(modifier: Modifier, navController: NavController, model: Gam
                     modifier
                         .weight(1.5f)
                         .clickable {
-                            model.showPlayerInfo(model.listOfPlayers[0])
+                            model.playerManager.showPlayerInfo(model.playerManager.listOfPlayers[0])
                         }
                 ) {
                     Column(
@@ -90,18 +90,18 @@ fun MultiPlayerPage(modifier: Modifier, navController: NavController, model: Gam
                         verticalArrangement = Arrangement.Top
                     ) {
                         Text(
-                            model.listOfPlayers[0].name.value,
-                            color = model.listOfPlayers[0].playerColor.value,
+                            model.playerManager.listOfPlayers[0].name.value,
+                            color = model.playerManager.listOfPlayers[0].playerColor.value,
                             fontSize = 20.sp
                         )
                         Spacer(modifier.heightIn(15.dp))
                         Text(
-                            model.listOfPlayers[0].numberOfFieldsWon.value.toString(),
-                            color = model.listOfPlayers[0].playerColor.value,
+                            model.playerManager.listOfPlayers[0].numberOfFieldsWon.value.toString(),
+                            color = model.playerManager.listOfPlayers[0].playerColor.value,
                             fontSize = 20.sp
                         )
                         Spacer(modifier.heightIn(15.dp))
-                        ColorPicker(model.listOfPlayers[0])
+                        ColorPicker(model.playerManager.listOfPlayers[0])
                     }
                 }
             }
@@ -146,7 +146,7 @@ fun MultiPlayerPage(modifier: Modifier, navController: NavController, model: Gam
                     modifier
                         .weight(1.5f)
                         .clickable {
-                            model.showPlayerInfo(model.listOfPlayers[1])
+                            model.playerManager.showPlayerInfo(model.playerManager.listOfPlayers[1])
                         }
                 ) {
                     Column(
@@ -154,18 +154,18 @@ fun MultiPlayerPage(modifier: Modifier, navController: NavController, model: Gam
                         verticalArrangement = Arrangement.Top,
                     ) {
                         Text(
-                            model.listOfPlayers[1].name.value,
-                            color = model.listOfPlayers[1].playerColor.value,
+                            model.playerManager.listOfPlayers[1].name.value,
+                            color = model.playerManager.listOfPlayers[1].playerColor.value,
                             fontSize = 20.sp
                         )
                         Spacer(modifier.heightIn(15.dp))
                         Text(
-                            model.listOfPlayers[1].numberOfFieldsWon.value.toString(),
-                            color = model.listOfPlayers[1].playerColor.value,
+                            model.playerManager.listOfPlayers[1].numberOfFieldsWon.value.toString(),
+                            color = model.playerManager.listOfPlayers[1].playerColor.value,
                             fontSize = 20.sp
                         )
                         Spacer(modifier.heightIn(15.dp))
-                        ColorPicker(model.listOfPlayers[1])
+                        ColorPicker(model.playerManager.listOfPlayers[1])
                     }
                 }
             }

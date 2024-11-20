@@ -85,14 +85,14 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                         verticalArrangement = Arrangement.Top
                     ) {
                         Text(
-                            model.listOfPlayers[0].name.value,
-                            color = model.listOfPlayers[0].playerColor.value,
+                            model.playerManager.listOfPlayers[0].name.value,
+                            color = model.playerManager.listOfPlayers[0].playerColor.value,
                             fontSize = 20.sp
                         )
                         Spacer(modifier.heightIn(15.dp))
                         Text(
-                            model.listOfPlayers[0].numberOfFieldsWon.value.toString(),
-                            color = model.listOfPlayers[0].playerColor.value,
+                            model.playerManager.listOfPlayers[0].numberOfFieldsWon.value.toString(),
+                            color = model.playerManager.listOfPlayers[0].playerColor.value,
                             fontSize = 20.sp
                         )
                     }
@@ -143,14 +143,14 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                         verticalArrangement = Arrangement.Top
                     ) {
                         Text(
-                            model.listOfPlayers[1].name.value,
-                            color = model.listOfPlayers[1].playerColor.value,
+                            model.playerManager.listOfPlayers[1].name.value,
+                            color = model.playerManager.listOfPlayers[1].playerColor.value,
                             fontSize = 20.sp
                         )
                         Spacer(modifier.heightIn(15.dp))
                         Text(
-                            model.listOfPlayers[1].numberOfFieldsWon.value.toString(),
-                            color = model.listOfPlayers[1].playerColor.value,
+                            model.playerManager.listOfPlayers[1].numberOfFieldsWon.value.toString(),
+                            color = model.playerManager.listOfPlayers[1].playerColor.value,
                             fontSize = 20.sp
                         )
                     }

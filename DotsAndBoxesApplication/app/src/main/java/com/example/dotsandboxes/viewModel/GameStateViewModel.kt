@@ -2,26 +2,22 @@ package com.example.dotsandboxes.viewModel
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.content.Context
 import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.AndroidViewModel
+import com.example.dotsandboxes.controller.PlayerManager
 import com.example.dotsandboxes.model.Player
 import com.example.dotsandboxes.model.TypeOfPlayer
 
 class GameStateViewModel(application: Application) : AndroidViewModel(application) {
-
     @SuppressLint("StaticFieldLeak")
     private val context = getApplication<Application>().applicationContext
-    private val playersInformationSharedPreferences =
-        context.getSharedPreferences("prefsfile", Context.MODE_PRIVATE)
 
-    var listOfPlayers: MutableList<Player> = mutableListOf()
-    var currentPlayer: Player = Player()
+    var playerManager: PlayerManager = PlayerManager(context)
+
     var singlePlayerModus: Boolean = false
     var rows: Int = 5
     var columns: Int = 5
@@ -70,88 +66,16 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
             }
         }
 
-    fun createPlayerForSinglePlayer() {
-        val player1 = Player(
-            name = mutableStateOf("Player 1"),
-            playerColor = mutableStateOf(Color.Green),
-            numberOfFieldsWon = mutableIntStateOf(0),
-            typeOfPlayer = mutableStateOf(TypeOfPlayer.HUMAN)
-        )
-        val player2 = Player(
-            name = mutableStateOf("God Of AI"),
-            playerColor = mutableStateOf(Color.Red),
-            numberOfFieldsWon = mutableIntStateOf(0),
-            typeOfPlayer = mutableStateOf(TypeOfPlayer.AI)
 
-        )
-
-        listOfPlayers.add(player1)
-        listOfPlayers.add(player2)
-
-        currentPlayer = listOfPlayers[0]
-
-    }
-
-    fun createPlayerForMultiPlayer() {
-        val player1 = Player(
-            name = mutableStateOf("Player 1"),
-            playerColor = mutableStateOf(Color.Green),
-            numberOfFieldsWon = mutableIntStateOf(0),
-            typeOfPlayer = mutableStateOf(TypeOfPlayer.HUMAN)
-        )
-        val player2 = Player(
-            name = mutableStateOf("Player 2"),
-            playerColor = mutableStateOf(Color.Red),
-            numberOfFieldsWon = mutableIntStateOf(0),
-            typeOfPlayer = mutableStateOf(TypeOfPlayer.HUMAN)
-        )
-
-        listOfPlayers.add(player1)
-        listOfPlayers.add(player2)
-
-        savePlayersToPreferences(listOfPlayers[0], listOfPlayers[1])
-
-        currentPlayer = listOfPlayers[0]
-    }
-
-    private fun savePlayersToPreferences(
-        player1: Player,
-        player2: Player,
-    ) {
-        val editor = playersInformationSharedPreferences.edit()
-
-        // Save Player 1 data
-        editor.putString("player1_name", player1.name.value)
-        editor.putString(
-            "player1_color",
-            player1.playerColor.value.toString()
-        ) // Convert Color to String
-
-        // Save Player 2 data
-        editor.putString("player2_name", player2.name.value)
-        editor.putString(
-            "player2_color",
-            player2.playerColor.value.toString()
-        ) // Convert Color to String
-
-        editor.apply() // Commit changes
-    }
-
-    var selectedPlayer: Player = Player()
-    var showPlayerInfoPopUp: MutableState<Boolean> = mutableStateOf(false)
-    fun showPlayerInfo(player: Player){
-        selectedPlayer = player
-        showPlayerInfoPopUp.value = true
-    }
 
     fun buttonClicked(xAxis: Int, yAxis: Int, isHorizontal: Boolean): Boolean {
         if (isHorizontal) {
             if (!horizontalLines[xAxis][yAxis]) {
                 horizontalLines[xAxis][yAxis] = true
-                horizontalButtonColors[xAxis][yAxis].value = currentPlayer.playerColor.value
+                horizontalButtonColors[xAxis][yAxis].value = playerManager.currentPlayer.playerColor.value
 
                 val boxesCompleted = checkForCompletedBoxes(xAxis, yAxis, isHorizontal)
-                currentPlayer.numberOfFieldsWon.value += boxesCompleted
+                playerManager.currentPlayer.numberOfFieldsWon.value += boxesCompleted
 
                 if (boxesCompleted == 0) {
                     nextPlayer()
@@ -165,10 +89,10 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
         } else {
             if (!verticalLines[xAxis][yAxis]) {
                 verticalLines[xAxis][yAxis] = true
-                verticalButtonColors[xAxis][yAxis].value = currentPlayer.playerColor.value
+                verticalButtonColors[xAxis][yAxis].value = playerManager.currentPlayer.playerColor.value
 
                 val boxesCompleted = checkForCompletedBoxes(xAxis, yAxis, isHorizontal)
-                currentPlayer.numberOfFieldsWon.value += boxesCompleted
+                playerManager.currentPlayer.numberOfFieldsWon.value += boxesCompleted
 
                 if (boxesCompleted == 0) {
                     nextPlayer()
@@ -194,7 +118,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
                     horizontalLines[xAxis][yAxis]
                 ) {
                     if (boxesOwned[xAxis][yAxis - 1] == -1) {
-                        boxesOwned[xAxis][yAxis - 1] = listOfPlayers.indexOf(currentPlayer)
+                        boxesOwned[xAxis][yAxis - 1] = playerManager.listOfPlayers.indexOf(playerManager.currentPlayer)
                         boxesCompleted++
                     }
                 }
@@ -207,7 +131,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
                     horizontalLines[xAxis][yAxis]
                 ) {
                     if (boxesOwned[xAxis][yAxis] == -1) {
-                        boxesOwned[xAxis][yAxis] = listOfPlayers.indexOf(currentPlayer)
+                        boxesOwned[xAxis][yAxis] = playerManager.listOfPlayers.indexOf(playerManager.currentPlayer)
                         boxesCompleted++
                     }
                 }
@@ -221,7 +145,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
                     verticalLines[xAxis][yAxis]
                 ) {
                     if (boxesOwned[xAxis - 1][yAxis] == -1) {
-                        boxesOwned[xAxis - 1][yAxis] = listOfPlayers.indexOf(currentPlayer)
+                        boxesOwned[xAxis - 1][yAxis] = playerManager.listOfPlayers.indexOf(playerManager.currentPlayer)
                         boxesCompleted++
                     }
                 }
@@ -234,7 +158,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
                     verticalLines[xAxis][yAxis]
                 ) {
                     if (boxesOwned[xAxis][yAxis] == -1) {
-                        boxesOwned[xAxis][yAxis] = listOfPlayers.indexOf(currentPlayer)
+                        boxesOwned[xAxis][yAxis] = playerManager.listOfPlayers.indexOf(playerManager.currentPlayer)
                         boxesCompleted++
                     }
                 }
@@ -245,12 +169,12 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     private fun hasPlayerWon(): Boolean {
-        return currentPlayer.numberOfFieldsWon.value >= pointsToWinGame
+        return playerManager.currentPlayer.numberOfFieldsWon.value >= pointsToWinGame
     }
 
-    private fun isDraw(): Boolean{
-        val numOfBoxes = (columns-1) * (rows-1)
-        if (listOfPlayers[0].numberOfFieldsWon.value == numOfBoxes / 2 && listOfPlayers[1].numberOfFieldsWon.value == numOfBoxes / 2){
+    private fun isDraw(): Boolean {
+        val numOfBoxes = (columns - 1) * (rows - 1)
+        if (playerManager.listOfPlayers[0].numberOfFieldsWon.value == numOfBoxes / 2 && playerManager.listOfPlayers[1].numberOfFieldsWon.value == numOfBoxes / 2) {
             isDraw.value = true
         }
 
@@ -259,13 +183,13 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
 
 
     private fun nextPlayer() {
-        currentPlayer = if (currentPlayer == listOfPlayers[0]) {
-            listOfPlayers[1]
+        playerManager.currentPlayer = if (playerManager.currentPlayer == playerManager.listOfPlayers[0]) {
+            playerManager.listOfPlayers[1]
         } else {
-            listOfPlayers[0]
+            playerManager.listOfPlayers[0]
         }
 
-        if (singlePlayerModus && currentPlayer == listOfPlayers[1]) {
+        if (singlePlayerModus && playerManager.currentPlayer == playerManager.listOfPlayers[1]) {
             clickButtonForAi()
         }
     }
@@ -277,15 +201,15 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
         columns = 5
 
         // Reset the number of fields won for each player
-        for (player in listOfPlayers) {
+        for (player in playerManager.listOfPlayers) {
             player.numberOfFieldsWon.value = 0
         }
 
         // Reset current player to the first player
-        if (listOfPlayers.isNotEmpty()) {
-            currentPlayer = listOfPlayers[0]
+        if (playerManager.listOfPlayers.isNotEmpty()) {
+            playerManager.currentPlayer = playerManager.listOfPlayers[0]
         } else {
-            currentPlayer = Player()
+            playerManager.currentPlayer = Player()
         }
 
         resetElement(horizontalLines, false)
@@ -342,7 +266,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
                     hasPlayerWon.value = true
                 }
             }
-        } while (currentPlayer.typeOfPlayer.value == TypeOfPlayer.AI)
+        } while (playerManager.currentPlayer.typeOfPlayer.value == TypeOfPlayer.AI)
 
     }
 

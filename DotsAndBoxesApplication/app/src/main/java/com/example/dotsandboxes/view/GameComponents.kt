@@ -96,7 +96,7 @@ fun DotsAndBoxesGameBoard(
                 for (j in 0 until model.rows - 1) {
                     val ownerIndex = model.boxesOwned[i][j]
                     if (ownerIndex != -1) {
-                        val playerColor = model.listOfPlayers[ownerIndex].playerColor
+                        val playerColor = model.playerManager.listOfPlayers[ownerIndex].playerColor
                         val x1 = model.positionOfPoints[i][j].first.floatValue
                         val y1 = model.positionOfPoints[i][j].second.floatValue
                         val size = spacing
@@ -188,7 +188,7 @@ fun DotsAndBoxesGameBoard(
                     model.resetGame()
                 },
                 dialogTitle = "New Game?",
-                dialogText = model.currentPlayer.name.value + " has won the game",
+                dialogText = model.playerManager.currentPlayer.name.value + " has won the game",
                 icon = Icons.Default.Info
             )
         }
@@ -208,10 +208,10 @@ fun DotsAndBoxesGameBoard(
                 icon = Icons.Default.Info
             )
         }
-        if (model.showPlayerInfoPopUp.value) {
+        if (model.playerManager.showPlayerInfoPopUp.value) {
 
             AlertDialog(
-                onDismissRequest = { model.showPlayerInfoPopUp.value = false },
+                onDismissRequest = { model.playerManager.showPlayerInfoPopUp.value = false },
                 title = {
                     Text(text = "Edit Player Info")
                 },
@@ -219,9 +219,12 @@ fun DotsAndBoxesGameBoard(
                     Column {
                         // Input field for Player Name
                         TextField(
-                            value = model.selectedPlayer.name.value,
+                            value = model.playerManager.selectedPlayer.name.value,
                             onValueChange = { newName ->
-                                model.selectedPlayer.name.value = newName
+                                model.playerManager.selectedPlayer.name.value = newName
+                                model.playerManager.savePlayersToPreferences(
+                                    model.playerManager.selectedPlayer
+                                )
                             },
                             label = { Text("Player Name") }
                         )
@@ -230,14 +233,14 @@ fun DotsAndBoxesGameBoard(
                 confirmButton = {
                     Button(
                         onClick = {
-                            model.showPlayerInfoPopUp.value = false
+                            model.playerManager.showPlayerInfoPopUp.value = false
                         }
                     ) {
                         Text("Save")
                     }
                 },
                 dismissButton = {
-                    Button(onClick = { model.showPlayerInfoPopUp.value = false }) {
+                    Button(onClick = { model.playerManager.showPlayerInfoPopUp.value = false }) {
                         Text("Cancel")
                     }
                 }

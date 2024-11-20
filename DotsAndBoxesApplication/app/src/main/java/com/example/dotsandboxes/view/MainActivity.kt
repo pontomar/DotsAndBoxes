@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("MultiPlayerPage") {
                             model.resetGame()
-                            model.createPlayerForMultiPlayer()
+                            model.playerManager.createPlayerForMultiPlayer()
                             model.singlePlayerModus = false
                             MultiPlayerPage(
                                 modifier = Modifier,
@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("SinglePlayerPage") {
                             model.resetGame()
-                            model.createPlayerForSinglePlayer()
+                            model.playerManager.createPlayerForSinglePlayer()
                             model.singlePlayerModus = true
                             SinglePlayerPage(
                                 modifier = Modifier,
