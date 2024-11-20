@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.AndroidViewModel
+import com.example.dotsandboxes.controller.GameStateManager
 import com.example.dotsandboxes.controller.PlayerManager
 import com.example.dotsandboxes.model.Player
 import com.example.dotsandboxes.model.TypeOfPlayer
@@ -17,64 +18,45 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
     private val context = getApplication<Application>().applicationContext
 
     var playerManager: PlayerManager = PlayerManager(context)
+    var gameStateManager: GameStateManager = GameStateManager(rows = 5, columns = 5, playerManager)
 
     var singlePlayerModus: Boolean = false
-    var rows: Int = 5
-    var columns: Int = 5
-    private val pointsToWinGame = (rows - 1) * (columns - 1) / 2 + 1
+
+    private val pointsToWinGame = (gameStateManager.rows.intValue - 1) * (gameStateManager.columns.intValue - 1) / 2 + 1
     var hasPlayerWon: MutableState<Boolean> = mutableStateOf(false)
     var isDraw: MutableState<Boolean> = mutableStateOf(false)
 
     val positionOfPoints: MutableList<MutableList<Pair<MutableFloatState, MutableFloatState>>> =
-        MutableList(columns) {
-            MutableList(rows) {
+        MutableList(gameStateManager.columns.intValue) {
+            MutableList(gameStateManager.rows.intValue) {
                 Pair(mutableFloatStateOf(0f), mutableFloatStateOf(0f))
             }
         }
 
-    // Store the state of the horizontal and vertical lines
-    private val horizontalLines = MutableList(columns) {
-        MutableList(rows + 1) {
-            false
-        }
-    }
-    private val verticalLines = MutableList(columns + 1) {
-        MutableList(rows) {
-            false
-        }
-    }
 
-    // Store the ownership of boxes
-    val boxesOwned = MutableList(columns - 1) {
-        MutableList(rows - 1) {
-            -1
-        }
-    }
 
     // State variables for button colors
     val horizontalButtonColors =
-        MutableList(columns - 1) {
-            MutableList(rows) {
+        MutableList(gameStateManager.columns.intValue - 1) {
+            MutableList(gameStateManager.rows.intValue) {
                 mutableStateOf(Color.Transparent)
             }
         }
 
     val verticalButtonColors =
-        MutableList(columns) {
-            MutableList(rows - 1) {
+        MutableList(gameStateManager.columns.intValue) {
+            MutableList(gameStateManager.rows.intValue - 1) {
                 mutableStateOf(Color.Transparent)
             }
         }
 
-
-
     fun buttonClicked(xAxis: Int, yAxis: Int, isHorizontal: Boolean): Boolean {
         if (isHorizontal) {
-            if (!horizontalLines[xAxis][yAxis]) {
-                horizontalLines[xAxis][yAxis] = true
+            if (!gameStateManager.horizontalLines[xAxis][yAxis]) {
+                gameStateManager.horizontalLines[xAxis][yAxis] = true
                 horizontalButtonColors[xAxis][yAxis].value = playerManager.currentPlayer.playerColor.value
 
-                val boxesCompleted = checkForCompletedBoxes(xAxis, yAxis, isHorizontal)
+                val boxesCompleted = gameStateManager.checkForCompletedBoxes(xAxis, yAxis, isHorizontal)
                 playerManager.currentPlayer.numberOfFieldsWon.value += boxesCompleted
 
                 if (boxesCompleted == 0) {
@@ -87,11 +69,11 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
                 return false
             }
         } else {
-            if (!verticalLines[xAxis][yAxis]) {
-                verticalLines[xAxis][yAxis] = true
+            if (!gameStateManager.verticalLines[xAxis][yAxis]) {
+                gameStateManager.verticalLines[xAxis][yAxis] = true
                 verticalButtonColors[xAxis][yAxis].value = playerManager.currentPlayer.playerColor.value
 
-                val boxesCompleted = checkForCompletedBoxes(xAxis, yAxis, isHorizontal)
+                val boxesCompleted = gameStateManager.checkForCompletedBoxes(xAxis, yAxis, isHorizontal)
                 playerManager.currentPlayer.numberOfFieldsWon.value += boxesCompleted
 
                 if (boxesCompleted == 0) {
@@ -106,74 +88,13 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    private fun checkForCompletedBoxes(xAxis: Int, yAxis: Int, isHorizontal: Boolean): Int {
-        var boxesCompleted = 0
-
-        if (isHorizontal) {
-            // Check box above
-            if (yAxis > 0 && xAxis < columns - 1) {
-                if (horizontalLines[xAxis][yAxis - 1] &&
-                    verticalLines[xAxis][yAxis - 1] &&
-                    verticalLines[xAxis + 1][yAxis - 1] &&
-                    horizontalLines[xAxis][yAxis]
-                ) {
-                    if (boxesOwned[xAxis][yAxis - 1] == -1) {
-                        boxesOwned[xAxis][yAxis - 1] = playerManager.listOfPlayers.indexOf(playerManager.currentPlayer)
-                        boxesCompleted++
-                    }
-                }
-            }
-            // Check box below
-            if (yAxis < rows && xAxis < columns - 1) {
-                if (horizontalLines[xAxis][yAxis + 1] &&
-                    verticalLines[xAxis][yAxis] &&
-                    verticalLines[xAxis + 1][yAxis] &&
-                    horizontalLines[xAxis][yAxis]
-                ) {
-                    if (boxesOwned[xAxis][yAxis] == -1) {
-                        boxesOwned[xAxis][yAxis] = playerManager.listOfPlayers.indexOf(playerManager.currentPlayer)
-                        boxesCompleted++
-                    }
-                }
-            }
-        } else {
-            // Check box to the left
-            if (xAxis > 0 && yAxis < rows - 1) {
-                if (verticalLines[xAxis - 1][yAxis] &&
-                    horizontalLines[xAxis - 1][yAxis] &&
-                    horizontalLines[xAxis - 1][yAxis + 1] &&
-                    verticalLines[xAxis][yAxis]
-                ) {
-                    if (boxesOwned[xAxis - 1][yAxis] == -1) {
-                        boxesOwned[xAxis - 1][yAxis] = playerManager.listOfPlayers.indexOf(playerManager.currentPlayer)
-                        boxesCompleted++
-                    }
-                }
-            }
-            // Check box to the right
-            if (xAxis < columns && yAxis < rows - 1) {
-                if (verticalLines[xAxis + 1][yAxis] &&
-                    horizontalLines[xAxis][yAxis] &&
-                    horizontalLines[xAxis][yAxis + 1] &&
-                    verticalLines[xAxis][yAxis]
-                ) {
-                    if (boxesOwned[xAxis][yAxis] == -1) {
-                        boxesOwned[xAxis][yAxis] = playerManager.listOfPlayers.indexOf(playerManager.currentPlayer)
-                        boxesCompleted++
-                    }
-                }
-            }
-        }
-
-        return boxesCompleted
-    }
 
     private fun hasPlayerWon(): Boolean {
         return playerManager.currentPlayer.numberOfFieldsWon.value >= pointsToWinGame
     }
 
     private fun isDraw(): Boolean {
-        val numOfBoxes = (columns - 1) * (rows - 1)
+        val numOfBoxes = (gameStateManager.columns.intValue - 1) * (gameStateManager.rows.intValue - 1)
         if (playerManager.listOfPlayers[0].numberOfFieldsWon.value == numOfBoxes / 2 && playerManager.listOfPlayers[1].numberOfFieldsWon.value == numOfBoxes / 2) {
             isDraw.value = true
         }
@@ -197,8 +118,8 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun resetGame() {
 
-        rows = 5
-        columns = 5
+//        gameStateManager.rows.intValue = 5
+//        columns = 5
 
         // Reset the number of fields won for each player
         for (player in playerManager.listOfPlayers) {
@@ -212,9 +133,9 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
             playerManager.currentPlayer = Player()
         }
 
-        resetElement(horizontalLines, false)
-        resetElement(verticalLines, false)
-        resetElement(boxesOwned, -1)
+        resetElement(gameStateManager.horizontalLines, false)
+        resetElement(gameStateManager.verticalLines, false)
+        resetElement(gameStateManager.boxesOwned, -1)
 
 
         // Reset horizontal button colors
@@ -238,17 +159,17 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
 
         do {
             // Collect available horizontal lines
-            for (x in 0 until columns - 1) {
-                for (y in 0 until rows) {
-                    if (!horizontalLines[x][y]) {
+            for (x in 0 until gameStateManager.columns.intValue - 1) {
+                for (y in 0 until gameStateManager.rows.intValue) {
+                    if (!gameStateManager.horizontalLines[x][y]) {
                         availableMoves.add(Triple(x, y, true))
                     }
                 }
             }
             // Collect available vertical lines
-            for (x in 0 until columns) {
-                for (y in 0 until rows - 1) {
-                    if (!verticalLines[x][y]) {
+            for (x in 0 until gameStateManager.columns.intValue) {
+                for (y in 0 until gameStateManager.rows.intValue - 1) {
+                    if (!gameStateManager.verticalLines[x][y]) {
                         availableMoves.add(Triple(x, y, false))
                     }
                 }
@@ -267,7 +188,6 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
                 }
             }
         } while (playerManager.currentPlayer.typeOfPlayer.value == TypeOfPlayer.AI)
-
     }
 
     private fun <T> resetElement(element: MutableList<MutableList<T>>, item: T) {

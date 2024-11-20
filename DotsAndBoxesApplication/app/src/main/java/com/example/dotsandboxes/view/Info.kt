@@ -88,8 +88,8 @@ fun InfoPage(
                 verticalAlignment = Alignment.Top
 
             ) {
-                model.rows = 3
-                model.columns = 3
+                model.gameStateManager.rows.intValue = 3
+                model.gameStateManager.columns.intValue = 3
                 model.playerManager.createPlayerForMultiPlayer()
                 model.buttonClicked(1, 1, true)
                 model.playerManager.currentPlayer = model.playerManager.listOfPlayers[1]

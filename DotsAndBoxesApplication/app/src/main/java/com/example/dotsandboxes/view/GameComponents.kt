@@ -72,13 +72,13 @@ fun DotsAndBoxesGameBoard(
                 .background(color = Color.Black)
         ) {
             val minDimension = minOf(size.width, size.height)
-            val spacing = minDimension / (max(model.columns, model.rows) + 1)
+            val spacing = minDimension / (max(model.gameStateManager.columns.intValue, model.gameStateManager.rows.intValue) + 1)
             val offsetX = (size.width - minDimension) / 2
             val offsetY = (size.height - minDimension) / 2
 
             // Draw dots
-            for (i in 0 until model.columns) {
-                for (j in 0 until model.rows) {
+            for (i in 0 until model.gameStateManager.columns.intValue) {
+                for (j in 0 until model.gameStateManager.rows.intValue) {
                     val x = offsetX + (i + 1) * spacing
                     val y = offsetY + (j + 1) * spacing
                     drawCircle(
@@ -92,9 +92,9 @@ fun DotsAndBoxesGameBoard(
             }
 
             // Draw filled boxes for completed squares
-            for (i in 0 until model.columns - 1) {
-                for (j in 0 until model.rows - 1) {
-                    val ownerIndex = model.boxesOwned[i][j]
+            for (i in 0 until model.gameStateManager.columns.intValue - 1) {
+                for (j in 0 until model.gameStateManager.rows.intValue - 1) {
+                    val ownerIndex = model.gameStateManager.boxesOwned[i][j]
                     if (ownerIndex != -1) {
                         val playerColor = model.playerManager.listOfPlayers[ownerIndex].playerColor
                         val x1 = model.positionOfPoints[i][j].first.floatValue
@@ -114,8 +114,8 @@ fun DotsAndBoxesGameBoard(
         }
         Box(modifier.matchParentSize()) {
             // Draw horizontal buttons
-            for (i in 0 until model.columns - 1) {
-                for (j in 0 until model.rows) {
+            for (i in 0 until model.gameStateManager.columns.intValue - 1) {
+                for (j in 0 until model.gameStateManager.rows.intValue) {
                     val x1 = model.positionOfPoints[i][j].first.floatValue
                     val y1 = model.positionOfPoints[i][j].second.floatValue
                     val x2 = model.positionOfPoints[i + 1][j].first.floatValue
@@ -145,8 +145,8 @@ fun DotsAndBoxesGameBoard(
             }
 
             // Draw vertical buttons
-            for (i in 0 until model.columns) {
-                for (j in 0 until model.rows - 1) {
+            for (i in 0 until model.gameStateManager.columns.intValue) {
+                for (j in 0 until model.gameStateManager.rows.intValue - 1) {
                     val x1 = model.positionOfPoints[i][j].first.floatValue
                     val y1 = model.positionOfPoints[i][j].second.floatValue
                     val y2 = model.positionOfPoints[i][j + 1].second.floatValue
