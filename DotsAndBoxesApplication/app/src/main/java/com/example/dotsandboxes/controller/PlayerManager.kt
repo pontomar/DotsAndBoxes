@@ -1,7 +1,5 @@
 package com.example.dotsandboxes.controller
 
-import android.annotation.SuppressLint
-import android.app.Application
 import android.content.Context
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
