@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -16,7 +17,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.dotsandboxes.model.Player
@@ -52,7 +55,8 @@ fun GameButton(
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .width(getResponsiveButtonWidth()),
         shape = RoundedCornerShape(14.dp)
     ) {
         Text(
@@ -118,4 +122,15 @@ fun ColorPicker(player: Player){
             player.playerColor.value = colorEnvelope.color
         }
     )
+}
+
+@Composable
+fun getResponsiveButtonWidth(): Dp {
+    val config = LocalConfiguration.current
+    val buttonWidth = when {
+        config.screenWidthDp < 600 -> 250.dp
+        config.screenWidthDp < 840 -> 300.dp
+        else -> 350.dp
+    }
+    return buttonWidth
 }

@@ -1,4 +1,5 @@
 package com.example.dotsandboxes.view
+
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -26,6 +27,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -146,7 +148,7 @@ fun StartPage(modifier: Modifier = Modifier, navController: NavController) {
 
                     GameButton(
                         text = "Single Player",
-                        modifier = modifier.padding(vertical = 2.dp),
+                        modifier = modifier,
                         onClick = {
                             navController.navigate("SinglePlayerPage")
                         })
