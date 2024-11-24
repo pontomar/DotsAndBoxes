@@ -1,5 +1,6 @@
 package com.example.dotsandboxes.view
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -23,6 +25,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.dotsandboxes.model.Player
+import com.example.dotsandboxes.ui.theme.PastelCyan
+import com.example.dotsandboxes.ui.theme.PastelCyanDark
 import com.github.skydoves.colorpicker.compose.ColorEnvelope
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
@@ -57,6 +61,8 @@ fun GameButton(
         onClick = onClick,
         modifier = modifier
             .width(getResponsiveButtonWidth()),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = PastelCyanDark),
         shape = RoundedCornerShape(14.dp)
     ) {
         Text(
@@ -109,7 +115,7 @@ fun PopUpInfoForUser(
 }
 
 @Composable
-fun ColorPicker(player: Player){
+fun ColorPicker(player: Player) {
     val controller = rememberColorPickerController()
 
     HsvColorPicker(
