@@ -54,10 +54,13 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable("InfoPage") {
+                            model.resetGame()
+                            model.playerManager.createPlayerForMultiPlayer()
+                            model.singlePlayerModus = false
                             InfoPage(
                                 modifier = Modifier.padding(innerPadding),
                                 navController = navController,
-                                model = model
+                                model = model,
                             )
                         }
                         composable("MultiPlayerPage") {
