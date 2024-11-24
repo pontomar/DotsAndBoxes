@@ -8,6 +8,8 @@ import androidx.compose.ui.graphics.Color
 import com.example.dotsandboxes.model.Player
 import com.example.dotsandboxes.model.PlayerKey
 import com.example.dotsandboxes.model.TypeOfPlayer
+import com.example.dotsandboxes.ui.theme.EarthYellow
+import com.example.dotsandboxes.ui.theme.MutedRose
 
 class PlayerManager(context: Context) {
     var listOfPlayers: MutableList<Player> = mutableListOf()
@@ -21,7 +23,7 @@ class PlayerManager(context: Context) {
     fun createPlayerForSinglePlayer() {
         val player1 = Player(
             name = mutableStateOf("Player 1"),
-            playerColor = mutableStateOf(Color.Green),
+            playerColor = mutableStateOf(EarthYellow),
             numberOfFieldsWon = mutableIntStateOf(0),
             typeOfPlayer = mutableStateOf(TypeOfPlayer.HUMAN),
             nameKey = mutableStateOf(PlayerKey.PLAYER1NAMEKEY.key),
@@ -29,7 +31,7 @@ class PlayerManager(context: Context) {
         )
         val player2 = Player(
             name = mutableStateOf("God Of AI"),
-            playerColor = mutableStateOf(Color.Red),
+            playerColor = mutableStateOf(MutedRose),
             numberOfFieldsWon = mutableIntStateOf(0),
             typeOfPlayer = mutableStateOf(TypeOfPlayer.AI),
             nameKey = mutableStateOf(PlayerKey.PLAYER2NAMEKEY.key),
@@ -48,7 +50,7 @@ class PlayerManager(context: Context) {
     fun createPlayerForMultiPlayer() {
         val player1 = Player(
             name = mutableStateOf("Player 1"),
-            playerColor = mutableStateOf(Color.Green),
+            playerColor = mutableStateOf(EarthYellow),
             numberOfFieldsWon = mutableIntStateOf(0),
             typeOfPlayer = mutableStateOf(TypeOfPlayer.HUMAN),
             nameKey = mutableStateOf(PlayerKey.PLAYER1NAMEKEY.key),
@@ -56,7 +58,7 @@ class PlayerManager(context: Context) {
         )
         val player2 = Player(
             name = mutableStateOf("Player 2"),
-            playerColor = mutableStateOf(Color.Red),
+            playerColor = mutableStateOf(MutedRose),
             numberOfFieldsWon = mutableIntStateOf(0),
             typeOfPlayer = mutableStateOf(TypeOfPlayer.HUMAN),
             nameKey = mutableStateOf(PlayerKey.PLAYER2NAMEKEY.key),
