@@ -1,6 +1,5 @@
 package com.example.dotsandboxes.view
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,7 +24,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.dotsandboxes.model.Player
-import com.example.dotsandboxes.ui.theme.PastelCyan
 import com.example.dotsandboxes.ui.theme.PastelCyanDark
 import com.github.skydoves.colorpicker.compose.ColorEnvelope
 import com.github.skydoves.colorpicker.compose.HsvColorPicker

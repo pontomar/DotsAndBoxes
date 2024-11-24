@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.Color
 import com.example.dotsandboxes.model.Player
 import com.example.dotsandboxes.model.PlayerKey
 import com.example.dotsandboxes.model.TypeOfPlayer
