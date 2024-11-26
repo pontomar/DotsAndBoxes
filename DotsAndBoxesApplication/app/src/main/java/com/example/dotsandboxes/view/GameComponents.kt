@@ -25,7 +25,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.dotsandboxes.controller.GameStateManager
 import com.example.dotsandboxes.viewModel.GameStateViewModel
 import kotlin.math.max
 
