@@ -41,24 +41,30 @@ fun InfoPage(
     val activity = LocalContext.current as? Activity
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
-   // val resetAllowed: MutableState<Boolean> = remember { mutableStateOf(true) }
+    // val resetAllowed: MutableState<Boolean> = remember { mutableStateOf(true) }
 
     val tutorialContentList = remember {
         mutableStateListOf(
             TutorialContent(
-                "Connect the Dots", "Take turns with your opponent" +
-                        " to add edges."
-            ) {
-                TutorialAddEdges(modifier, navController, model)
-            },
+                "Connect asfsafsdfsdfsthe Dots",
+                "Take turns with your opponent" + " to add edges.",
+                { ShowStartText() }
+            ),
+            TutorialContent(
+                "Connect the Dots",
+                "Take turns with your opponent" + " to add edges.",
+                { TutorialAddEdges(modifier, navController, model) }
+            ),
             TutorialContent(
                 "Capture Boxes",
-                "The goal is to capture as many boxes as possible."
-            ) { TutorialCaptureBoxes(modifier, navController, model) },
+                "The goal is to capture as many boxes as possible.",
+                { TutorialCaptureBoxes(modifier, navController, model) }
+            ),
             TutorialContent(
                 "Try it out",
-                "Add the fourth edge to capture the box."
-            ) { TutorialCaptureTheBox(modifier, navController, model) }
+                "Add the fourth edge to capture the box.",
+                { TutorialCaptureTheBox(modifier, navController, model) }
+            )
         )
     }
 
@@ -96,8 +102,9 @@ fun InfoPage(
 
             )
         {
-            onSwiped() { item, direction ->
+            onSwiped() { item, _ ->
                 model.gameStateManager.resetGame(model, 3, 3)
+                tutorialContentList.add(item as TutorialContent)
 
             }
 
@@ -121,7 +128,7 @@ fun InfoPage(
                 onClick = {
 
                     navController.navigate("StartPage")
-                    model.gameStateManager.resetGame(model, 5,5)
+                    model.gameStateManager.resetGame(model, 5, 5)
                 },
                 Arrangement.Bottom
             )

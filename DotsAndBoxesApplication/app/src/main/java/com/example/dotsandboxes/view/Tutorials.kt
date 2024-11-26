@@ -25,6 +25,7 @@ import com.example.dotsandboxes.ui.theme.MutedRose
 import com.example.dotsandboxes.ui.theme.PastelCyan
 import com.example.dotsandboxes.viewModel.GameStateViewModel
 import kotlinx.coroutines.delay
+import org.w3c.dom.Text
 
 @Composable
 fun TutorialAddEdges(
@@ -39,14 +40,10 @@ fun TutorialAddEdges(
         model.playerManager.listOfPlayers[0].playerColor.value = EarthYellow
         model.playerManager.listOfPlayers[1].playerColor.value = MutedRose
 
-        delay(1000)
         model.buttonClicked(1, 2, true)
-        delay(1000)
         model.playerManager.currentPlayer = model.playerManager.listOfPlayers[1]
         model.buttonClicked(1, 1, false)
-        delay(1000)
         model.buttonClicked(1, 0, true)
-        delay(1000)
         model.buttonClicked(0, 1, true)
     }
 
@@ -99,7 +96,7 @@ fun TutorialCaptureTheBox(
         model.buttonClicked(1, 0, true)
         model.buttonClicked(1, 0, false)
     }
-    if (hasCompletedBox) {
+    if (model.playerManager.currentPlayer.numberOfFieldsWon.value >= 1) {
         Text(
             "You did it. ", color = Color.Black,
             fontSize = 15.sp,
@@ -136,8 +133,12 @@ fun TutorialCard(content: TutorialContent) {
             Spacer(modifier = Modifier.height(20.dp))
             content.composable()
         }
-
     }
+}
+
+@Composable
+fun ShowStartText(){
+    Text("Hallo du startest das Tutorial")
 }
 
 data class TutorialContent(
