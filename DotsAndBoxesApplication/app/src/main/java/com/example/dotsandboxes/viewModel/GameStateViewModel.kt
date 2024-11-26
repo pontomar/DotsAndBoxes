@@ -10,7 +10,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.AndroidViewModel
 import com.example.dotsandboxes.controller.GameStateManager
 import com.example.dotsandboxes.controller.PlayerManager
-import com.example.dotsandboxes.model.Player
 import com.example.dotsandboxes.model.TypeOfPlayer
 
 class GameStateViewModel(application: Application) : AndroidViewModel(application) {
@@ -18,7 +17,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
     private val context = getApplication<Application>().applicationContext
 
     var playerManager: PlayerManager = PlayerManager(context)
-    var gameStateManager: GameStateManager = GameStateManager(rows = 5, columns = 5, playerManager)
+    var gameStateManager: GameStateManager = GameStateManager(inputRows = 5, inputColumns = 5, playerManager)
 
     var singlePlayerModus: Boolean = false
 

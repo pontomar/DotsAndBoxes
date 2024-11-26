@@ -39,7 +39,7 @@ fun InfoPage(
     val activity = LocalContext.current as? Activity
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
-   // val resetAllowed: MutableState<Boolean> = remember { mutableStateOf(true) }
+    // val resetAllowed: MutableState<Boolean> = remember { mutableStateOf(true) }
 
     val tutorialContentList = remember {
         mutableListOf(
@@ -56,7 +56,7 @@ fun InfoPage(
             TutorialContent(
                 "Try it out",
                 "Add the fourth edge to capture the box."
-            ) { TutorialCaptureTheBox(modifier, navController, model)  }
+            ) { TutorialCaptureTheBox(modifier, navController, model) }
         )
     }
 
@@ -95,7 +95,7 @@ fun InfoPage(
             )
         {
             onSwiped() { item, direction ->
-                 model.gameStateManager.resetGame(model)
+                model.gameStateManager.resetGame(model)
             }
 
             items(tutorialContentList) {

@@ -6,25 +6,25 @@ import androidx.compose.ui.graphics.Color
 import com.example.dotsandboxes.model.Player
 import com.example.dotsandboxes.viewModel.GameStateViewModel
 
-class GameStateManager(rows: Int, columns: Int, playerManager: PlayerManager) {
-    var rows: MutableIntState = mutableIntStateOf(rows)
-    var columns: MutableIntState = mutableIntStateOf(columns)
+class GameStateManager(inputRows: Int, inputColumns: Int, playerManager: PlayerManager) {
+    var rows: MutableIntState = mutableIntStateOf(inputRows)
+    var columns: MutableIntState = mutableIntStateOf(inputColumns)
     var playerManager: PlayerManager = playerManager
 
-    val horizontalLines = MutableList(columns) {
-        MutableList(rows + 1) {
+    val horizontalLines = MutableList(columns.intValue) {
+        MutableList(rows.intValue + 1) {
             false
         }
     }
 
-    val verticalLines = MutableList(columns + 1) {
-        MutableList(rows) {
+    val verticalLines = MutableList(columns.intValue + 1) {
+        MutableList(rows.intValue) {
             false
         }
     }
 
-    val boxesOwned = MutableList(columns - 1) {
-        MutableList(rows - 1) {
+    val boxesOwned = MutableList(columns.intValue - 1) {
+        MutableList(rows.intValue - 1) {
             -1
         }
     }
@@ -91,7 +91,9 @@ class GameStateManager(rows: Int, columns: Int, playerManager: PlayerManager) {
     }
 
 
-    fun resetGame(model: GameStateViewModel) {
+    fun resetGame(model: GameStateViewModel, resetRowsTo: Int = 5, resetColumnsTo: Int = 5) {
+        rows.intValue = resetRowsTo
+        columns.intValue = resetColumnsTo
         // Reset the number of fields won for each player
         for (player in playerManager.listOfPlayers) {
             player.numberOfFieldsWon.value = 0

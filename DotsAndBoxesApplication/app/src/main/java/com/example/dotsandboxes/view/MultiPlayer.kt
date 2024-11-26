@@ -27,6 +27,7 @@ import com.example.dotsandboxes.viewModel.GameStateViewModel
 
 @Composable
 fun MultiPlayerPage(modifier: Modifier, navController: NavController, model: GameStateViewModel) {
+    model.gameStateManager.resetGame(model)
 
     val activity = LocalContext.current as? Activity
     DisposableEffect(Unit) {
