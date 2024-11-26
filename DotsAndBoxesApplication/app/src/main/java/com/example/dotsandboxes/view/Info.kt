@@ -13,6 +13,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.mutableStateListOf
@@ -116,7 +119,7 @@ fun InfoPage(
                 .fillMaxHeight()
         ) {
             StartPageButton(
-                emojiUnicode = "\uD83C\uDFE0",
+                imageVector = Icons.Outlined.Home,
                 text = "Home",
                 onClick = {
 
@@ -144,7 +147,7 @@ fun InfoPage(
                 .fillMaxHeight()
         ) {
             StartPageButton(
-                emojiUnicode = "⚙\uFE0F",
+                imageVector = Icons.Outlined.Info,
                 text = "Info",
                 onClick = {
                     navController.navigate("InfoPage")

@@ -2,17 +2,20 @@ package com.example.dotsandboxes.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,7 +34,7 @@ import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 
 @Composable
 fun StartPageButton(
-    emojiUnicode: String,
+    imageVector: ImageVector,
     text: String,
     onClick: () -> Unit,
     verticalArrangement: Arrangement.Vertical
@@ -43,7 +46,15 @@ fun StartPageButton(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = verticalArrangement
         ) {
-            Text(emojiUnicode, fontSize = 40.sp)
+            Icon(
+                imageVector = imageVector,
+                contentDescription = "Home Button",
+                modifier = Modifier
+                    .height(48.dp)
+                    .width(48.dp)
+                    .padding(5.dp),
+                tint = Color.White
+            )
             Text(text, fontSize = 20.sp)
         }
     }
@@ -60,7 +71,8 @@ fun GameButton(
         modifier = modifier
             .width(getResponsiveButtonWidth()),
         colors = ButtonDefaults.buttonColors(
-            containerColor = CyanDark),
+            containerColor = CyanDark
+        ),
         shape = RoundedCornerShape(14.dp)
     ) {
         Text(
