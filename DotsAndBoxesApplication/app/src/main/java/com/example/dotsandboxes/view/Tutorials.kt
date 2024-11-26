@@ -34,8 +34,6 @@ fun TutorialAddEdges(
 
     LaunchedEffect(Unit) {
         model.gameStateManager.resetGame(model, 3, 3)
-//        model.gameStateManager.rows.intValue = 3
-//        model.gameStateManager.columns.intValue = 3
         model.playerManager.createPlayerForMultiPlayer()
         model.playerManager.listOfPlayers[0].playerColor.value = EarthYellow
         model.playerManager.listOfPlayers[1].playerColor.value = MutedRose

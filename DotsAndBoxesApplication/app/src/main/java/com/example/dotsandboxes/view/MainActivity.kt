@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable("InfoPage") {
-                            model.gameStateManager.resetGame(model)
+                            model.gameStateManager.resetGame(model, 3, 3)
                             model.playerManager.createPlayerForMultiPlayer()
                             model.singlePlayerModus = false
                             InfoPage(
