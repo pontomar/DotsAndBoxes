@@ -8,38 +8,61 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.dotsandboxes.controller.GameStateManager
-import com.example.dotsandboxes.ui.theme.EarthYellow
-import com.example.dotsandboxes.ui.theme.MutedRose
-import com.example.dotsandboxes.ui.theme.PastelCyan
+import com.example.dotsandboxes.ui.theme.CyanDark
 import com.example.dotsandboxes.viewModel.GameStateViewModel
-import kotlinx.coroutines.delay
-import org.w3c.dom.Text
+
+
+@Composable
+fun TutorialWelcomeCard(
+) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            color = Color.White,
+            fontSize = 20.sp,
+            textAlign = TextAlign.Center,
+            text = "Swipe\nto start the tutorial."
+        )
+
+        Spacer(
+            modifier = Modifier.height(20.dp),
+        )
+
+        Text(
+            color = Color.White,
+            fontSize = 14.sp,
+            text = "Duration: 2 minutes"
+        )
+    }
+}
+
 
 @Composable
 fun TutorialAddEdges(
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     navController: NavController,
-    model: GameStateViewModel
+    model: GameStateViewModel,
 ) {
-
-    LaunchedEffect("bla") {
+    LaunchedEffect(Unit) {
         model.gameStateManager.resetGame(model, 3, 3)
         model.playerManager.createPlayerForMultiPlayer()
-        model.playerManager.listOfPlayers[0].playerColor.value = EarthYellow
-        model.playerManager.listOfPlayers[1].playerColor.value = MutedRose
-
         model.buttonClicked(1, 2, true)
         model.playerManager.currentPlayer = model.playerManager.listOfPlayers[1]
         model.buttonClicked(1, 1, false)
@@ -57,17 +80,17 @@ fun TutorialCaptureBoxes(
     modifier: Modifier,
     navController: NavController,
     model: GameStateViewModel,
-    //  resetAllowed: MutableState<Boolean>
 ) {
-
-    LaunchedEffect("boxes") {
-      //  val playerManager = model.playerManager
-     //   model.gameStateManager = GameStateManager(3,3, playerManager = playerManager)
-        model.gameStateManager.resetGame(model, 3,3)
+    LaunchedEffect(Unit) {
+        model.gameStateManager.resetGame(model, 3, 3)
         model.playerManager.createPlayerForMultiPlayer()
         model.buttonClicked(1, 1, true)
         model.playerManager.currentPlayer = model.playerManager.listOfPlayers[1]
         model.buttonClicked(1, 0, true)
+        model.buttonClicked(0, 0, true)
+        model.buttonClicked(0, 0, false)
+        model.buttonClicked(0, 1, true)
+        model.buttonClicked(0, 1, false)
         model.buttonClicked(1, 1, false)
         model.buttonClicked(1, 0, false)
     }
@@ -84,24 +107,25 @@ fun TutorialCaptureTheBox(
     navController: NavController,
     model: GameStateViewModel,
 ) {
-    val hasCompletedBox = model.playerManager.currentPlayer.numberOfFieldsWon.value >= 1
 
-    LaunchedEffect("try") {
-       // val playerManager = model.playerManager
-       // model.gameStateManager = GameStateManager(3,3, playerManager = playerManager)
-        model.gameStateManager.resetGame(model, 3,3)
+    LaunchedEffect(Unit) {
+        model.gameStateManager.resetGame(model, 3, 3)
         model.playerManager.createPlayerForMultiPlayer()
         model.buttonClicked(1, 1, true)
-        model.playerManager.currentPlayer = model.playerManager.listOfPlayers[1]
         model.buttonClicked(1, 0, true)
+        model.playerManager.currentPlayer = model.playerManager.listOfPlayers[1]
         model.buttonClicked(1, 0, false)
     }
-    if (model.playerManager.currentPlayer.numberOfFieldsWon.value >= 1) {
+    if (model.playerManager.listOfPlayers
+            [0].numberOfFieldsWon.value >= 1 || model.playerManager.listOfPlayers[1].numberOfFieldsWon.value >= 1
+    ) {
         Text(
-            "You did it. ", color = Color.Black,
-            fontSize = 15.sp,
-            textAlign = TextAlign.Center
+            color = Color.White,
+            fontSize = 20.sp,
+            textAlign = TextAlign.Center,
+            text = "You did it! Let's play."
         )
+
     }
     DotsAndBoxesScaffold(
         modifier, model, navController
@@ -109,39 +133,55 @@ fun TutorialCaptureTheBox(
 }
 
 @Composable
-fun TutorialCard(content: TutorialContent) {
+fun TutorialCard(content: TutorialContent, cardIndex: Int) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(PastelCyan)
+            .background(CyanDark)
             .padding(16.dp, 40.dp, 16.dp)
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .align(Alignment.TopCenter)
         ) {
             Text(
                 text = content.title,
-                fontSize = 22.sp,
+                fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black,
+                color = Color.White,
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = content.description, fontSize = 14.sp, color = Color.Black, textAlign = TextAlign.Center)
+            Text(
+                text = content.description,
+                fontSize = 18.sp,
+                color = Color.White,
+                textAlign = TextAlign.Center
+            )
             Spacer(modifier = Modifier.height(20.dp))
-            content.composable()
+
+            Column(
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .align(Alignment.CenterHorizontally)
+                    .padding(8.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color.Black)
+
+                ) { content.composable() }
+            }
         }
     }
 }
 
-@Composable
-fun ShowStartText(){
-    Text("Hallo du startest das Tutorial")
-}
-
 data class TutorialContent(
     val title: String, val description: String,
-    val composable: @Composable () -> Unit
+    val composable: @Composable () -> Unit,
+    var cardIndex: Int
 )

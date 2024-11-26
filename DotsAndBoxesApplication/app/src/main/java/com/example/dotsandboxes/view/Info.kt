@@ -3,8 +3,6 @@ package com.example.dotsandboxes.view
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,10 +12,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -28,7 +26,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.aghajari.compose.lazyswipecards.LazySwipeCards
-import com.example.dotsandboxes.controller.GameStateManager
 import com.example.dotsandboxes.viewModel.GameStateViewModel
 
 
@@ -39,32 +36,25 @@ fun InfoPage(
     model: GameStateViewModel,
 ) {
     val activity = LocalContext.current as? Activity
-    val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
-    // val resetAllowed: MutableState<Boolean> = remember { mutableStateOf(true) }
 
     val tutorialContentList = remember {
         mutableStateListOf(
             TutorialContent(
-                "Connect asfsafsdfsdfsthe Dots",
-                "Take turns with your opponent" + " to add edges.",
-                { ShowStartText() }
-            ),
+                "How to Play",
+                "Dots and Boxes",
+                { TutorialWelcomeCard() }, cardIndex = 0),
             TutorialContent(
                 "Connect the Dots",
                 "Take turns with your opponent" + " to add edges.",
-                { TutorialAddEdges(modifier, navController, model) }
-            ),
+                { TutorialAddEdges(modifier, navController, model) }, cardIndex = 1),
             TutorialContent(
                 "Capture Boxes",
                 "The goal is to capture as many boxes as possible.",
-                { TutorialCaptureBoxes(modifier, navController, model) }
-            ),
+                { TutorialCaptureBoxes(modifier, navController, model) }, cardIndex = 2),
             TutorialContent(
                 "Try it out",
                 "Add the fourth edge to capture the box.",
-                { TutorialCaptureTheBox(modifier, navController, model) }
-            )
+                { TutorialCaptureTheBox(modifier, navController, model) }, cardIndex = 3)
         )
     }
 
@@ -109,7 +99,9 @@ fun InfoPage(
             }
 
             items(tutorialContentList) {
-                TutorialCard(it)
+                TutorialCard(
+                    it, it.cardIndex
+                )
             }
         }
     }

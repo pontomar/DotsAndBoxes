@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.dotsandboxes.model.Player
-import com.example.dotsandboxes.ui.theme.PastelCyanDark
+import com.example.dotsandboxes.ui.theme.CyanDark
 import com.github.skydoves.colorpicker.compose.ColorEnvelope
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
@@ -60,7 +60,7 @@ fun GameButton(
         modifier = modifier
             .width(getResponsiveButtonWidth()),
         colors = ButtonDefaults.buttonColors(
-            containerColor = PastelCyanDark),
+            containerColor = CyanDark),
         shape = RoundedCornerShape(14.dp)
     ) {
         Text(

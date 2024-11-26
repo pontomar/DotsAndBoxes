@@ -123,7 +123,7 @@ fun DotsAndBoxesGameBoard(
                     val xMid = (x1 + x2) / 2
                     val yMid = y1
                     val buttonWidth = (x2 - x1)
-                    val buttonHeight = buttonWidth / 6
+                    val buttonHeight = buttonWidth / 7
                     val xDp = with(density) { xMid.toDp() }
                     val yDp = with(density) { yMid.toDp() }
                     val buttonWidthDp = with(density) { buttonWidth.toDp() }
@@ -154,7 +154,7 @@ fun DotsAndBoxesGameBoard(
                     val xMid = x1
                     val yMid = (y1 + y2) / 2
                     val buttonHeight = y2 - y1
-                    val buttonWidth = buttonHeight / 6
+                    val buttonWidth = buttonHeight / 7
 
                     val xDp = with(density) { xMid.toDp() }
                     val yDp = with(density) { yMid.toDp() }
