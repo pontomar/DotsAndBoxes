@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.dotsandboxes.controller.GameStateManager
 import com.example.dotsandboxes.ui.theme.EarthYellow
 import com.example.dotsandboxes.ui.theme.MutedRose
 import com.example.dotsandboxes.ui.theme.PastelCyan
@@ -32,7 +33,7 @@ fun TutorialAddEdges(
     model: GameStateViewModel
 ) {
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect("bla") {
         model.gameStateManager.resetGame(model, 3, 3)
         model.playerManager.createPlayerForMultiPlayer()
         model.playerManager.listOfPlayers[0].playerColor.value = EarthYellow
@@ -52,19 +53,20 @@ fun TutorialAddEdges(
     DotsAndBoxesScaffold(
         modifier, model, navController
     )
-
 }
 
 @Composable
 fun TutorialCaptureBoxes(
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     navController: NavController,
     model: GameStateViewModel,
-  //  resetAllowed: MutableState<Boolean>
+    //  resetAllowed: MutableState<Boolean>
 ) {
-    LaunchedEffect(Unit) {
-        model.gameStateManager.rows.intValue = 3
-        model.gameStateManager.columns.intValue = 3
+
+    LaunchedEffect("boxes") {
+      //  val playerManager = model.playerManager
+     //   model.gameStateManager = GameStateManager(3,3, playerManager = playerManager)
+        model.gameStateManager.resetGame(model, 3,3)
         model.playerManager.createPlayerForMultiPlayer()
         model.buttonClicked(1, 1, true)
         model.playerManager.currentPlayer = model.playerManager.listOfPlayers[1]
@@ -81,15 +83,16 @@ fun TutorialCaptureBoxes(
 
 @Composable
 fun TutorialCaptureTheBox(
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     navController: NavController,
     model: GameStateViewModel,
 ) {
     val hasCompletedBox = model.playerManager.currentPlayer.numberOfFieldsWon.value >= 1
 
-    LaunchedEffect(Unit) {
-        model.gameStateManager.rows.intValue = 3
-        model.gameStateManager.columns.intValue = 3
+    LaunchedEffect("try") {
+       // val playerManager = model.playerManager
+       // model.gameStateManager = GameStateManager(3,3, playerManager = playerManager)
+        model.gameStateManager.resetGame(model, 3,3)
         model.playerManager.createPlayerForMultiPlayer()
         model.buttonClicked(1, 1, true)
         model.playerManager.currentPlayer = model.playerManager.listOfPlayers[1]
@@ -114,18 +117,26 @@ fun TutorialCard(content: TutorialContent) {
         modifier = Modifier
             .fillMaxSize()
             .background(PastelCyan)
-            .padding(16.dp)
+            .padding(16.dp, 40.dp, 16.dp)
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxSize()
         ) {
-            Text(text = content.title, fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color.Black)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = content.description, fontSize = 14.sp, color = Color.Black)
+            Text(
+                text = content.title,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(text = content.description, fontSize = 14.sp, color = Color.Black, textAlign = TextAlign.Center)
+            Spacer(modifier = Modifier.height(20.dp))
             content.composable()
         }
+
     }
 }
 

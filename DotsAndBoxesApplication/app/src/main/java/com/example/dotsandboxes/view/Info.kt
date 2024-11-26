@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.aghajari.compose.lazyswipecards.LazySwipeCards
+import com.example.dotsandboxes.controller.GameStateManager
 import com.example.dotsandboxes.viewModel.GameStateViewModel
 
 
@@ -39,10 +41,10 @@ fun InfoPage(
     val activity = LocalContext.current as? Activity
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
-    // val resetAllowed: MutableState<Boolean> = remember { mutableStateOf(true) }
+   // val resetAllowed: MutableState<Boolean> = remember { mutableStateOf(true) }
 
     val tutorialContentList = remember {
-        mutableListOf(
+        mutableStateListOf(
             TutorialContent(
                 "Connect the Dots", "Take turns with your opponent" +
                         " to add edges."
@@ -95,11 +97,12 @@ fun InfoPage(
             )
         {
             onSwiped() { item, direction ->
-                model.gameStateManager.resetGame(model)
+                model.gameStateManager.resetGame(model, 3, 3)
+
             }
 
             items(tutorialContentList) {
-                TutorialCard(content = it)
+                TutorialCard(it)
             }
         }
     }
@@ -118,7 +121,7 @@ fun InfoPage(
                 onClick = {
 
                     navController.navigate("StartPage")
-                    model.gameStateManager.resetGame(model)
+                    model.gameStateManager.resetGame(model, 5,5)
                 },
                 Arrangement.Bottom
             )
