@@ -73,7 +73,7 @@ fun MultiPlayerPage(modifier: Modifier, navController: NavController, model: Gam
                         text = "Home",
                         onClick = {
                             navController.navigate("StartPage")
-                            model.resetGame()
+                            model.gameStateManager.resetGame(model)
                         },
                         Arrangement.Top
                     )
@@ -137,7 +137,7 @@ fun MultiPlayerPage(modifier: Modifier, navController: NavController, model: Gam
                         text = "Info",
                         onClick = {
                             navController.navigate("InfoPage")
-                            model.resetGame()
+                            model.gameStateManager.resetGame(model)
                         },
                         Arrangement.Top
                     )

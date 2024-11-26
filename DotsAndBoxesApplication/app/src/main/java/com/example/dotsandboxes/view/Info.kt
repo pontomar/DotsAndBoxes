@@ -95,7 +95,7 @@ fun InfoPage(
             )
         {
             onSwiped() { item, direction ->
-                 //   model.resetGame()
+                 model.gameStateManager.resetGame(model)
             }
 
             items(tutorialContentList) {
@@ -118,7 +118,7 @@ fun InfoPage(
                 onClick = {
 
                     navController.navigate("StartPage")
-                    model.resetGame()
+                    model.gameStateManager.resetGame(model)
                 },
                 Arrangement.Bottom
             )
@@ -145,7 +145,7 @@ fun InfoPage(
                 text = "Info",
                 onClick = {
                     navController.navigate("InfoPage")
-                    model.resetGame()
+                    model.gameStateManager.resetGame(model)
                 },
                 Arrangement.Bottom
             )

@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable("InfoPage") {
-                            model.resetGame()
+                            model.gameStateManager.resetGame(model)
                             model.playerManager.createPlayerForMultiPlayer()
                             model.singlePlayerModus = false
                             InfoPage(
@@ -64,7 +64,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable("MultiPlayerPage") {
-                            model.resetGame()
+                            model.gameStateManager.resetGame(model)
                             model.playerManager.createPlayerForMultiPlayer()
                             model.singlePlayerModus = false
                             MultiPlayerPage(
@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable("SinglePlayerPage") {
-                            model.resetGame()
+                            model.gameStateManager.resetGame(model)
                             model.playerManager.createPlayerForSinglePlayer()
                             model.singlePlayerModus = true
                             SinglePlayerPage(

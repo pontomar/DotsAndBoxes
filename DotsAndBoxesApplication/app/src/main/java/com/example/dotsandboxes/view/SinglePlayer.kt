@@ -72,7 +72,7 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                         text = "Home",
                         onClick = {
                             navController.navigate("StartPage")
-                            model.resetGame()
+                            model.gameStateManager.resetGame(model)
                         },
                         Arrangement.Top
                     )
@@ -130,7 +130,7 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                         text = "Info",
                         onClick = {
                             navController.navigate("InfoPage")
-                            model.resetGame()
+                            model.gameStateManager.resetGame(model)
                         },
                         Arrangement.Top
                     )

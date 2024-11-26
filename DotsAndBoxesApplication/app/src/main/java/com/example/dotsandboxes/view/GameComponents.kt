@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.dotsandboxes.controller.GameStateManager
 import com.example.dotsandboxes.viewModel.GameStateViewModel
 import kotlin.math.max
 
@@ -181,11 +182,11 @@ fun DotsAndBoxesGameBoard(
                 onDismissRequest = {
                     model.hasPlayerWon.value = false
                     navController.navigate("StartPage")
-                    model.resetGame()
+                    model.gameStateManager.resetGame(model)
                 },
                 onConfirmation = {
                     model.hasPlayerWon.value = false
-                    model.resetGame()
+                    model.gameStateManager.resetGame(model)
                 },
                 dialogTitle = "New Game?",
                 dialogText = model.playerManager.currentPlayer.name.value + " has won the game",
@@ -197,11 +198,11 @@ fun DotsAndBoxesGameBoard(
                 onDismissRequest = {
                     model.isDraw.value = false
                     navController.navigate("StartPage")
-                    model.resetGame()
+                    model.gameStateManager.resetGame(model)
                 },
                 onConfirmation = {
                     model.isDraw.value = false
-                    model.resetGame()
+                    model.gameStateManager.resetGame(model)
                 },
                 dialogTitle = "New Game?",
                 dialogText = "None of You won the Game. Its a draw!",

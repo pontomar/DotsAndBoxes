@@ -2,6 +2,9 @@ package com.example.dotsandboxes.controller
 
 import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.ui.graphics.Color
+import com.example.dotsandboxes.model.Player
+import com.example.dotsandboxes.viewModel.GameStateViewModel
 
 class GameStateManager(rows: Int, columns: Int, playerManager: PlayerManager) {
     var rows: MutableIntState = mutableIntStateOf(rows)
@@ -85,6 +88,49 @@ class GameStateManager(rows: Int, columns: Int, playerManager: PlayerManager) {
             }
         }
         return boxesCompleted
+    }
+
+
+    fun resetGame(model: GameStateViewModel) {
+        // Reset the number of fields won for each player
+        for (player in playerManager.listOfPlayers) {
+            player.numberOfFieldsWon.value = 0
+        }
+
+        // Reset current player to the first player
+        if (playerManager.listOfPlayers.isNotEmpty()) {
+            playerManager.currentPlayer = playerManager.listOfPlayers[0]
+        } else {
+            playerManager.currentPlayer = Player()
+        }
+
+        resetElement(horizontalLines, false)
+        resetElement(verticalLines, false)
+        resetElement(boxesOwned, -1)
+
+
+        // Reset horizontal button colors
+        for (i in model.horizontalButtonColors.indices) {
+            for (j in model.horizontalButtonColors[i].indices) {
+                model.horizontalButtonColors[i][j].value = Color.Transparent
+            }
+        }
+
+
+        // Reset vertical button colors
+        for (i in model.verticalButtonColors.indices) {
+            for (j in model.verticalButtonColors[i].indices) {
+                model.verticalButtonColors[i][j].value = Color.Transparent
+            }
+        }
+    }
+
+    private fun <T> resetElement(element: MutableList<MutableList<T>>, item: T) {
+        for (i in element.indices) {
+            for (j in element[i].indices) {
+                element[i][j] = item
+            }
+        }
     }
 
 }

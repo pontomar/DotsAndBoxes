@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.dotsandboxes.controller.GameStateManager
 import com.example.dotsandboxes.ui.theme.EarthYellow
 import com.example.dotsandboxes.ui.theme.MutedRose
 import com.example.dotsandboxes.ui.theme.PastelCyan
@@ -33,7 +34,7 @@ fun TutorialAddEdges(
 ) {
 
     LaunchedEffect(Unit) {
-        model.resetGame()
+        model.gameStateManager.resetGame(model)
         model.gameStateManager.rows.intValue = 3
         model.gameStateManager.columns.intValue = 3
         model.playerManager.createPlayerForMultiPlayer()
