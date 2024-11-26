@@ -41,19 +41,23 @@ fun InfoPage(
             TutorialContent(
                 "How to Play",
                 "Dots and Boxes",
-                { TutorialWelcomeCard() }, cardIndex = 0),
+                { TutorialWelcomeCard() }
+            ),
             TutorialContent(
                 "Connect the Dots",
                 "Take turns with your opponent" + " to add edges.",
-                { TutorialAddEdges(modifier, navController, model) }, cardIndex = 1),
+                { TutorialAddEdges(modifier, navController, model) }
+            ),
             TutorialContent(
                 "Capture Boxes",
                 "The goal is to capture as many boxes as possible.",
-                { TutorialCaptureBoxes(modifier, navController, model) }, cardIndex = 2),
+                { TutorialCaptureBoxes(modifier, navController, model) }
+            ),
             TutorialContent(
                 "Try it out",
                 "Add the fourth edge to capture the box.",
-                { TutorialCaptureTheBox(modifier, navController, model) }, cardIndex = 3)
+                { TutorialCaptureTheBox(modifier, navController, model) }
+            )
         )
     }
 
@@ -98,9 +102,7 @@ fun InfoPage(
             }
 
             items(tutorialContentList) {
-                TutorialCard(
-                    it, it.cardIndex
-                )
+                TutorialCard(it)
             }
         }
     }

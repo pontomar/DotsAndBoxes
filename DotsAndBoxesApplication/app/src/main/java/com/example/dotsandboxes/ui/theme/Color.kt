@@ -2,7 +2,6 @@ package com.example.dotsandboxes.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val PastelCyan = Color(0xFF80DEEA)
 val CyanDark = Color(0xFF317A86)
 val EarthYellow = Color(0xFFE59A2B)
 val MutedRose = Color(0xFF885053)

@@ -133,7 +133,7 @@ fun TutorialCaptureTheBox(
 }
 
 @Composable
-fun TutorialCard(content: TutorialContent, cardIndex: Int) {
+fun TutorialCard(content: TutorialContent) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -182,6 +182,5 @@ fun TutorialCard(content: TutorialContent, cardIndex: Int) {
 
 data class TutorialContent(
     val title: String, val description: String,
-    val composable: @Composable () -> Unit,
-    var cardIndex: Int
+    val composable: @Composable () -> Unit
 )
