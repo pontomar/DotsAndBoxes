@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 val CyanDark = Color(0xFF317A86)
 val EarthYellow = Color(0xFFE59A2B)
-val MutedRose = Color(0xFF885053)
+val MutedRose = Color(0xFF923A3F)
 
 
 val Purple80 = Color(0xFFD0BCFF)

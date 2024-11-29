@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -119,13 +120,14 @@ fun TutorialCaptureTheBox(
     if (model.playerManager.listOfPlayers
             [0].numberOfFieldsWon.value >= 1 || model.playerManager.listOfPlayers[1].numberOfFieldsWon.value >= 1
     ) {
-        Text(
-            color = Color.White,
-            fontSize = 20.sp,
-            textAlign = TextAlign.Center,
-            text = "You did it! Let's play."
-        )
-
+        Row(horizontalArrangement = Arrangement.Center) {
+            Text(
+                color = Color.White,
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center,
+                text = "You did it!\nLet's play."
+            )
+        }
     }
     DotsAndBoxesScaffold(
         modifier, model, navController
@@ -174,7 +176,10 @@ fun TutorialCard(content: TutorialContent) {
                         .clip(RoundedCornerShape(16.dp))
                         .background(Color.Black)
 
-                ) { content.composable() }
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally)
+                    { content.composable()}
+                }
             }
         }
     }
