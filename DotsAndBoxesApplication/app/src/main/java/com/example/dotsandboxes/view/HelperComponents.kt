@@ -45,14 +45,14 @@ fun StartPageButton(
         ) {
             Icon(
                 imageVector = imageVector,
-                contentDescription = "Home Button",
+                contentDescription = "Navigation Button",
                 modifier = Modifier
                     .height(48.dp)
                     .width(48.dp)
                     .padding(5.dp),
                 tint = Color.White
             )
-            Text(text, fontSize = 20.sp)
+            Text(text, color = Color.White, fontSize = 15.sp)
         }
     }
 }
