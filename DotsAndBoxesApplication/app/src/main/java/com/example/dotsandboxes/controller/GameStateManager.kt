@@ -41,7 +41,8 @@ class GameStateManager(inputRows: Int, inputColumns: Int, playerManager: PlayerM
                     horizontalLines[xAxis][yAxis]
                 ) {
                     if (boxesOwned[xAxis][yAxis - 1] == -1) {
-                        boxesOwned[xAxis][yAxis - 1] = playerManager.listOfPlayers.indexOf(playerManager.currentPlayer)
+                        boxesOwned[xAxis][yAxis - 1] =
+                            playerManager.listOfPlayers.indexOf(playerManager.currentPlayer)
                         boxesCompleted++
                     }
                 }
@@ -54,7 +55,8 @@ class GameStateManager(inputRows: Int, inputColumns: Int, playerManager: PlayerM
                     horizontalLines[xAxis][yAxis]
                 ) {
                     if (boxesOwned[xAxis][yAxis] == -1) {
-                        boxesOwned[xAxis][yAxis] = playerManager.listOfPlayers.indexOf(playerManager.currentPlayer)
+                        boxesOwned[xAxis][yAxis] =
+                            playerManager.listOfPlayers.indexOf(playerManager.currentPlayer)
                         boxesCompleted++
                     }
                 }
@@ -68,7 +70,8 @@ class GameStateManager(inputRows: Int, inputColumns: Int, playerManager: PlayerM
                     verticalLines[xAxis][yAxis]
                 ) {
                     if (boxesOwned[xAxis - 1][yAxis] == -1) {
-                        boxesOwned[xAxis - 1][yAxis] = playerManager.listOfPlayers.indexOf(playerManager.currentPlayer)
+                        boxesOwned[xAxis - 1][yAxis] =
+                            playerManager.listOfPlayers.indexOf(playerManager.currentPlayer)
                         boxesCompleted++
                     }
                 }
@@ -81,7 +84,8 @@ class GameStateManager(inputRows: Int, inputColumns: Int, playerManager: PlayerM
                     verticalLines[xAxis][yAxis]
                 ) {
                     if (boxesOwned[xAxis][yAxis] == -1) {
-                        boxesOwned[xAxis][yAxis] = playerManager.listOfPlayers.indexOf(playerManager.currentPlayer)
+                        boxesOwned[xAxis][yAxis] =
+                            playerManager.listOfPlayers.indexOf(playerManager.currentPlayer)
                         boxesCompleted++
                     }
                 }
@@ -96,7 +100,7 @@ class GameStateManager(inputRows: Int, inputColumns: Int, playerManager: PlayerM
         columns.intValue = resetColumnsTo
         // Reset the number of fields won for each player
         for (player in playerManager.listOfPlayers) {
-            player.numberOfFieldsWon.value = 0
+            player.numberOfFieldsWon = 0
         }
 
         // Reset current player to the first player

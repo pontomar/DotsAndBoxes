@@ -222,9 +222,9 @@ fun DotsAndBoxesGameBoard(
                             value = model.playerManager.selectedPlayer.name.value,
                             onValueChange = { newName ->
                                 model.playerManager.selectedPlayer.name.value = newName
-                                model.playerManager.savePlayersToPreferences(
-                                    model.playerManager.selectedPlayer
-                                )
+//                                model.playerManager.savePlayersToPreferences(
+//                                    model.playerManager.selectedPlayer
+//                                )
                             },
                             label = { Text("Player Name") }
                         )

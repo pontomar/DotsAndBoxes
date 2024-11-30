@@ -95,7 +95,7 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                         )
                         Spacer(modifier.heightIn(15.dp))
                         Text(
-                            model.playerManager.listOfPlayers[0].numberOfFieldsWon.value.toString(),
+                            model.playerManager.listOfPlayers[0].numberOfFieldsWon.toString(),
                             color = model.playerManager.listOfPlayers[0].playerColor.value,
                             fontSize = 20.sp
                         )
@@ -153,7 +153,7 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                         )
                         Spacer(modifier.heightIn(15.dp))
                         Text(
-                            model.playerManager.listOfPlayers[1].numberOfFieldsWon.value.toString(),
+                            model.playerManager.listOfPlayers[1].numberOfFieldsWon.toString(),
                             color = model.playerManager.listOfPlayers[1].playerColor.value,
                             fontSize = 20.sp
                         )

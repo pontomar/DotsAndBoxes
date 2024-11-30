@@ -1,6 +1,5 @@
 package com.example.dotsandboxes.viewModel
 
-import android.annotation.SuppressLint
 import android.app.Application
 import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.MutableState
@@ -13,11 +12,9 @@ import com.example.dotsandboxes.controller.PlayerManager
 import com.example.dotsandboxes.model.TypeOfPlayer
 
 class GameStateViewModel(application: Application) : AndroidViewModel(application) {
-    @SuppressLint("StaticFieldLeak")
-    private val context = getApplication<Application>().applicationContext
-
-    var playerManager: PlayerManager = PlayerManager(context)
-    var gameStateManager: GameStateManager = GameStateManager(inputRows = 5, inputColumns = 5, playerManager)
+    var playerManager: PlayerManager = PlayerManager()
+    var gameStateManager: GameStateManager =
+        GameStateManager(inputRows = 5, inputColumns = 5, playerManager)
 
     var singlePlayerModus: Boolean = false
 
@@ -56,7 +53,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
 
                 val boxesCompleted =
                     gameStateManager.checkForCompletedBoxes(xAxis, yAxis, isHorizontal)
-                playerManager.currentPlayer.numberOfFieldsWon.value += boxesCompleted
+                playerManager.currentPlayer.numberOfFieldsWon += boxesCompleted
 
                 if (boxesCompleted == 0) {
                     nextPlayer()
@@ -75,7 +72,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
 
                 val boxesCompleted =
                     gameStateManager.checkForCompletedBoxes(xAxis, yAxis, isHorizontal)
-                playerManager.currentPlayer.numberOfFieldsWon.value += boxesCompleted
+                playerManager.currentPlayer.numberOfFieldsWon += boxesCompleted
 
                 if (boxesCompleted == 0) {
                     nextPlayer()
@@ -91,13 +88,14 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
 
 
     private fun hasPlayerWon(): Boolean {
-        return playerManager.currentPlayer.numberOfFieldsWon.value >= pointsToWinGame
+        return playerManager.currentPlayer.numberOfFieldsWon >= pointsToWinGame
     }
 
     private fun isDraw(): Boolean {
         val numOfBoxes =
             (gameStateManager.columns.intValue - 1) * (gameStateManager.rows.intValue - 1)
-        if (playerManager.listOfPlayers[0].numberOfFieldsWon.value == numOfBoxes / 2 && playerManager.listOfPlayers[1].numberOfFieldsWon.value == numOfBoxes / 2) {
+        if (playerManager.listOfPlayers[0].numberOfFieldsWon == numOfBoxes / 2 &&
+            playerManager.listOfPlayers[1].numberOfFieldsWon == numOfBoxes / 2) {
             isDraw.value = true
         }
 
