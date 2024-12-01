@@ -29,8 +29,6 @@ import com.example.dotsandboxes.viewModel.GameStateViewModel
 
 @Composable
 fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: GameStateViewModel) {
-    model.gameStateManager.resetGame(model)
-
     val activity = LocalContext.current as? Activity
     DisposableEffect(Unit) {
         val originalOrientation = activity?.requestedOrientation
@@ -95,7 +93,7 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                         )
                         Spacer(modifier.heightIn(15.dp))
                         Text(
-                            model.playerManager.listOfPlayers[0].numberOfFieldsWon.toString(),
+                            model.playerManager.listOfPlayers[0].numberOfFieldsWon.intValue.toString(),
                             color = model.playerManager.listOfPlayers[0].playerColor.value,
                             fontSize = 20.sp
                         )
@@ -153,7 +151,7 @@ fun SinglePlayerPage(modifier: Modifier, navController: NavController, model: Ga
                         )
                         Spacer(modifier.heightIn(15.dp))
                         Text(
-                            model.playerManager.listOfPlayers[1].numberOfFieldsWon.toString(),
+                            model.playerManager.listOfPlayers[1].numberOfFieldsWon.intValue.toString(),
                             color = model.playerManager.listOfPlayers[1].playerColor.value,
                             fontSize = 20.sp
                         )

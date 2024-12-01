@@ -14,6 +14,7 @@ class PlayerManager {
 
 
     fun createPlayerForSinglePlayer() {
+        listOfPlayers.clear()
         val player1 = Player(
             name = mutableStateOf("Player 1"),
             playerColor = mutableStateOf(EarthYellow),
@@ -34,6 +35,7 @@ class PlayerManager {
     }
 
     fun createPlayerForMultiPlayer() {
+        listOfPlayers.clear()
         val player1 = Player(
             name = mutableStateOf("Player 1"),
             playerColor = mutableStateOf(EarthYellow),

@@ -102,9 +102,9 @@ class GameStateManager(inputRows: Int, inputColumns: Int, playerManager: PlayerM
             model.playerManager.createPlayerForSinglePlayer()
         } else {
             model.playerManager.createPlayerForMultiPlayer()
-            playerManager.listOfPlayers[1].numberOfFieldsWon = mutableIntStateOf(0)
+            playerManager.listOfPlayers[1].numberOfFieldsWon.intValue = 0
         }
-        playerManager.listOfPlayers[0].numberOfFieldsWon = mutableIntStateOf(0)
+        playerManager.listOfPlayers[0].numberOfFieldsWon.intValue = 0
 
 
         // Reset current player to the first player
