@@ -17,13 +17,13 @@ class PlayerManager {
         val player1 = Player(
             name = mutableStateOf("Player 1"),
             playerColor = mutableStateOf(EarthYellow),
-            numberOfFieldsWon = 0,
+            numberOfFieldsWon = mutableIntStateOf(0),
             typeOfPlayer = mutableStateOf(TypeOfPlayer.HUMAN)
         )
         val player2 = Player(
             name = mutableStateOf("God Of AI"),
             playerColor = mutableStateOf(MutedRose),
-            numberOfFieldsWon = 0,
+            numberOfFieldsWon = mutableIntStateOf(0),
             typeOfPlayer = mutableStateOf(TypeOfPlayer.AI)
         )
 
@@ -37,13 +37,13 @@ class PlayerManager {
         val player1 = Player(
             name = mutableStateOf("Player 1"),
             playerColor = mutableStateOf(EarthYellow),
-            numberOfFieldsWon = 0,
+            numberOfFieldsWon = mutableIntStateOf(0),
             typeOfPlayer = mutableStateOf(TypeOfPlayer.HUMAN),
         )
         val player2 = Player(
             name = mutableStateOf("Player 2"),
             playerColor = mutableStateOf(MutedRose),
-            numberOfFieldsWon = 0,
+            numberOfFieldsWon = mutableIntStateOf(0),
             typeOfPlayer = mutableStateOf(TypeOfPlayer.HUMAN),
         )
 

@@ -54,7 +54,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
 
                 val boxesCompleted =
                     gameStateManager.checkForCompletedBoxes(xAxis, yAxis, isHorizontal)
-                playerManager.currentPlayer.numberOfFieldsWon += boxesCompleted
+                playerManager.currentPlayer.numberOfFieldsWon.intValue += boxesCompleted
 
                 if (boxesCompleted == 0) {
                     nextPlayer()
@@ -73,7 +73,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
 
                 val boxesCompleted =
                     gameStateManager.checkForCompletedBoxes(xAxis, yAxis, isHorizontal)
-                playerManager.currentPlayer.numberOfFieldsWon += boxesCompleted
+                playerManager.currentPlayer.numberOfFieldsWon.intValue += boxesCompleted
 
                 if (boxesCompleted == 0) {
                     nextPlayer()
@@ -89,14 +89,14 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
 
 
     private fun hasPlayerWon(): Boolean {
-        return playerManager.currentPlayer.numberOfFieldsWon >= pointsToWinGame
+        return playerManager.currentPlayer.numberOfFieldsWon.intValue >= pointsToWinGame
     }
 
     private fun isDraw(): Boolean {
         val numOfBoxes =
             (gameStateManager.columns.intValue - 1) * (gameStateManager.rows.intValue - 1)
-        if (playerManager.listOfPlayers[0].numberOfFieldsWon == numOfBoxes / 2 &&
-            playerManager.listOfPlayers[1].numberOfFieldsWon == numOfBoxes / 2) {
+        if (playerManager.listOfPlayers[0].numberOfFieldsWon.intValue == numOfBoxes / 2 &&
+            playerManager.listOfPlayers[1].numberOfFieldsWon.intValue == numOfBoxes / 2) {
             isDraw.value = true
         }
 

@@ -98,7 +98,7 @@ fun MultiPlayerPage(modifier: Modifier, navController: NavController, model: Gam
                         )
                         Spacer(modifier.heightIn(15.dp))
                         Text(
-                            model.playerManager.listOfPlayers[0].numberOfFieldsWon.toString(),
+                            model.playerManager.listOfPlayers[0].numberOfFieldsWon.intValue.toString(),
                             color = model.playerManager.listOfPlayers[0].playerColor.value,
                             fontSize = 20.sp
                         )
@@ -162,7 +162,7 @@ fun MultiPlayerPage(modifier: Modifier, navController: NavController, model: Gam
                         )
                         Spacer(modifier.heightIn(15.dp))
                         Text(
-                            model.playerManager.listOfPlayers[1].numberOfFieldsWon.toString(),
+                            model.playerManager.listOfPlayers[1].numberOfFieldsWon.intValue.toString(),
                             color = model.playerManager.listOfPlayers[1].playerColor.value,
                             fontSize = 20.sp
                         )

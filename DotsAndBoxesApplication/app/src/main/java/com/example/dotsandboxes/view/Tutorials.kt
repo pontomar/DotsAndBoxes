@@ -117,8 +117,8 @@ fun TutorialCaptureTheBox(
         model.playerManager.currentPlayer = model.playerManager.listOfPlayers[1]
         model.buttonClicked(1, 0, false)
     }
-    if (model.playerManager.listOfPlayers[0].numberOfFieldsWon >= 1
-        || model.playerManager.listOfPlayers[1].numberOfFieldsWon >= 1
+    if (model.playerManager.listOfPlayers[0].numberOfFieldsWon.intValue >= 1
+        || model.playerManager.listOfPlayers[1].numberOfFieldsWon.intValue >= 1
     ) {
         Row(horizontalArrangement = Arrangement.Center) {
             Text(
