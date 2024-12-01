@@ -2,7 +2,6 @@ package com.example.dotsandboxes.controller
 
 import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.ui.graphics.Color
 import com.example.dotsandboxes.model.Player
 import com.example.dotsandboxes.viewModel.GameStateViewModel
 
@@ -123,7 +122,7 @@ class GameStateManager(inputRows: Int, inputColumns: Int, playerManager: PlayerM
         // Reset horizontal button colors
         for (i in model.horizontalButtonColors.indices) {
             for (j in model.horizontalButtonColors[i].indices) {
-                model.horizontalButtonColors[i][j].value = Color.Transparent
+                model.horizontalButtonColors[i][j].value = Player()
             }
         }
 
@@ -131,7 +130,7 @@ class GameStateManager(inputRows: Int, inputColumns: Int, playerManager: PlayerM
         // Reset vertical button colors
         for (i in model.verticalButtonColors.indices) {
             for (j in model.verticalButtonColors[i].indices) {
-                model.verticalButtonColors[i][j].value = Color.Transparent
+                model.verticalButtonColors[i][j].value = Player()
             }
         }
     }

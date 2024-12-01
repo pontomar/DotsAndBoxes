@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.AndroidViewModel
 import com.example.dotsandboxes.controller.GameStateManager
 import com.example.dotsandboxes.controller.PlayerManager
+import com.example.dotsandboxes.model.Player
 import com.example.dotsandboxes.model.TypeOfPlayer
 
 class GameStateViewModel(application: Application) : AndroidViewModel(application) {
@@ -33,14 +34,14 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
     val horizontalButtonColors =
         MutableList(gameStateManager.columns.intValue - 1) {
             MutableList(gameStateManager.rows.intValue) {
-                mutableStateOf(Color.Transparent)
+                mutableStateOf(Player())
             }
         }
 
     val verticalButtonColors =
         MutableList(gameStateManager.columns.intValue) {
             MutableList(gameStateManager.rows.intValue - 1) {
-                mutableStateOf(Color.Transparent)
+                mutableStateOf(Player())
             }
         }
 
@@ -49,7 +50,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
             if (!gameStateManager.horizontalLines[xAxis][yAxis]) {
                 gameStateManager.horizontalLines[xAxis][yAxis] = true
                 horizontalButtonColors[xAxis][yAxis].value =
-                    playerManager.currentPlayer.playerColor.value
+                    playerManager.currentPlayer
 
                 val boxesCompleted =
                     gameStateManager.checkForCompletedBoxes(xAxis, yAxis, isHorizontal)
@@ -68,7 +69,7 @@ class GameStateViewModel(application: Application) : AndroidViewModel(applicatio
             if (!gameStateManager.verticalLines[xAxis][yAxis]) {
                 gameStateManager.verticalLines[xAxis][yAxis] = true
                 verticalButtonColors[xAxis][yAxis].value =
-                    playerManager.currentPlayer.playerColor.value
+                    playerManager.currentPlayer
 
                 val boxesCompleted =
                     gameStateManager.checkForCompletedBoxes(xAxis, yAxis, isHorizontal)

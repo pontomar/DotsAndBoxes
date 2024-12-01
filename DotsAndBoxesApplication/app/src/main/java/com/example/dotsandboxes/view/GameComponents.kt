@@ -128,7 +128,7 @@ fun DotsAndBoxesGameBoard(
                     val buttonWidthDp = with(density) { buttonWidth.toDp() }
                     val buttonHeightDp = with(density) { buttonHeight.toDp() }
 
-                    val buttonColor = model.horizontalButtonColors[i][j].value
+                    val buttonColor = model.horizontalButtonColors[i][j].value.playerColor.value
 
                     Button(
                         onClick = {
@@ -160,7 +160,7 @@ fun DotsAndBoxesGameBoard(
                     val buttonWidthDp = with(density) { buttonWidth.toDp() }
                     val buttonHeightDp = with(density) { buttonHeight.toDp() }
 
-                    val buttonColor = model.verticalButtonColors[i][j].value
+                    val buttonColor = model.verticalButtonColors[i][j].value.playerColor.value
 
                     Button(
                         onClick = {
