@@ -2,6 +2,8 @@ package com.example.dotsandboxes.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,6 +22,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -85,39 +89,55 @@ fun PopUpInfoForUser(
     onConfirmation: () -> Unit,
     dialogTitle: String,
     dialogText: String,
-    icon: ImageVector,
+    icon: ImageVector
 ) {
     AlertDialog(
         icon = {
-            Icon(icon, contentDescription = "Example Icon")
+            Icon(
+                icon,
+                contentDescription = "Dialog Icon",
+                modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                tint = Color.Unspecified
+            )
         },
         title = {
-            Text(text = dialogTitle)
+            Text(
+                text = dialogTitle,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
+                style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight.Bold)
+            )
         },
         text = {
-            Text(text = dialogText)
+            Text(
+                text = dialogText,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                style = TextStyle(fontSize = 16.sp)
+            )
         },
         onDismissRequest = {
             onDismissRequest()
         },
         confirmButton = {
-            TextButton(
-                onClick = {
-                    onConfirmation()
-                }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
             ) {
-                Text("Confirm")
+                TextButton(
+                    onClick = { onConfirmation() }
+                ) {
+                    Text("Confirm")
+                }
+                Spacer(modifier = Modifier.width(25.dp))
+                TextButton(
+                    onClick = { onDismissRequest() }
+                ) {
+                    Text("Dismiss")
+                }
             }
         },
-        dismissButton = {
-            TextButton(
-                onClick = {
-                    onDismissRequest()
-                }
-            ) {
-                Text("Dismiss")
-            }
-        }
+        dismissButton = {}
     )
 }
 

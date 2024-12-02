@@ -187,9 +187,10 @@ fun DotsAndBoxesGameBoard(
                     model.hasPlayerWon.value = false
                     model.gameStateManager.resetGame(model)
                 },
+
                 dialogTitle = "New Game?",
                 dialogText = model.playerManager.currentPlayer.name.value + " has won the game",
-                icon = Icons.Default.Info
+                icon = Icons.Default.Info,
             )
         }
         if (model.isDraw.value) {
@@ -215,10 +216,12 @@ fun DotsAndBoxesGameBoard(
                 title = {
                     Text(text = "Edit Player Info")
                 },
+                modifier = Modifier,
                 text = {
                     Column {
                         // Input field for Player Name
                         TextField(
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
                             value = model.playerManager.selectedPlayer.name.value,
                             onValueChange = { newName ->
                                 model.playerManager.selectedPlayer.name.value = newName
