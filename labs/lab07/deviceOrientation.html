@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrow Pointing Up</title>
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+
+        #arrow {
+            width: 50px;
+            height: 50px;
+            background-color: pink;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            transform-origin: center;
+            transition: transform 0.1s ease-out;
+        }
+    </style>
+</head>
+<body>
+
+<div id="arrow"></div>
+
+<script>
+    if (window.DeviceOrientationEvent) {
+        const arrow = document.getElementById('arrow');
+
+        window.addEventListener('deviceorientation', function (e) {
+            // e.alpha - rotation around the z-axis (compass)
+            // e.beta - rotation around the x-axis (front/back)
+            // e.gamma - rotation around the y-axis (left/right)
+
+            const a = Math.floor(e.alpha); // Z-axis rotation
+            const b = Math.floor(e.beta);  // X-axis rotation
+            const c = Math.floor(e.gamma); // Y-axis rotation
+
+            // Make the arrow point upwards along the viewport, ignore rotation along Z
+            arrow.style.transform = `rotate(${a}deg) rotateX(${b}deg) rotateY(${c}deg)`;
+        }, true);
+    } else {
+        alert('Device Orientation not supported on this device.');
+    }
+</script>
+
+</body>
+</html>
