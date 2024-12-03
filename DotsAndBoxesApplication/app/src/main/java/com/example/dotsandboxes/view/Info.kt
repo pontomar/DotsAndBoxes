@@ -58,8 +58,8 @@ fun InfoPage(
             ),
             TutorialContent(
                 "Try it out",
-                "Add the fourth edge to capture the box.",
-                { TutorialCaptureTheBox(modifier, navController, model) }
+                "",
+                { TutorialCaptureTheBox(navController, model) }
             )
         )
     }

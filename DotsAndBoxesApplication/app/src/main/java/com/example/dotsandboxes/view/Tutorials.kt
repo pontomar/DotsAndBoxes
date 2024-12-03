@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -104,34 +106,19 @@ fun TutorialCaptureBoxes(
 
 @Composable
 fun TutorialCaptureTheBox(
-    modifier: Modifier,
     navController: NavController,
     model: GameStateViewModel,
 ) {
-
-    LaunchedEffect(Unit) {
-        model.gameStateManager.resetGame(model, 3, 3)
-        model.playerManager.createPlayerForMultiPlayer()
-        model.buttonClicked(1, 1, true)
-        model.buttonClicked(1, 0, true)
-        model.playerManager.currentPlayer = model.playerManager.listOfPlayers[1]
-        model.buttonClicked(1, 0, false)
-    }
-    if (model.playerManager.listOfPlayers[0].numberOfFieldsWon.intValue >= 1
-        || model.playerManager.listOfPlayers[1].numberOfFieldsWon.intValue >= 1
-    ) {
-        Row(horizontalArrangement = Arrangement.Center) {
-            Text(
-                color = Color.White,
-                fontSize = 20.sp,
-                textAlign = TextAlign.Center,
-                text = "You did it!\nLet's play."
-            )
+    TextButton(
+        onClick = {
+            model.gameStateManager.resetGame(model)
+            navController.navigate("SinglePlayerPage")
         }
+    ) {
+        Text("Start a Singleplayergame")
     }
-    DotsAndBoxesScaffold(
-        modifier, model, navController
-    )
+
+
 }
 
 @Composable

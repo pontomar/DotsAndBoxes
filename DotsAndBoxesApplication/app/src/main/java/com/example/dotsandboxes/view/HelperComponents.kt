@@ -85,7 +85,6 @@ fun GameButton(
 
 @Composable
 fun PopUpInfoForUser(
-    onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String,
     dialogText: String,
@@ -117,7 +116,6 @@ fun PopUpInfoForUser(
             )
         },
         onDismissRequest = {
-            onDismissRequest()
         },
         confirmButton = {
             Row(
@@ -127,13 +125,7 @@ fun PopUpInfoForUser(
                 TextButton(
                     onClick = { onConfirmation() }
                 ) {
-                    Text("Confirm")
-                }
-                Spacer(modifier = Modifier.width(25.dp))
-                TextButton(
-                    onClick = { onDismissRequest() }
-                ) {
-                    Text("Dismiss")
+                    Text("Ok")
                 }
             }
         },

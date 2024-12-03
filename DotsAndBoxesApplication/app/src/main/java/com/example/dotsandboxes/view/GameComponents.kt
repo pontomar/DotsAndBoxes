@@ -178,33 +178,24 @@ fun DotsAndBoxesGameBoard(
         }
         if (model.hasPlayerWon.value) {
             PopUpInfoForUser(
-                onDismissRequest = {
+                onConfirmation = {
                     model.hasPlayerWon.value = false
                     navController.navigate("StartPage")
                     model.gameStateManager.resetGame(model)
                 },
-                onConfirmation = {
-                    model.hasPlayerWon.value = false
-                    model.gameStateManager.resetGame(model)
-                },
-
-                dialogTitle = "New Game?",
+                dialogTitle = "Juhuu",
                 dialogText = model.playerManager.currentPlayer.name.value + " has won the game",
                 icon = Icons.Default.Info,
             )
         }
         if (model.isDraw.value) {
             PopUpInfoForUser(
-                onDismissRequest = {
+                onConfirmation = {
                     model.isDraw.value = false
                     navController.navigate("StartPage")
                     model.gameStateManager.resetGame(model)
                 },
-                onConfirmation = {
-                    model.isDraw.value = false
-                    model.gameStateManager.resetGame(model)
-                },
-                dialogTitle = "New Game?",
+                dialogTitle = "It's a draw.",
                 dialogText = "None of You won the Game. Its a draw!",
                 icon = Icons.Default.Info
             )
