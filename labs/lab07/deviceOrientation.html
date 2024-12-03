@@ -18,8 +18,6 @@
             height: 50px;
             background-color: pink;
             clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-            transform-origin: center;
-            transition: transform 0.1s ease-out;
         }
     </style>
 </head>
@@ -28,25 +26,18 @@
 <div id="arrow"></div>
 
 <script>
-    if (window.DeviceOrientationEvent) {
-        const arrow = document.getElementById('arrow');
+    document.addEventListener("DOMContentLoaded", function (event) {
+       if (window.DeviceOrientationEvent) {
+           let arrow = document.getElementById('arrow');
 
-        window.addEventListener('deviceorientation', function (e) {
-            // e.alpha - rotation around the z-axis (compass)
-            // e.beta - rotation around the x-axis (front/back)
-            // e.gamma - rotation around the y-axis (left/right)
-
-            const a = Math.floor(e.alpha); // Z-axis rotation
-            const b = Math.floor(e.beta);  // X-axis rotation
-            const c = Math.floor(e.gamma); // Y-axis rotation
-
-            // Make the arrow point upwards along the viewport, ignore rotation along Z
-            arrow.style.transform = `rotate(${a}deg) rotateX(${b}deg) rotateY(${c}deg)`;
-        }, true);
-    } else {
-        alert('Device Orientation not supported on this device.');
-    }
+           window.addEventListener('deviceorientation', function (e) {
+               let a = Math.floor(e.alpha); // Z-axis rotation
+               arrow.style.transform = `rotateZ(' + a + 'deg)');
+           }, true);
+       } else {
+           alert('Device Orientation is not supported on this device.');
+       }
+    });
 </script>
-
 </body>
 </html>
