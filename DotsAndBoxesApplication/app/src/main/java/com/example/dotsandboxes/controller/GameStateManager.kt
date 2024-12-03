@@ -98,6 +98,7 @@ class GameStateManager(inputRows: Int, inputColumns: Int, playerManager: PlayerM
         rows.intValue = resetRowsTo
         columns.intValue = resetColumnsTo
         // Reset the number of fields won for each player
+        model.playerManager.listOfPlayers.clear()
         if (model.singlePlayerModus) {
             model.playerManager.createPlayerForSinglePlayer()
         } else {
