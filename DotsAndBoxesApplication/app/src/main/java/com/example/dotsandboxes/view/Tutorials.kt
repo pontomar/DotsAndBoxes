@@ -4,18 +4,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -50,7 +47,7 @@ fun TutorialWelcomeCard(
 
         Text(
             color = Color.White,
-            fontSize = 14.sp,
+            fontSize = 16.sp,
             text = "Duration: 2 minutes"
         )
     }
@@ -63,15 +60,13 @@ fun TutorialAddEdges(
     navController: NavController,
     model: GameStateViewModel,
 ) {
-    LaunchedEffect(Unit) {
-        model.gameStateManager.resetGame(model, 3, 3)
-        model.playerManager.createPlayerForMultiPlayer()
-        model.buttonClicked(1, 2, true)
-        model.playerManager.currentPlayer = model.playerManager.listOfPlayers[1]
-        model.buttonClicked(1, 1, false)
-        model.buttonClicked(1, 0, true)
-        model.buttonClicked(0, 1, true)
-    }
+    model.gameStateManager.resetGame(model, 3, 3)
+    model.playerManager.createPlayerForMultiPlayer()
+    model.buttonClicked(1, 2, true)
+    model.playerManager.currentPlayer = model.playerManager.listOfPlayers[1]
+    model.buttonClicked(1, 1, false)
+    model.buttonClicked(1, 0, true)
+    model.buttonClicked(0, 1, true)
 
     DotsAndBoxesScaffold(
         modifier, model, navController
@@ -84,19 +79,17 @@ fun TutorialCaptureBoxes(
     navController: NavController,
     model: GameStateViewModel,
 ) {
-    LaunchedEffect(Unit) {
-        model.gameStateManager.resetGame(model, 3, 3)
-        model.playerManager.createPlayerForMultiPlayer()
-        model.buttonClicked(1, 1, true)
-        model.playerManager.currentPlayer = model.playerManager.listOfPlayers[1]
-        model.buttonClicked(1, 0, true)
-        model.buttonClicked(0, 0, true)
-        model.buttonClicked(0, 0, false)
-        model.buttonClicked(0, 1, true)
-        model.buttonClicked(0, 1, false)
-        model.buttonClicked(1, 1, false)
-        model.buttonClicked(1, 0, false)
-    }
+    model.gameStateManager.resetGame(model, 3, 3)
+    model.playerManager.createPlayerForMultiPlayer()
+    model.buttonClicked(1, 1, true)
+    model.playerManager.currentPlayer = model.playerManager.listOfPlayers[1]
+    model.buttonClicked(1, 0, true)
+    model.buttonClicked(0, 0, true)
+    model.buttonClicked(0, 0, false)
+    model.buttonClicked(0, 1, true)
+    model.buttonClicked(0, 1, false)
+    model.buttonClicked(1, 1, false)
+    model.buttonClicked(1, 0, false)
 
     DotsAndBoxesScaffold(
         modifier, model, navController
@@ -115,10 +108,12 @@ fun TutorialCaptureTheBox(
             navController.navigate("SinglePlayerPage")
         }
     ) {
-        Text("Start a Singleplayergame")
+        Text(
+            color = Color.White,
+            fontSize = 18.sp,
+            text = "Play Now"
+        )
     }
-
-
 }
 
 @Composable
@@ -138,6 +133,7 @@ fun TutorialCard(content: TutorialContent) {
         ) {
             Text(
                 text = content.title,
+                lineHeight = 40.0.sp,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
@@ -165,7 +161,7 @@ fun TutorialCard(content: TutorialContent) {
 
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally)
-                    { content.composable()}
+                    { content.composable() }
                 }
             }
         }

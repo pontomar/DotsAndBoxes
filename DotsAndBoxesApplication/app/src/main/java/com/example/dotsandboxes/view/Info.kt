@@ -57,7 +57,7 @@ fun InfoPage(
                 { TutorialCaptureBoxes(modifier, navController, model) }
             ),
             TutorialContent(
-                "Try it out",
+                "Ready to Explore the Game in Single Player Mode?",
                 "",
                 { TutorialCaptureTheBox(navController, model) }
             )
