@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -60,14 +61,15 @@ fun TutorialAddEdges(
     navController: NavController,
     model: GameStateViewModel,
 ) {
-    model.gameStateManager.resetGame(model, 3, 3)
-    model.playerManager.createPlayerForMultiPlayer()
-    model.buttonClicked(1, 2, true)
-    model.playerManager.currentPlayer = model.playerManager.listOfPlayers[1]
-    model.buttonClicked(1, 1, false)
-    model.buttonClicked(1, 0, true)
-    model.buttonClicked(0, 1, true)
-
+    LaunchedEffect(Unit) {
+        model.gameStateManager.resetGame(model, 3, 3)
+        model.playerManager.createPlayerForMultiPlayer()
+        model.buttonClicked(1, 2, true)
+        model.playerManager.currentPlayer = model.playerManager.listOfPlayers[1]
+        model.buttonClicked(1, 1, false)
+        model.buttonClicked(1, 0, true)
+        model.buttonClicked(0, 1, true)
+    }
     DotsAndBoxesScaffold(
         modifier, model, navController
     )
@@ -79,18 +81,19 @@ fun TutorialCaptureBoxes(
     navController: NavController,
     model: GameStateViewModel,
 ) {
-    model.gameStateManager.resetGame(model, 3, 3)
-    model.playerManager.createPlayerForMultiPlayer()
-    model.buttonClicked(1, 1, true)
-    model.playerManager.currentPlayer = model.playerManager.listOfPlayers[1]
-    model.buttonClicked(1, 0, true)
-    model.buttonClicked(0, 0, true)
-    model.buttonClicked(0, 0, false)
-    model.buttonClicked(0, 1, true)
-    model.buttonClicked(0, 1, false)
-    model.buttonClicked(1, 1, false)
-    model.buttonClicked(1, 0, false)
-
+    LaunchedEffect(Unit) {
+        model.gameStateManager.resetGame(model, 3, 3)
+        model.playerManager.createPlayerForMultiPlayer()
+        model.buttonClicked(1, 1, true)
+        model.playerManager.currentPlayer = model.playerManager.listOfPlayers[1]
+        model.buttonClicked(1, 0, true)
+        model.buttonClicked(0, 0, true)
+        model.buttonClicked(0, 0, false)
+        model.buttonClicked(0, 1, true)
+        model.buttonClicked(0, 1, false)
+        model.buttonClicked(1, 1, false)
+        model.buttonClicked(1, 0, false)
+    }
     DotsAndBoxesScaffold(
         modifier, model, navController
     )
