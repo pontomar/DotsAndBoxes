@@ -196,7 +196,7 @@ fun DotsAndBoxesGameBoard(
                     model.gameStateManager.resetGame(model)
                 },
                 dialogTitle = "It's a draw.",
-                dialogText = "None of You won the Game. Its a draw!",
+                dialogText = "None of You won the Game. It's a draw!",
                 icon = Icons.Default.Info
             )
         }
